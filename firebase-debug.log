@@ -1,0 +1,19 @@
+[debug] [2026-07-24T10:14:25.192Z] ----------------------------------------------------------------------
+[debug] [2026-07-24T10:14:25.193Z] Command:       /usr/local/bin/node /Users/mac/.npm-global/bin/firebase init
+[debug] [2026-07-24T10:14:25.194Z] CLI Version:   15.16.0
+[debug] [2026-07-24T10:14:25.194Z] Platform:      darwin
+[debug] [2026-07-24T10:14:25.194Z] Node Version:  v24.15.0
+[debug] [2026-07-24T10:14:25.194Z] Time:          Fri Jul 24 2026 15:14:25 GMT+0500 (Pakistan Standard Time)
+[debug] [2026-07-24T10:14:25.194Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/mac/gitRepos/sbc-marketplaced/Custom-ReactJS-Workflow
+
