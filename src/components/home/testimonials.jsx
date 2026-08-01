@@ -1,0 +1,8 @@
+import arshad from '../../assets/figma/testimonial-arshad.png';
+import sohail from '../../assets/figma/testimonial-sohail.png';
+
+const reviews=[{title:'Seamless Heavy Fleet Sourcing for Highway Projects',text:'SBC has completely solved our equipment procurement bottleneck. Being able to securely rent heavy motor graders and rollers on transparent terms has kept our major roadworks on schedule without off-platform hassle.',name:'Arshad Mahmood',role:'Senior Procurement Manager, Paragon Constructors (Karachi)',image:arshad},{title:'The Ultimate Platform for Verified Bulk Materials',text:'Procuring certified cement and structural steel for our multi-story residential towers has never been this efficient. SBC’s location logic instantly connects us to the nearest verified franchise for quick dispatch.',name:'Sohail Ahmed',role:'Project Director, GFS Builders & Developers (Karachi)',image:sohail}];
+
+function Testimonials(){return <section className="testimonials-section"><div className="container-xl"><div className="reviews-heading"><p>We Promise To Find You The Right Equipment &amp; Solution</p><h2>What Industry Leaders Are Saying</h2><span /></div><div className="row g-4 reviews-row">{reviews.map((review)=><div className="col-lg-6" key={review.name}><article className="review-card"><b className="quote">“</b><h3>{review.title}</h3><p>{review.text}</p><div className="review-person"><img src={review.image} alt={review.name}/><div><h4>{review.name}</h4><small>{review.role}</small></div><div className="stars">★★★★★</div></div></article></div>)}</div><div className="review-dots"><span/><span className="active"/><span/></div></div></section>}
+
+export default Testimonials;
