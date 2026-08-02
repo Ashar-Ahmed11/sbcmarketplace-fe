@@ -804,6 +804,14 @@ a {
   color: var(--home-orange);
 }
 
+.top-auth-link {
+  color: inherit;
+}
+
+.top-auth-link:hover {
+  color: #fff;
+}
+
 .top-strip-right {
   align-items: center;
   gap: 28px;
@@ -884,6 +892,10 @@ a {
   border-left: 1px solid #c4c4c4;
   background: #fff;
   font-size: 21px;
+}
+
+.avatar-btn {
+  color: inherit;
 }
 
 .cart-btn { position: relative; width: 86px; background: var(--home-orange); color: #fff; }
@@ -1623,6 +1635,34 @@ a {
   font-size: 16px;
 }
 
+.marketplace-price-link {
+  display: grid;
+  place-items: center;
+  min-height: 50px;
+  background: #333;
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.marketplace-empty-state {
+  padding: 40px 24px;
+  border-radius: 18px;
+  background: #f8f8f8;
+  text-align: center;
+}
+
+.marketplace-empty-state h3 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.marketplace-empty-state p {
+  margin-bottom: 0;
+  color: #6d6d6d;
+  font-size: 16px;
+}
+
 .marketplace-loadmore {
   width: 100%;
   height: 52px;
@@ -1762,6 +1802,607 @@ a {
   margin: 0;
   color: #a1a1a1;
   font-size: 13px;
+}
+
+.truck-details-hero {
+  min-height: 485px;
+}
+
+.truck-details-hero .page-hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 485px;
+  padding: 36px 0 40px;
+}
+
+.truck-details-hero-icons {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+}
+
+.truck-details-hero-icons span {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  font-size: 22px;
+}
+
+.truck-details-section {
+  padding: 48px 0 84px;
+  background: #fff;
+  font-family: 'IBM Plex Sans', 'Barlow', sans-serif;
+}
+
+.truck-details-figma-section {
+  background: #fff;
+}
+
+.truck-figma-breadcrumb-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 34px;
+  color: #7a7f86;
+  font-size: 18px;
+}
+
+.truck-figma-breadcrumb-row strong {
+  color: #191c1d;
+}
+
+.truck-figma-search-block {
+  margin-bottom: 28px;
+}
+
+.truck-figma-search-block label {
+  display: block;
+  margin-bottom: 16px;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.truck-figma-search-input {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.truck-figma-search-input input {
+  height: 58px;
+  padding: 0 24px;
+  border: 1px solid #e4e4e4;
+  border-right: 0;
+  background: #fff;
+}
+
+.truck-figma-search-input button {
+  border: 0;
+  background: var(--home-orange);
+  color: #fff;
+}
+
+.truck-figma-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-bottom: 56px;
+}
+
+.truck-figma-pill-row button {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 58px;
+  padding: 0 20px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  background: #fff;
+  color: #2d2d2d;
+  font-size: 18px;
+}
+
+.truck-figma-pill-row button.active {
+  box-shadow: inset 0 0 0 3px var(--home-orange);
+}
+
+.truck-figma-gallery-block {
+  margin-bottom: 40px;
+}
+
+.truck-figma-gallery-main {
+  overflow: hidden;
+  border: 1px solid #e0c0b1;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.truck-figma-gallery-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #fff;
+}
+
+.truck-figma-gallery-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+}
+
+.truck-figma-gallery-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.truck-figma-thumbnail img {
+  height: 110px;
+  object-fit: cover;
+}
+
+.truck-figma-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 929px) minmax(320px, 450px);
+  gap: 28px;
+  align-items: start;
+}
+
+.truck-figma-left-column,
+.truck-figma-sidebar-stack {
+  display: grid;
+  gap: 36px;
+}
+
+.truck-figma-details-stack {
+  display: grid;
+  gap: 28px;
+}
+
+.truck-figma-top-card,
+.truck-figma-specs-card,
+.truck-figma-price-card,
+.truck-figma-offer-card,
+.truck-figma-trust-card,
+.truck-figma-performance-card,
+.truck-figma-finance-card {
+  border: 1px solid #e0c0b1;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.truck-figma-top-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 430px 1fr;
+  min-height: 523px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.05) inset;
+}
+
+.truck-figma-top-card__image {
+  min-height: 420px;
+  background: #f5f5f5;
+}
+
+.truck-figma-top-card__image img,
+.truck-figma-image-fallback {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  object-fit: cover;
+}
+
+.truck-figma-image-fallback {
+  display: grid;
+  place-items: center;
+  color: #888;
+}
+
+.truck-figma-top-card__content {
+  padding: 58px 44px 120px 34px;
+}
+
+.truck-figma-top-card__content h2 {
+  margin: 0 0 18px;
+  color: #000;
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.truck-figma-top-card__quantity {
+  margin: 0 0 18px;
+  color: #000;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.truck-figma-bullet-list {
+  margin: 0;
+  padding-left: 22px;
+  color: #1d1d1d;
+  font-size: 21px;
+  line-height: 1.7;
+}
+
+.truck-figma-bullet-list li::marker {
+  color: var(--home-orange);
+}
+
+.truck-figma-top-card__actions {
+  position: absolute;
+  right: auto;
+  bottom: 29px;
+  left: 29px;
+  display: flex;
+  gap: 20px;
+}
+
+.truck-figma-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 3px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.truck-figma-btn--primary {
+  background: var(--home-orange);
+  color: #fff;
+}
+
+.truck-figma-btn--light {
+  background: rgba(255,255,255,.95);
+  color: #141d23;
+}
+
+.truck-figma-specs-card {
+  padding: 30px;
+}
+
+.truck-figma-specs-card--compact h3 {
+  margin-bottom: 20px;
+  font-size: 34px;
+}
+
+.truck-figma-specs-card h3 {
+  margin: 0 0 18px;
+  color: #191c1d;
+  font-size: 49px;
+  font-weight: 600;
+}
+
+.truck-figma-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.truck-figma-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 47px;
+  padding: 0 20px;
+  border: 1px solid #e0c0b1;
+  border-radius: 15px;
+  background: #f3f4f5;
+  color: #191c1d;
+  font-size: 17px;
+}
+
+.truck-figma-stat .accent {
+  color: #9d4400;
+}
+
+.truck-figma-specs-table {
+  overflow: hidden;
+  border: 1px solid #e0c0b1;
+  border-radius: 3px;
+}
+
+.truck-figma-specs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.truck-figma-specs-row.alt {
+  background: #f3f4f5;
+}
+
+.truck-figma-specs-row.full {
+  grid-template-columns: 1fr;
+}
+
+.truck-figma-specs-cell {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 20px;
+  border-bottom: 1px solid #e0c0b1;
+}
+
+.truck-figma-specs-row:last-child .truck-figma-specs-cell {
+  border-bottom: 0;
+}
+
+.truck-figma-specs-cell + .truck-figma-specs-cell {
+  border-left: 1px solid #e0c0b1;
+}
+
+.truck-figma-specs-cell span {
+  color: #454749;
+  font-size: 19px;
+}
+
+.truck-figma-specs-cell strong {
+  color: #191c1d;
+  font-size: 19px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.truck-figma-specs-cell strong.danger {
+  color: #ba1a1a;
+}
+
+.truck-figma-price-card,
+.truck-figma-offer-card {
+  padding: 30px;
+  box-shadow: 0 5px 24px rgba(0,0,0,.08);
+}
+
+.truck-figma-price-card {
+  text-align: center;
+}
+
+.truck-figma-price-card small {
+  display: block;
+  margin-bottom: 10px;
+  color: #454749;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .05em;
+}
+
+.truck-figma-price-card span {
+  display: block;
+  margin-bottom: 18px;
+  color: #575f67;
+  font-size: 17px;
+}
+
+.truck-figma-price-card strong {
+  display: block;
+  margin-bottom: 24px;
+  color: #ff7a21;
+  font-size: 47px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.truck-figma-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 69px;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.truck-figma-cta + .truck-figma-cta {
+  margin-top: 20px;
+}
+
+.truck-figma-cta--primary {
+  border: 0;
+  background: #ff7a21;
+  color: #fff;
+  box-shadow: 0 12px 18px -4px rgba(255,122,33,.2);
+}
+
+.truck-figma-cta--ghost {
+  border: 2px solid #5d5e61;
+  background: #fff;
+  color: #5d5e61;
+}
+
+.truck-figma-offer-card h3,
+.truck-figma-performance-card h3,
+.truck-figma-finance-card h3 {
+  margin: 0 0 28px;
+  color: #191c1d;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.truck-figma-field + .truck-figma-field {
+  margin-top: 20px;
+}
+
+.truck-figma-field label {
+  display: block;
+  margin-bottom: 10px;
+  color: #584237;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .05em;
+}
+
+.truck-figma-field input,
+.truck-figma-field textarea {
+  width: 100%;
+  border: 1px solid #e0c0b1;
+  border-radius: 3px;
+  background: #fff;
+  color: #191c1d;
+}
+
+.truck-figma-field input {
+  height: 52px;
+  padding: 0 18px;
+  font-size: 19px;
+}
+
+.truck-figma-field textarea {
+  padding: 14px 18px;
+  font-size: 19px;
+  resize: vertical;
+}
+
+.truck-figma-delivery-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.truck-figma-delivery-options button {
+  height: 52px;
+  border: 1px solid #e0c0b1;
+  border-radius: 3px;
+  background: #fff;
+  color: #6b7280;
+  font-size: 19px;
+}
+
+.truck-figma-trust-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.truck-figma-trust-icon {
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 46px;
+  background: #e9eff6;
+  color: #191c1d;
+  font-size: 22px;
+}
+
+.truck-figma-trust-card h4 {
+  margin: 0 0 3px;
+  color: #191c1d;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.truck-figma-trust-card p {
+  margin: 0;
+  color: #584237;
+  font-size: 15px;
+}
+
+.truck-figma-lower-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 929px) minmax(320px, 450px);
+  gap: 28px;
+  margin-top: 42px;
+  align-items: start;
+}
+
+.truck-figma-performance-card {
+  padding: 30px;
+}
+
+.truck-figma-performance-card p {
+  margin: 0;
+  color: #584237;
+  font-size: 20px;
+  line-height: 1.62;
+}
+
+.truck-figma-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 29px;
+}
+
+.truck-figma-metric {
+  padding: 20px;
+  background: #f8f9fa;
+  text-align: center;
+}
+
+.truck-figma-metric strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #9d4400;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.truck-figma-metric span {
+  color: #575f67;
+  font-size: 15px;
+  letter-spacing: .05em;
+}
+
+.truck-figma-finance-card {
+  padding: 29px;
+  background: #2e3132;
+  color: #fff;
+  box-shadow: 0 5px 5px rgba(0,0,0,.08);
+}
+
+.truck-figma-finance-card h3 {
+  color: #ff7609;
+}
+
+.truck-figma-finance-card p {
+  margin: 0 0 82px;
+  color: rgba(240,241,242,.8);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.truck-figma-finance-btn {
+  width: 100%;
+  height: 52px;
+  border-radius: 3px;
+  font-size: 20px;
+}
+
+.truck-figma-finance-btn + .truck-figma-finance-btn {
+  margin-top: 14px;
+}
+
+.truck-figma-finance-btn--light {
+  border: 2px solid #ff7609;
+  background: #fff;
+  color: #ff7609;
+  font-weight: 700;
+}
+
+.truck-figma-finance-btn--dark {
+  border: 1px solid #ff7609;
+  background: transparent;
+  color: #ff7609;
 }
 
 .blogs-hero-block,
@@ -2120,6 +2761,619 @@ a {
   border: 0;
 }
 
+.not-found-page {
+  position: relative;
+  min-height: 72vh;
+  display: grid;
+  place-items: center;
+  padding: 80px 0;
+  background:
+    linear-gradient(rgba(9, 41, 83, 0.9), rgba(9, 41, 83, 0.94)),
+    url('./assets/figma/hero-bg.jpg') center / cover no-repeat;
+  color: #fff;
+  text-align: center;
+}
+
+.not-found-page .container-xl {
+  position: relative;
+  z-index: 1;
+}
+
+.not-found-copy {
+  max-width: 560px;
+  margin: 18px auto 0;
+  color: rgba(255,255,255,.84);
+  font-size: 18px;
+}
+
+.not-found-actions {
+  display: inline-flex;
+  gap: 14px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dashboard-page {
+  min-height: 100vh;
+  padding: 0;
+  background: #f4f6f8;
+  font-family: 'Barlow', sans-serif;
+}
+
+.dashboard-grid {
+  display: block;
+  padding: 32px 32px 32px 352px;
+}
+
+.dashboard-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1040;
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  padding: 30px 24px;
+  border-right: 1px solid rgba(255,255,255,.08);
+  background: #0b2a54;
+  color: #fff;
+}
+
+.dashboard-sidebar-mobile {
+  position: static;
+  width: 100%;
+  min-height: 100%;
+  padding: 0;
+  border-left: 0;
+}
+
+.dashboard-sidebar-brand,
+.dashboard-mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dashboard-sidebar-brand img,
+.dashboard-mobile-brand img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #fff;
+  padding: 6px;
+}
+
+.dashboard-sidebar-head h2 {
+
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.dashboard-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 22px 0;
+  flex: 0 0 auto;
+}
+
+.dashboard-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: rgba(255,255,255,.82);
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.dashboard-nav-link i {
+  width: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.dashboard-nav-link span {
+  font-size: 13px;
+}
+
+.dashboard-nav-link.active,
+.dashboard-nav-link:hover {
+  background: var(--home-orange);
+  color: #fff;
+}
+
+.dashboard-logout,
+.dashboard-action-btn,
+.dashboard-danger-btn,
+.dashboard-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.dashboard-logout {
+  margin-top: auto;
+}
+
+.dashboard-logout,
+.dashboard-action-btn {
+  background: var(--home-orange);
+  color: #fff;
+}
+
+.dashboard-danger-btn {
+  background: #dc3545;
+  color: #fff;
+}
+
+.dashboard-secondary-btn {
+  background: #eef2f5;
+  color: #273444;
+}
+
+.dashboard-main {
+  min-width: 0;
+}
+
+.dashboard-mobile-nav {
+  display: none;
+  padding: 10px 0;
+  background: #0b2a54;
+}
+
+.dashboard-mobile-brand span {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.dashboard-menu-toggle {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 10px;
+  color: #fff;
+}
+
+.dashboard-offcanvas {
+  width: min(320px, 86vw);
+  background: #0b2a54;
+  color: #fff;
+}
+
+.dashboard-offcanvas .offcanvas-header {
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.dashboard-section-card {
+  padding: 26px;
+  /* border-radius: 18px; */
+  /* background: #fff; */
+  /* box-shadow: 0 10px 30px rgba(10, 24, 40, 0.06); */
+}
+
+.dashboard-section-card + .dashboard-section-card {
+  margin-top: 20px;
+}
+
+.dashboard-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.dashboard-section-head h1,
+.dashboard-nested-section h2 {
+  margin: 0;
+  color: #0b2a54;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.dashboard-section-head p {
+  margin: 4px 0 0;
+  color: #6f7a84;
+  font-size: 15px;
+}
+
+.dashboard-kpi-grid,
+.listing-type-grid,
+.dashboard-form-grid,
+.upload-preview-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.dashboard-kpi-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.dashboard-kpi-card {
+  padding: 22px;
+  border: 1px solid #e6ebef;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff 0%, #f8fafb 100%);
+}
+
+.dashboard-kpi-card small {
+  display: block;
+  margin-bottom: 12px;
+  color: #7b8793;
+  font-size: 15px;
+}
+
+.dashboard-kpi-card strong {
+  color: #0b2a54;
+  font-size: 40px;
+}
+
+.listing-type-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.listing-type-card {
+  padding: 24px;
+  border: 1px solid #ebeff2;
+  border-radius: 18px;
+  background: #fff;
+  color: #1f2b37;
+  transition: 180ms ease;
+}
+
+.listing-type-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+.listing-type-icon {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  background: #fff3e8;
+  color: var(--home-orange);
+  font-size: 28px;
+}
+
+.listing-type-card h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.listing-type-card p {
+  margin: 0;
+  color: #6b7680;
+  font-size: 15px;
+}
+
+.dashboard-table-wrap {
+  overflow-x: auto;
+}
+
+.dashboard-table {
+  margin: 0;
+}
+
+.dashboard-table thead th {
+  color: #6f7a84;
+  background: #F5F6F8;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e6ebef;
+}
+
+.dashboard-inline-link {
+  color: var(--home-orange);
+  font-weight: 700;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-badge.pending { background: #fff4df; color: #d18900; }
+.status-badge.approved { background: #e8f7ed; color: #1b8b47; }
+.status-badge.rejected { background: #ffe6e8; color: #c73646; }
+
+.form-card-panel .dashboard-form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dashboard-form-grid-primary {
+  align-items: start;
+}
+
+.form-field-full {
+  grid-column: 1 / -1;
+}
+
+.dashboard-form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
+.dashboard-nested-section {
+  margin-top: 28px;
+}
+
+.dashboard-subsection-tight {
+  margin-top: 16px;
+}
+
+.dashboard-nested-section h2 {
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+.compact-switches {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.compact-switches label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.delivery-grid {
+  grid-template-columns: 1fr 1fr auto;
+  align-items: end;
+}
+
+.upload-preview-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.dashboard-upload-block {
+  margin-top: 28px;
+}
+
+.dashboard-upload-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.dashboard-upload-head h2 {
+  margin: 0;
+  color: #0b2a54;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.dashboard-upload-head p {
+  margin: 4px 0 0;
+  color: #6f7a84;
+  font-size: 15px;
+}
+
+.dashboard-upload-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.upload-preview-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f3f5f7;
+}
+
+.upload-preview-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.upload-preview-card button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.75);
+  color: #fff;
+}
+
+.upload-preview-card.readonly button {
+  display: none;
+}
+
+.dashboard-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.dashboard-modal {
+  width: min(460px, calc(100% - 32px));
+  padding: 24px;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.dashboard-modal h2 {
+  margin: 0 0 10px;
+  font-size: 28px;
+}
+
+.dashboard-modal p {
+  margin: 0;
+  color: #66717d;
+}
+
+.auth-page {
+  background: #fff;
+}
+
+.auth-shell {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 0 96px;
+  background:
+    linear-gradient(rgba(9, 41, 83, 0.93), rgba(9, 41, 83, 0.95)),
+    url('./assets/figma/hero-bg.jpg') center / cover no-repeat;
+  color: #fff;
+  font-family: 'Barlow', sans-serif;
+}
+
+.auth-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 520px;
+  gap: 44px;
+  align-items: start;
+}
+
+.auth-copy {
+  padding-top: 34px;
+}
+
+.auth-copy h1 {
+  max-width: 620px;
+  margin: 24px 0 18px;
+  font-size: clamp(44px, 5vw, 62px);
+  font-weight: 700;
+  line-height: 0.98;
+}
+
+.auth-copy > p {
+  max-width: 620px;
+  margin: 0 0 28px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.auth-copy-card {
+  max-width: 460px;
+  padding: 26px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.auth-copy-card h2 {
+  margin: 0 0 10px;
+  color: var(--home-orange);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.auth-copy-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.auth-form-card {
+  border-top: 5px solid var(--home-orange);
+  background: #fff;
+  color: #1d252d;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.18);
+}
+
+.auth-form-header {
+  padding: 30px 34px 24px;
+  border-bottom: 1px solid #dfe4e8;
+}
+
+.auth-form-header > span {
+  color: var(--home-orange);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.auth-form-header h2 {
+  margin: 8px 0 10px;
+  color: var(--home-navy);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.auth-form-header p {
+  margin: 0;
+  color: #66717d;
+  font-size: 15px;
+}
+
+.auth-form-card form {
+  padding: 30px 34px;
+}
+
+.auth-submit-button {
+  margin-top: 10px;
+}
+
+.auth-form-footer {
+  padding: 0 34px 30px;
+}
+
+.auth-form-footer p {
+  margin: 0 0 14px;
+  color: #7a838b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.auth-form-footer a {
+  color: var(--home-navy);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.auth-form-footer a span {
+  color: var(--home-orange);
+}
+
+.auth-back-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 16px;
+  color: #fff;
+  font-size: 14px;
+}
+
 @media (max-width: 1199.98px) {
   .marketplace-layout,
   .marketplace-safety-grid,
@@ -2141,6 +3395,10 @@ a {
   .contact-form-card {
     padding: 40px;
   }
+
+  .dashboard-grid {
+    padding-left: 32px;
+  }
 }
 
 @media (max-width: 991.98px) {
@@ -2156,8 +3414,37 @@ a {
     grid-template-columns: 1fr;
   }
 
+  .truck-figma-main-grid,
+  .truck-figma-lower-grid {
+    grid-template-columns: 1fr;
+  }
+
   .page-hero-centered h1 {
     font-size: 52px;
+  }
+
+  .auth-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid,
+  .dashboard-kpi-grid,
+  .listing-type-grid,
+  .upload-preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-mobile-nav {
+    display: block;
+  }
+
+  .dashboard-grid {
+    padding: 24px 16px 32px;
+  }
+
+  .dashboard-upload-head {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 
@@ -2188,6 +3475,28 @@ a {
     flex-wrap: wrap;
   }
 
+  .truck-figma-top-card {
+    grid-template-columns: 1fr;
+  }
+
+  .truck-figma-top-card__content {
+    padding: 30px 24px 110px;
+  }
+
+  .truck-figma-top-card__content h2,
+  .truck-figma-specs-card h3 {
+    font-size: 34px;
+  }
+
+  .truck-figma-stats,
+  .truck-figma-pill-row {
+    gap: 12px;
+  }
+
+  .truck-figma-thumbnail img {
+    height: 84px;
+  }
+
   .marketplace-heading-row h2,
   .page-hero-centered h1 {
     font-size: 40px;
@@ -2196,8 +3505,68 @@ a {
   .blog-card-copy,
   .blog-card-link,
   .contact-form-card,
-  .contact-details-card {
+  .contact-details-card,
+  .auth-form-header,
+  .auth-form-card form,
+  .auth-form-footer {
     padding-right: 24px;
     padding-left: 24px;
   }
+
+  .auth-shell {
+    padding: 54px 0 70px;
+  }
+
+  .dashboard-page {
+    padding: 0 0 40px;
+  }
+
+  .form-card-panel .dashboard-form-grid,
+  .delivery-grid,
+  .compact-switches {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid {
+    padding: 16px 12px 28px;
+  }
+
+  .truck-figma-search-block label {
+    font-size: 24px;
+  }
+
+  .truck-figma-specs-row,
+  .truck-figma-metrics,
+  .truck-figma-delivery-options {
+    grid-template-columns: 1fr;
+  }
+
+  .truck-figma-specs-cell + .truck-figma-specs-cell {
+    border-left: 0;
+    border-top: 1px solid #e0c0b1;
+  }
+}
+
+
+.truck-figma-main-grid {
+  min-width: 0;
+}
+
+.truck-figma-left-column {
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.truck-figma-gallery-block,
+.truck-figma-gallery-main,
+.truck-figma-gallery-main .keen-slider {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.keen-slider__slide {
+  min-width: 0;
 }

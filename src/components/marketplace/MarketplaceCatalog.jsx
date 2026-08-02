@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import banner from '../../assets/figma/marketplace-banner.jpg';
 import equipmentExcavator from '../../assets/figma/equipment-excavator.jpg';
 import equipmentForklift from '../../assets/figma/equipment-forklift.jpg';
@@ -88,7 +89,140 @@ const otherProducts = [
   { title: 'Concrete Mixer Truck', image: equipmentExcavator },
 ];
 
-function MarketplaceCatalog() {
+const formatCurrency = (value) => (value ? `Rs. ${Number(value).toLocaleString()}` : 'Call for Price');
+
+const normalizeTruckListing = (truck, index) => {
+  const fallbackImages = [equipmentExcavator, equipmentForklift, equipmentLoader];
+  const specLeft = [
+    `Brand: ${truck.brand || '—'}`,
+    `Manufacturing Year: ${truck.manufacturingYear || '—'}`,
+    `Location: ${truck.location || '—'}`,
+    `Category: ${truck.category?.name || '—'}`,
+  ];
+  const specRight = [
+    `Model Year: ${truck.modelYear || '—'}`,
+    `Wheel Type: ${truck.wheelType || '—'}`,
+    `Drive Type: ${truck.driveType || '—'}`,
+    `Delivery: ${truck.deliveryProvided ? 'Available' : 'Not provided'}`,
+  ];
+
+  return {
+    _id: truck._id,
+    title: truck.title || 'Truck Listing',
+    image: truck.images?.[0]?.url || fallbackImages[index % fallbackImages.length],
+    price: formatCurrency(truck.price),
+    quantity: truck.quantity || '1',
+    detailA: `Condition: ${truck.condition ? truck.condition.charAt(0).toUpperCase() + truck.condition.slice(1) : 'Used'}`,
+    detailB: `Mileage: ${truck.usage?.mileage ? `${truck.usage.mileage} km` : 'N/A'}`,
+    specs: specLeft,
+    specs2: specRight,
+    buttonLabel: 'View Details',
+  };
+};
+
+const normalizeMaterialListing = (material, index) => {
+  const fallbackImages = [equipmentExcavator, equipmentForklift, equipmentLoader];
+  const specLeft = [
+    `Seller Type: ${material.sellerType || '—'}`,
+    `Grade: ${material.grade || '—'}`,
+    `Location: ${material.location || '—'}`,
+    `Category: ${material.category?.name || '—'}`,
+  ];
+  const specRight = [
+    `Brand Type: ${material.brand || '—'}`,
+    `Unit: ${material.unit || '—'}`,
+    `Subcategory: ${material.subcategory?.name || '—'}`,
+    `Delivery: ${material.deliveryProvided ? 'Available' : 'Not provided'}`,
+  ];
+
+  return {
+    _id: material._id,
+    title: material.title || 'Construction Material Listing',
+    image: material.images?.[0]?.url || fallbackImages[index % fallbackImages.length],
+    price: formatCurrency(material.price),
+    quantity: material.quantity || '1',
+    detailA: `Grade: ${material.grade || 'N/A'}`,
+    detailB: `Unit: ${material.unit || 'N/A'}`,
+    specs: specLeft,
+    specs2: specRight,
+    buttonLabel: 'View Details',
+  };
+};
+
+const normalizeMachineryListing = (machinery, index) => {
+  const fallbackImages = [equipmentExcavator, equipmentForklift, equipmentLoader];
+  const specLeft = [
+    `Brand: ${machinery.brand || '—'}`,
+    `Manufacturing Year: ${machinery.manufacturingYear || '—'}`,
+    `Location: ${machinery.location || '—'}`,
+    `Category: ${machinery.category?.name || '—'}`,
+  ];
+  const specRight = [
+    `Condition: ${machinery.condition ? `${machinery.condition.charAt(0).toUpperCase()}${machinery.condition.slice(1)}` : '—'}`,
+    `Hours: ${machinery.workingHours || '—'}`,
+    `Status: ${machinery.machineStatus || '—'}`,
+    `Delivery: ${machinery.deliveryProvided ? 'Available' : 'Not provided'}`,
+  ];
+
+  return {
+    _id: machinery._id,
+    title: machinery.title || 'Construction Machinery Listing',
+    image: machinery.images?.[0]?.url || fallbackImages[index % fallbackImages.length],
+    price: formatCurrency(machinery.price),
+    quantity: machinery.quantity || '1',
+    detailA: `Condition: ${machinery.condition ? `${machinery.condition.charAt(0).toUpperCase()}${machinery.condition.slice(1)}` : 'Used'}`,
+    detailB: `Working Hours: ${machinery.workingHours ? `${machinery.workingHours} hrs` : 'N/A'}`,
+    specs: specLeft,
+    specs2: specRight,
+    buttonLabel: 'View Details',
+  };
+};
+
+const normalizeSparePartListing = (sparePart, index) => {
+  const fallbackImages = [equipmentExcavator, equipmentForklift, equipmentLoader];
+  const compatibleBrands = sparePart.compatibleBrands?.map((item) => item.brand).filter(Boolean).slice(0, 2).join(', ') || '—';
+  const specLeft = [
+    `Brand: ${sparePart.brand || '—'}`,
+    `Manufacturing Year: ${sparePart.manufacturingYear || '—'}`,
+    `Location: ${sparePart.location || '—'}`,
+    `Category: ${sparePart.category?.name || '—'}`,
+  ];
+  const specRight = [
+    `Condition: ${sparePart.condition ? `${sparePart.condition.charAt(0).toUpperCase()}${sparePart.condition.slice(1)}` : '—'}`,
+    `Part Number: ${sparePart.partNumber || '—'}`,
+    `Warranty: ${sparePart.warrantyProvided ? 'Available' : 'Not available'}`,
+    `Fits: ${compatibleBrands}`,
+  ];
+
+  return {
+    _id: sparePart._id,
+    title: sparePart.title || 'Spare Part Listing',
+    image: sparePart.images?.[0]?.url || fallbackImages[index % fallbackImages.length],
+    price: formatCurrency(sparePart.price),
+    quantity: sparePart.quantity || '1',
+    detailA: `Condition: ${sparePart.condition ? `${sparePart.condition.charAt(0).toUpperCase()}${sparePart.condition.slice(1)}` : 'Used'}`,
+    detailB: `Part Number: ${sparePart.partNumber || 'N/A'}`,
+    specs: specLeft,
+    specs2: specRight,
+    buttonLabel: 'View Details',
+  };
+};
+
+function MarketplaceCatalog({ activeTab, listingsData = [], onOpenTruck }) {
+  const isTruckTab = activeTab === 'trucks';
+  const isMachineryTab = activeTab === 'machinery';
+  const isMaterialTab = activeTab === 'material';
+  const isSparePartsTab = activeTab === 'spare-parts';
+  const renderedListings = isTruckTab
+    ? listingsData.map(normalizeTruckListing)
+    : isMachineryTab
+      ? listingsData.map(normalizeMachineryListing)
+    : isMaterialTab
+      ? listingsData.map(normalizeMaterialListing)
+    : isSparePartsTab
+      ? listingsData.map(normalizeSparePartListing)
+      : listings;
+
   return (
     <section className="marketplace-catalog">
       <div className="container-xl marketplace-layout">
@@ -157,17 +291,17 @@ function MarketplaceCatalog() {
 
         <div className="marketplace-main">
           <div className="marketplace-heading-row">
-            <h2>WHAT WE OFFER</h2>
+            <h2>{'WHAT WE OFFER'}</h2>
             <div className="marketplace-tabs">
-              <span className="active">NEW ARRIVALS</span>
-              <span>FEATURES</span>
-              <span>FEATURES</span>
+              <span className="active">{isTruckTab ? 'TRUCKS' : isMachineryTab ? 'MACHINERY' : isMaterialTab ? 'MATERIAL' : isSparePartsTab ? 'SPARE PARTS' : 'NEW ARRIVALS'}</span>
+              <span>{isTruckTab || isMachineryTab || isMaterialTab || isSparePartsTab ? 'APPROVED' : 'FEATURES'}</span>
+              <span>{isTruckTab || isMachineryTab || isMaterialTab || isSparePartsTab ? 'READY TO VIEW' : 'FEATURES'}</span>
             </div>
           </div>
 
           <div className="marketplace-listings" id="featured">
-            {listings.map((listing) => (
-              <article className="marketplace-listing-card" key={listing.title}>
+            {renderedListings.length ? renderedListings.map((listing) => (
+              <article className="marketplace-listing-card" key={listing._id || listing.title}>
                 <div className="marketplace-listing-media">
                   <img src={listing.image} alt={listing.title} />
                   <div className="marketplace-listing-links">
@@ -193,11 +327,34 @@ function MarketplaceCatalog() {
                 </div>
                 <div className="marketplace-price-box">
                   <small>Total Price<br />Incl. Taxes</small>
-                  <strong>Price: Rs. {listing.price}</strong>
-                  <button type="button">Book a Meeting</button>
+                  <strong>{isTruckTab ? listing.price : `Price: Rs. ${listing.price}`}</strong>
+                  {isTruckTab ? (
+                    <Link className="marketplace-price-link" to={`/truck-details/${listing._id}`} onClick={() => onOpenTruck?.(listing._id)}>
+                      {listing.buttonLabel}
+                    </Link>
+                  ) : isMachineryTab ? (
+                    <Link className="marketplace-price-link" to={`/machinery-details/${listing._id}`}>
+                      {listing.buttonLabel}
+                    </Link>
+                  ) : isMaterialTab ? (
+                    <Link className="marketplace-price-link" to={`/material-details/${listing._id}`}>
+                      {listing.buttonLabel}
+                    </Link>
+                  ) : isSparePartsTab ? (
+                    <Link className="marketplace-price-link" to={`/spare-part-details/${listing._id}`}>
+                      {listing.buttonLabel}
+                    </Link>
+                  ) : (
+                    <button type="button">Book a Meeting</button>
+                  )}
                 </div>
               </article>
-            ))}
+            )) : (
+              <div className="marketplace-empty-state">
+                <h3>{isMachineryTab ? 'No approved machinery listings found' : isMaterialTab ? 'No approved material listings found' : isSparePartsTab ? 'No approved spare parts listings found' : 'No approved truck listings found'}</h3>
+                <p>We&apos;re preparing verified marketplace listings for this section. Please check back shortly.</p>
+              </div>
+            )}
           </div>
 
           <button className="marketplace-loadmore" type="button">Load more listings</button>

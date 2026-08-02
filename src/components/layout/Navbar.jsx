@@ -22,7 +22,7 @@ function Navbar() {
       <div className="top-strip">
         <div className="container-xl d-flex align-items-center justify-content-between gap-3">
           <div><i className="fa fa-link me-2" aria-hidden="true" /><u>Latest Updates</u><span className="d-none d-md-inline ms-2">Get Up to 45% Off The Best Constructions Equipment Deals At SBC Marketplace</span></div>
-          <div className="top-strip-right d-none d-lg-flex"><span><i className="fa fa-clock-o" /> Mon - Sat 9.00 - 18.00</span><span><i className="fa fa-user" /> Login or Register</span><span className="social-dots">● ● ● ● ●</span></div>
+          <div className="top-strip-right d-none d-lg-flex"><span><i className="fa fa-clock-o" /> Mon - Sat 9.00 - 18.00</span><span><i className="fa fa-user" /> <Link className="top-auth-link" to="/login">Login</Link> or <Link className="top-auth-link" to="/signup">Register</Link></span><span className="social-dots">● ● ● ● ●</span></div>
         </div>
       </div>
       <nav className="navbar navbar-expand-xl bg-white p-0" aria-label="Main navigation">
@@ -50,7 +50,7 @@ function Navbar() {
             <div className="nav-actions d-none d-xl-flex">
               <a className="nav-service" href="/marketplace#requirement"><img src={requirementIcon} alt="" /><span><small>RFQ</small><b>Post a Requirement</b></span></a>
               <a className="nav-service" href="/marketplace"><img src={importIcon} alt="" /><b>SBC Import</b></a>
-              <button className="avatar-btn" aria-label="Account"><i className="fa fa-user-o" /></button>
+              <Link className="avatar-btn d-inline-flex align-items-center justify-content-center" to="/login" aria-label="Account"><i className="fa fa-user-o" /></Link>
               <button className="cart-btn" aria-label="Shopping cart"><i className="fa fa-shopping-cart" /><sup>2</sup></button>
             </div>
           </div>

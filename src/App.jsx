@@ -1,26 +1,52 @@
 import './App.css';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './components/home/HomePage';
+import MachineryDetailsPage from './components/marketplace/MachineryDetailsPage';
 import MarketplacePage from './components/marketplace/MarketplacePage';
+import MaterialDetailsPage from './components/marketplace/MaterialDetailsPage';
+import SparePartDetailsPage from './components/marketplace/SparePartDetailsPage';
+import TruckDetailsPage from './components/marketplace/TruckDetailsPage';
 import BlogsPage from './components/blogs/BlogsPage';
 import ContactPage from './components/contact/ContactPage';
+import AdminLoginPage from './components/auth/AdminLoginPage';
+import LoginPage from './components/auth/LoginPage';
+import SignupPage from './components/auth/SignupPage';
+import AdminDashboard from './components/dashboard/AdminDashboard';
+import UserDashboard from './components/dashboard/UserDashboard';
 import SubmissionSuccess from './components/SubmissionSuccess';
+import ProtectedRoute from './components/dashboard/ProtectedRoute';
+import NotFoundPage from './components/NotFoundPage';
 
 function App() {
+  const location = useLocation();
+  const hideSiteChrome = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/admin-dashboard');
+  const userToken = localStorage.getItem('sbc_auth_token');
+  const adminToken = localStorage.getItem('sbc_admin_auth_token');
+
   return (
     <div className="site-shell">
-      <Navbar />
+      {!hideSiteChrome ? <Navbar /> : null}
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/marketplace" exact component={MarketplacePage} />
+        <Route path="/truck-details/:truckId" exact component={TruckDetailsPage} />
+        <Route path="/machinery-details/:machineryId" exact component={MachineryDetailsPage} />
+        <Route path="/material-details/:materialId" exact component={MaterialDetailsPage} />
+        <Route path="/spare-part-details/:sparePartId" exact component={SparePartDetailsPage} />
+        <Route path="/404" exact component={NotFoundPage} />
         <Route path="/blogs" exact component={BlogsPage} />
         <Route path="/contact" exact component={ContactPage} />
+        <Route path="/admin" exact component={AdminLoginPage} />
+        <Route path="/login" exact component={LoginPage} />
+        <Route path="/signup" exact component={SignupPage} />
+        <ProtectedRoute component={UserDashboard} path="/user-dashboard" redirectTo="/login" token={userToken} />
+        <ProtectedRoute component={AdminDashboard} path="/admin-dashboard" redirectTo="/admin" token={adminToken} />
         <Route path="/success" exact component={SubmissionSuccess} />
-        <Redirect to="/" />
+        <Redirect to="/404" />
       </Switch>
-      <Footer />
+      {!hideSiteChrome ? <Footer /> : null}
     </div>
   );
 }

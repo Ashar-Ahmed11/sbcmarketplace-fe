@@ -1,13 +1,18 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import App from './App';
+import AppState from './components/context/appState';
+
+const renderApp = (route) => render(
+  <MemoryRouter initialEntries={[route]}>
+    <AppState>
+      <App />
+    </AppState>
+  </MemoryRouter>
+);
 
 test('renders the Figma-based SBC Marketplace home page', () => {
-  render(
-    <MemoryRouter initialEntries={['/']}>
-      <App />
-    </MemoryRouter>
-  );
+  renderApp('/');
 
   expect(
     screen.getByRole('heading', {
@@ -22,11 +27,7 @@ test('renders the Figma-based SBC Marketplace home page', () => {
 });
 
 test('renders the successful submission page', () => {
-  render(
-    <MemoryRouter initialEntries={['/success']}>
-      <App />
-    </MemoryRouter>
-  );
+  renderApp('/success');
 
   expect(
     screen.getByRole('heading', { name: /successfully submitted/i })
@@ -36,33 +37,43 @@ test('renders the successful submission page', () => {
 });
 
 test('renders the marketplace page route', () => {
-  render(
-    <MemoryRouter initialEntries={['/marketplace']}>
-      <App />
-    </MemoryRouter>
-  );
+  renderApp('/marketplace');
 
   expect(
     screen.getByRole('heading', { name: /marketplace products/i })
   ).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /trucks/i })).toBeInTheDocument();
 });
 
 test('renders the blogs and contact routes', () => {
-  const { unmount } = render(
-    <MemoryRouter initialEntries={['/blogs']}>
-      <App />
-    </MemoryRouter>
-  );
+  const { unmount } = renderApp('/blogs');
 
   expect(screen.getByRole('heading', { name: /^blogs$/i })).toBeInTheDocument();
 
   unmount();
 
-  render(
-    <MemoryRouter initialEntries={['/contact']}>
-      <App />
-    </MemoryRouter>
-  );
+  renderApp('/contact');
 
   expect(screen.getByRole('heading', { name: /contact us/i })).toBeInTheDocument();
+});
+
+test('renders the auth routes', () => {
+  const { unmount } = renderApp('/login');
+
+  expect(screen.getByRole('heading', { name: /login to sbc marketplace/i })).toBeInTheDocument();
+  const authMain = screen.getByRole('main');
+  expect(within(authMain).getByLabelText(/^email$/i)).toBeInTheDocument();
+  expect(within(authMain).getByLabelText(/^password$/i)).toBeInTheDocument();
+
+  unmount();
+
+  renderApp('/signup');
+
+  expect(screen.getByRole('heading', { name: /signup for sbc marketplace/i })).toBeInTheDocument();
+});
+
+test('renders the 404 route', () => {
+  renderApp('/404');
+
+  expect(screen.getByRole('heading', { name: /page not found/i })).toBeInTheDocument();
 });
