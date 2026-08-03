@@ -2,14 +2,20 @@ import { useContext } from 'react';
 import { Redirect, Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import AppContext from '../context/appContext';
 import DashboardSidebar from './DashboardSidebar';
+import AdminConstructionServiceList from './admin/AdminConstructionServiceList';
+import AdminInspectionServiceList from './admin/AdminInspectionServiceList';
 import AdminHome from './admin/AdminHome';
 import AdminListings from './admin/AdminListings';
 import AdminMachineryList from './admin/AdminMachineryList';
 import AdminMaterialList from './admin/AdminMaterialList';
+import AdminRepairServiceList from './admin/AdminRepairServiceList';
 import AdminSparePartList from './admin/AdminSparePartList';
 import AdminTruckList from './admin/AdminTruckList';
+import AdminConstructionServiceView from './admin/AdminConstructionServiceView';
+import AdminInspectionServiceView from './admin/AdminInspectionServiceView';
 import AdminMachineryView from './admin/AdminMachineryView';
 import AdminMaterialView from './admin/AdminMaterialView';
+import AdminRepairServiceView from './admin/AdminRepairServiceView';
 import AdminSparePartView from './admin/AdminSparePartView';
 import AdminTruckView from './admin/AdminTruckView';
 import CategoriesPage from './admin/CategoriesPage';
@@ -42,6 +48,9 @@ function AdminDashboard() {
             <Route component={AdminMachineryList} exact path={`${path}/view-listings/construction-machinery`} />
             <Route component={AdminMaterialList} exact path={`${path}/view-listings/construction-material`} />
             <Route component={AdminSparePartList} exact path={`${path}/view-listings/spare-parts`} />
+            <Route component={AdminConstructionServiceList} exact path={`${path}/view-listings/construction-services`} />
+            <Route component={AdminInspectionServiceList} exact path={`${path}/view-listings/inspection-services`} />
+            <Route component={AdminRepairServiceList} exact path={`${path}/view-listings/repair-services`} />
             <Route component={CategoriesPage} exact path={`${path}/categories`} />
             <Route exact path={`${path}/create-category`}>{() => <CategoryEditor />}</Route>
             <Route exact path={`${path}/edit-category/:categoryID`}>{() => <CategoryEditor isEdit />}</Route>
@@ -52,6 +61,9 @@ function AdminDashboard() {
             <Route component={AdminMachineryView} exact path={`${path}/view-machinery/:machineryId`} />
             <Route component={AdminMaterialView} exact path={`${path}/view-material/:materialId`} />
             <Route component={AdminSparePartView} exact path={`${path}/view-spare-part/:sparePartId`} />
+            <Route component={AdminConstructionServiceView} exact path={`${path}/view-construction-service/:constructionServiceId`} />
+            <Route component={AdminInspectionServiceView} exact path={`${path}/view-inspection-service/:inspectionServiceId`} />
+            <Route component={AdminRepairServiceView} exact path={`${path}/view-repair-service/:repairServiceId`} />
           </Switch>
         </section>
       </div>

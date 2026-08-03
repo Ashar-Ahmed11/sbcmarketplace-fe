@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
-import TruckDetailsSidebarCards from './TruckDetailsSidebarCards';
+import MachineryDetailsSidebarCards from './MachineryDetailsSidebarCards';
 import MachineryDetailsInfoSections from './MachineryDetailsInfoSections';
 import MachineryDetailsSpecsCard from './MachineryDetailsSpecsCard';
 import SliderMutationPlugin from './sliderMutationPlugin';
@@ -55,7 +55,7 @@ function MachineryDetailsOverview({ machinery }) {
             <MachineryDetailsSpecsCard machinery={machinery} />
             <MachineryDetailsInfoSections machinery={machinery} />
           </div>
-          <TruckDetailsSidebarCards truck={{ ...machinery, quantity: machinery?.quantity, condition: machinery?.condition }} />
+          <MachineryDetailsSidebarCards machinery={machinery} />
         </div>
       </div>
     </section>

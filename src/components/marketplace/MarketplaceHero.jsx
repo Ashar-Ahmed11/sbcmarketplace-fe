@@ -1,16 +1,20 @@
 const pills = [
   { key: 'trucks', label: 'Trucks', icon: 'fa fa-truck' },
-  { key: 'machinery', label: 'Construction Machinery', icon: 'fa fa-industry' },
-  { key: 'material', label: 'Construction Material', icon: 'fa fa-cubes' },
+  { key: 'construction-machinery', label: 'Construction Machinery', icon: 'fa fa-industry' },
+  { key: 'construction-material', label: 'Construction Material', icon: 'fa fa-cubes' },
   { key: 'spare-parts', label: 'Spare Parts', icon: 'fa fa-cogs' },
 ];
 
 function MarketplaceHero({
   activeTab,
   onTabChange,
+  pills: customPills,
   searchTerm,
   onSearchChange,
+  title = 'Marketplace Products',
 }) {
+  const activePills = customPills || pills;
+
   return (
     <section className="page-hero marketplace-hero-block">
       <div className="page-hero-shade" />
@@ -19,11 +23,11 @@ function MarketplaceHero({
         <nav className="page-breadcrumb" aria-label="Breadcrumb">
           <span>Home</span>
           <i className="fa fa-angle-right" aria-hidden="true" />
-          <span>Marketplace Products</span>
+          <span>{title}</span>
           <i className="fa fa-angle-right" aria-hidden="true" />
-          <strong>{pills.find((pill) => pill.key === activeTab)?.label || 'Trucks'}</strong>
+          <strong>{activePills.find((pill) => pill.key === activeTab)?.label || 'Trucks'}</strong>
         </nav>
-        <h1>Marketplace Products</h1>
+        <h1>{title}</h1>
         <div className="marketplace-searchbar">
           <input
             aria-label="Search marketplace products"
@@ -37,7 +41,7 @@ function MarketplaceHero({
           </button>
         </div>
         <div className="marketplace-pills">
-          {pills.map((pill) => (
+          {activePills.map((pill) => (
             <button
               className={`marketplace-pill ${pill.key === activeTab ? 'active' : ''}`}
               key={pill.key}

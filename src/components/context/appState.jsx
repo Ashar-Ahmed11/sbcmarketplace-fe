@@ -42,6 +42,8 @@ const machineryBrands = [
   'Bobcat', 'Manitou', 'Bell Equipment', 'Takeuchi', 'Mecalac', 'Other',
 ];
 const machineryStatuses = ['Ready to Work', 'Excellent', 'Good', 'Average', 'Needs Repair'];
+const constructionServiceCompanyTypes = ['Main Contractor', 'Subcontractor', 'Consultant', 'Engineering Firm', 'Individual'];
+const serviceCategoryTypes = ['truck', 'machinery', 'material', 'spareParts'];
 const countryOptions = [
   'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria',
   'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan',
@@ -205,6 +207,53 @@ const sparePartInitialForm = {
   price: '',
 };
 
+const constructionServiceInitialForm = {
+  category: '',
+  subcategory: [],
+  title: '',
+  description: '',
+  companyType: '',
+  yearsOfExperience: '',
+  teamSize: '',
+  images: [],
+  certificationsImages: [],
+  location: '',
+  offerOnsiteService: false,
+  serviceAreas: [],
+  approvalStatus: 'pending',
+  rejectionReason: '',
+};
+
+const inspectionServiceInitialForm = {
+  category: [],
+  title: '',
+  description: '',
+  yearsOfExperience: '',
+  teamSize: '',
+  images: [],
+  certificationsImages: [],
+  location: '',
+  offerOnsiteInspection: false,
+  inspectionAreas: [],
+  approvalStatus: 'pending',
+  rejectionReason: '',
+};
+
+const repairServiceInitialForm = {
+  category: [],
+  title: '',
+  description: '',
+  yearsOfExperience: '',
+  teamSize: '',
+  images: [],
+  certificationsImages: [],
+  location: '',
+  offerOnsiteRepair: false,
+  repairAreas: [],
+  approvalStatus: 'pending',
+  rejectionReason: '',
+};
+
 const parseJson = async (response) => {
   const text = await response.text();
   try {
@@ -229,6 +278,12 @@ const AppState = ({ children }) => {
   const [allMachineries, setAllMachineries] = useState([]);
   const [userSpareParts, setUserSpareParts] = useState([]);
   const [allSpareParts, setAllSpareParts] = useState([]);
+  const [userConstructionServices, setUserConstructionServices] = useState([]);
+  const [allConstructionServices, setAllConstructionServices] = useState([]);
+  const [userInspectionServices, setUserInspectionServices] = useState([]);
+  const [allInspectionServices, setAllInspectionServices] = useState([]);
+  const [userRepairServices, setUserRepairServices] = useState([]);
+  const [allRepairServices, setAllRepairServices] = useState([]);
   const [dashboardKpis] = useState([
     { label: 'Active Listings', value: '18' },
     { label: 'Approved Leads', value: '09' },
@@ -606,17 +661,187 @@ const AppState = ({ children }) => {
     return data;
   }, [request]);
 
+  const getApprovedConstructionServices = useCallback(async () => {
+    const data = await request('/api/construction-service/get-construction-services?approvalStatus=approved');
+    setAllConstructionServices(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getAllConstructionServices = useCallback(async () => {
+    const data = await request('/api/construction-service/get-construction-services');
+    setAllConstructionServices(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getUserConstructionServices = useCallback(async () => {
+    const data = await request('/api/construction-service/get-construction-services/me', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserConstructionServices(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+  const getConstructionServiceById = useCallback((id) => request(`/api/construction-service/get-construction-service/${id}`), [request]);
+  const createConstructionService = useCallback(async (payload) => {
+    const data = await request('/api/construction-service/create-construction-service', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Construction service listing created');
+    return data;
+  }, [request, userToken]);
+  const updateConstructionService = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-service/update-construction-service/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Construction service listing updated');
+    return data;
+  }, [request, userToken]);
+  const deleteConstructionService = useCallback(async (id) => {
+    const data = await request(`/api/construction-service/delete-construction-service/${id}`, {
+      method: 'DELETE',
+      headers: { 'auth-token': userToken || adminToken },
+    });
+    toast.success('Construction service listing deleted');
+    return data;
+  }, [adminToken, request, userToken]);
+  const updateConstructionServiceStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-service/update-construction-service-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Construction service status updated');
+    return data;
+  }, [request]);
+
+  const getApprovedInspectionServices = useCallback(async () => {
+    const data = await request('/api/inspection-service/get-inspection-services?approvalStatus=approved');
+    setAllInspectionServices(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getAllInspectionServices = useCallback(async () => {
+    const data = await request('/api/inspection-service/get-inspection-services');
+    setAllInspectionServices(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getUserInspectionServices = useCallback(async () => {
+    const data = await request('/api/inspection-service/get-inspection-services/me', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserInspectionServices(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+  const getInspectionServiceById = useCallback((id) => request(`/api/inspection-service/get-inspection-service/${id}`), [request]);
+  const createInspectionService = useCallback(async (payload) => {
+    const data = await request('/api/inspection-service/create-inspection-service', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Inspection service listing created');
+    return data;
+  }, [request, userToken]);
+  const updateInspectionService = useCallback(async (id, payload) => {
+    const data = await request(`/api/inspection-service/update-inspection-service/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Inspection service listing updated');
+    return data;
+  }, [request, userToken]);
+  const deleteInspectionService = useCallback(async (id) => {
+    const data = await request(`/api/inspection-service/delete-inspection-service/${id}`, {
+      method: 'DELETE',
+      headers: { 'auth-token': userToken || adminToken },
+    });
+    toast.success('Inspection service listing deleted');
+    return data;
+  }, [adminToken, request, userToken]);
+  const updateInspectionServiceStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/inspection-service/update-inspection-service-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Inspection service status updated');
+    return data;
+  }, [request]);
+
+  const getApprovedRepairServices = useCallback(async () => {
+    const data = await request('/api/repair-service/get-repair-services?approvalStatus=approved');
+    setAllRepairServices(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getAllRepairServices = useCallback(async () => {
+    const data = await request('/api/repair-service/get-repair-services');
+    setAllRepairServices(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getUserRepairServices = useCallback(async () => {
+    const data = await request('/api/repair-service/get-repair-services/me', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserRepairServices(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+  const getRepairServiceById = useCallback((id) => request(`/api/repair-service/get-repair-service/${id}`), [request]);
+  const createRepairService = useCallback(async (payload) => {
+    const data = await request('/api/repair-service/create-repair-service', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Repair service listing created');
+    return data;
+  }, [request, userToken]);
+  const updateRepairService = useCallback(async (id, payload) => {
+    const data = await request(`/api/repair-service/update-repair-service/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Repair service listing updated');
+    return data;
+  }, [request, userToken]);
+  const deleteRepairService = useCallback(async (id) => {
+    const data = await request(`/api/repair-service/delete-repair-service/${id}`, {
+      method: 'DELETE',
+      headers: { 'auth-token': userToken || adminToken },
+    });
+    toast.success('Repair service listing deleted');
+    return data;
+  }, [adminToken, request, userToken]);
+  const updateRepairServiceStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/repair-service/update-repair-service-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Repair service status updated');
+    return data;
+  }, [request]);
+
   const contextValue = useMemo(() => ({
     API_BASE,
     adminToken,
+    allConstructionServices,
+    allInspectionServices,
     allMaterials,
     allMachineries,
+    allRepairServices,
     allSpareParts,
     allTrucks,
     categories,
+    constructionServiceCompanyTypes,
+    constructionServiceInitialForm,
     createCategory,
+    createConstructionService,
+    createInspectionService,
     createMachinery,
     createMaterial,
+    createRepairService,
     createSparePart,
     createSubCategory,
     createTruck,
@@ -624,33 +849,49 @@ const AppState = ({ children }) => {
     currentUser,
     dashboardKpis,
     deleteCategory,
+    deleteConstructionService,
+    deleteInspectionService,
     deleteMachinery,
     deleteMaterial,
+    deleteRepairService,
     deleteSparePart,
     deleteSubCategory,
     deleteTruck,
     fetchAdmin,
     fetchUser,
+    getAllConstructionServices,
+    getAllInspectionServices,
     getAllMachineries,
     getAllMaterials,
+    getAllRepairServices,
     getAllSpareParts,
     getAllTrucks,
+    getApprovedConstructionServices,
+    getApprovedInspectionServices,
     getApprovedMachineries,
     getApprovedMaterials,
+    getApprovedRepairServices,
     getApprovedSpareParts,
     getApprovedTrucks,
+    getConstructionServiceById,
+    getInspectionServiceById,
     getMachineryById,
     getMaterialById,
+    getRepairServiceById,
     getSparePartById,
     getCategories,
     getCategoryById,
     getSubCategories,
     getSubCategoryById,
+    getUserConstructionServices,
+    getUserInspectionServices,
     getUserMachineries,
     getUserSpareParts,
     getTruckById,
     getUserMaterials,
+    getUserRepairServices,
     getUserTrucks,
+    inspectionServiceInitialForm,
     loginAdmin,
     loginUser,
     logoutAdmin,
@@ -664,15 +905,23 @@ const AppState = ({ children }) => {
     materialSellerTypes,
     materialUnits,
     pakistanCities,
+    repairServiceInitialForm,
+    serviceCategoryTypes,
     sparePartInitialForm,
     signupUser,
     subCategories,
     truckBrands,
     truckInitialForm,
+    updateConstructionService,
+    updateConstructionServiceStatus,
+    updateInspectionService,
+    updateInspectionServiceStatus,
     updateMachinery,
     updateMachineryStatus,
     updateMaterial,
     updateMaterialStatus,
+    updateRepairService,
+    updateRepairServiceStatus,
     updateSparePart,
     updateSparePartStatus,
     updateCategory,
@@ -681,20 +930,29 @@ const AppState = ({ children }) => {
     updateTruckStatus,
     uploadImage,
     userToken,
+    userConstructionServices,
+    userInspectionServices,
     userMachineries,
     userMaterials,
+    userRepairServices,
     userSpareParts,
     userTrucks,
   }), [
     adminToken,
+    allConstructionServices,
+    allInspectionServices,
     allMaterials,
     allMachineries,
+    allRepairServices,
     allSpareParts,
     allTrucks,
     categories,
+    createConstructionService,
     createCategory,
+    createInspectionService,
     createMachinery,
     createMaterial,
+    createRepairService,
     createSparePart,
     createSubCategory,
     createTruck,
@@ -702,32 +960,47 @@ const AppState = ({ children }) => {
     currentUser,
     dashboardKpis,
     deleteCategory,
+    deleteConstructionService,
+    deleteInspectionService,
     deleteMachinery,
     deleteMaterial,
+    deleteRepairService,
     deleteSparePart,
     deleteSubCategory,
     deleteTruck,
     fetchAdmin,
     fetchUser,
+    getAllConstructionServices,
+    getAllInspectionServices,
     getAllMachineries,
     getAllMaterials,
+    getAllRepairServices,
     getAllSpareParts,
     getAllTrucks,
+    getApprovedConstructionServices,
+    getApprovedInspectionServices,
     getApprovedMachineries,
     getApprovedMaterials,
+    getApprovedRepairServices,
     getApprovedSpareParts,
     getApprovedTrucks,
+    getConstructionServiceById,
+    getInspectionServiceById,
     getMachineryById,
     getMaterialById,
+    getRepairServiceById,
     getSparePartById,
     getCategories,
     getCategoryById,
     getSubCategories,
     getSubCategoryById,
+    getUserConstructionServices,
+    getUserInspectionServices,
     getUserMachineries,
     getUserSpareParts,
     getTruckById,
     getUserMaterials,
+    getUserRepairServices,
     getUserTrucks,
     loginAdmin,
     loginUser,
@@ -735,20 +1008,29 @@ const AppState = ({ children }) => {
     logoutUser,
     signupUser,
     subCategories,
+    updateConstructionService,
+    updateConstructionServiceStatus,
+    updateInspectionService,
+    updateInspectionServiceStatus,
     updateSparePart,
     updateSparePartStatus,
     updateMachinery,
     updateMachineryStatus,
     updateMaterial,
     updateMaterialStatus,
+    updateRepairService,
+    updateRepairServiceStatus,
     updateCategory,
     updateSubCategory,
     updateTruck,
     updateTruckStatus,
     uploadImage,
     userToken,
+    userConstructionServices,
+    userInspectionServices,
     userMachineries,
     userMaterials,
+    userRepairServices,
     userSpareParts,
     userTrucks,
   ]);

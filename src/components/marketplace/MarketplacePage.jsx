@@ -1,23 +1,45 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
+import { Redirect, Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import AppContext from '../context/appContext';
-import MarketplaceHero from './MarketplaceHero';
 import MarketplaceBrands from './MarketplaceBrands';
-import MarketplaceCatalog from './MarketplaceCatalog';
+import MarketplaceHero from './MarketplaceHero';
+import MarketplaceMachineryCatalog from './MarketplaceMachineryCatalog';
+import MarketplaceMaterialsCatalog from './MarketplaceMaterialsCatalog';
 import MarketplaceSafety from './MarketplaceSafety';
+import MarketplaceSparePartsCatalog from './MarketplaceSparePartsCatalog';
+import MarketplaceTrucksCatalog from './MarketplaceTrucksCatalog';
+
+const marketplaceTabs = ['trucks', 'construction-machinery', 'construction-material', 'spare-parts'];
 
 function MarketplacePage() {
-  const { allMachineries, allMaterials, allSpareParts, allTrucks, getApprovedMachineries, getApprovedMaterials, getApprovedSpareParts, getApprovedTrucks } = useContext(AppContext);
-  const [activeTab, setActiveTab] = useState('trucks');
+  const { path, url } = useRouteMatch();
+  const history = useHistory();
+  const location = useLocation();
+  const {
+    allMachineries,
+    allMaterials,
+    allSpareParts,
+    allTrucks,
+    getApprovedMachineries,
+    getApprovedMaterials,
+    getApprovedSpareParts,
+    getApprovedTrucks,
+  } = useContext(AppContext);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const activeTab = useMemo(() => {
+    const slug = location.pathname.replace(`${url}/`, '');
+    return marketplaceTabs.includes(slug) ? slug : 'trucks';
+  }, [location.pathname, url]);
 
   useEffect(() => {
     if (activeTab === 'trucks') {
       getApprovedTrucks();
     }
-    if (activeTab === 'machinery') {
+    if (activeTab === 'construction-machinery') {
       getApprovedMachineries();
     }
-    if (activeTab === 'material') {
+    if (activeTab === 'construction-material') {
       getApprovedMaterials();
     }
     if (activeTab === 'spare-parts') {
@@ -26,15 +48,11 @@ function MarketplacePage() {
   }, [activeTab, getApprovedMachineries, getApprovedMaterials, getApprovedSpareParts, getApprovedTrucks]);
 
   const filteredListings = useMemo(() => {
-    if (!['trucks', 'machinery', 'material', 'spare-parts'].includes(activeTab)) {
-      return [];
-    }
-
     const source = activeTab === 'trucks'
       ? allTrucks
-      : activeTab === 'machinery'
+      : activeTab === 'construction-machinery'
         ? allMachineries
-        : activeTab === 'material'
+        : activeTab === 'construction-material'
           ? allMaterials
           : allSpareParts;
 
@@ -64,11 +82,28 @@ function MarketplacePage() {
       <MarketplaceHero
         activeTab={activeTab}
         onSearchChange={setSearchTerm}
-        onTabChange={setActiveTab}
+        onTabChange={(tab) => history.push(`${url}/${tab}`)}
         searchTerm={searchTerm}
       />
       <MarketplaceBrands />
-      <MarketplaceCatalog activeTab={activeTab} listingsData={filteredListings} />
+      <Switch>
+        <Route exact path={path}>
+          <Redirect to={`${url}/trucks`} />
+        </Route>
+        <Route exact path={`${path}/trucks`}>
+          <MarketplaceTrucksCatalog listings={filteredListings} />
+        </Route>
+        <Route exact path={`${path}/construction-machinery`}>
+          <MarketplaceMachineryCatalog listings={filteredListings} />
+        </Route>
+        <Route exact path={`${path}/construction-material`}>
+          <MarketplaceMaterialsCatalog listings={filteredListings} />
+        </Route>
+        <Route exact path={`${path}/spare-parts`}>
+          <MarketplaceSparePartsCatalog listings={filteredListings} />
+        </Route>
+        <Redirect to="/404" />
+      </Switch>
       <MarketplaceSafety />
     </main>
   );

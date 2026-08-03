@@ -3,7 +3,7 @@ import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import SparePartDetailsInfoSections from './SparePartDetailsInfoSections';
 import SparePartDetailsSpecsCard from './SparePartDetailsSpecsCard';
-import TruckDetailsSidebarCards from './TruckDetailsSidebarCards';
+import SparePartDetailsSidebarCards from './SparePartDetailsSidebarCards';
 import SliderMutationPlugin from './sliderMutationPlugin';
 import SliderResizePlugin from './sliderResizePlugin';
 import SliderThumbnailPlugin from './sliderThumbnailPlugin';
@@ -55,7 +55,7 @@ function SparePartDetailsOverview({ sparePart }) {
             <SparePartDetailsSpecsCard sparePart={sparePart} />
             <SparePartDetailsInfoSections sparePart={sparePart} />
           </div>
-          <TruckDetailsSidebarCards truck={{ ...sparePart, quantity: sparePart?.quantity, condition: sparePart?.condition }} />
+          <SparePartDetailsSidebarCards sparePart={sparePart} />
         </div>
       </div>
     </section>

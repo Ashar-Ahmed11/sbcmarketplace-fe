@@ -3,9 +3,13 @@ import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './components/home/HomePage';
+import ConstructionServiceDetailsPage from './components/marketplace/ConstructionServiceDetailsPage';
+import InspectionServiceDetailsPage from './components/marketplace/InspectionServiceDetailsPage';
 import MachineryDetailsPage from './components/marketplace/MachineryDetailsPage';
 import MarketplacePage from './components/marketplace/MarketplacePage';
 import MaterialDetailsPage from './components/marketplace/MaterialDetailsPage';
+import RepairServiceDetailsPage from './components/marketplace/RepairServiceDetailsPage';
+import ServicesPage from './components/marketplace/ServicesPage';
 import SparePartDetailsPage from './components/marketplace/SparePartDetailsPage';
 import TruckDetailsPage from './components/marketplace/TruckDetailsPage';
 import BlogsPage from './components/blogs/BlogsPage';
@@ -30,11 +34,15 @@ function App() {
       {!hideSiteChrome ? <Navbar /> : null}
       <Switch>
         <Route path="/" exact component={HomePage} />
-        <Route path="/marketplace" exact component={MarketplacePage} />
+        <Route path="/marketplace" component={MarketplacePage} />
+        <Route path="/services" component={ServicesPage} />
         <Route path="/truck-details/:truckId" exact component={TruckDetailsPage} />
         <Route path="/machinery-details/:machineryId" exact component={MachineryDetailsPage} />
         <Route path="/material-details/:materialId" exact component={MaterialDetailsPage} />
         <Route path="/spare-part-details/:sparePartId" exact component={SparePartDetailsPage} />
+        <Route path="/construction-services-details/:constructionServiceId" exact component={ConstructionServiceDetailsPage} />
+        <Route path="/inspection-services-details/:inspectionServiceId" exact component={InspectionServiceDetailsPage} />
+        <Route path="/repair-services-details/:repairServiceId" exact component={RepairServiceDetailsPage} />
         <Route path="/404" exact component={NotFoundPage} />
         <Route path="/blogs" exact component={BlogsPage} />
         <Route path="/contact" exact component={ContactPage} />

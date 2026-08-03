@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
-import TruckDetailsSidebarCards from './TruckDetailsSidebarCards';
+import MaterialDetailsSidebarCards from './MaterialDetailsSidebarCards';
 import MaterialDetailsInfoSections from './MaterialDetailsInfoSections';
 import MaterialDetailsSpecsCard from './MaterialDetailsSpecsCard';
 import SliderMutationPlugin from './sliderMutationPlugin';
@@ -55,7 +55,7 @@ function MaterialDetailsOverview({ material }) {
             <MaterialDetailsSpecsCard material={material} />
             <MaterialDetailsInfoSections material={material} />
           </div>
-          <TruckDetailsSidebarCards truck={{ ...material, condition: material?.grade, quantity: material?.quantity }} />
+          <MaterialDetailsSidebarCards material={material} />
         </div>
       </div>
     </section>

@@ -19,6 +19,7 @@ function CategoryForm({ actionLabel, category, onChange, onDelete, onSubmit, sho
             <option value="machinery">Machinery</option>
             <option value="material">Material</option>
             <option value="spareParts">Spare Parts</option>
+            <option value="constructionServices">Construction Services</option>
           </select>
         </div>
       </div>

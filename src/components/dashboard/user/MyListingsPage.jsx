@@ -28,6 +28,24 @@ function MyListingsPage() {
       to: `${url}/spare-parts`,
       icon: "fa fa-cogs",
     },
+    {
+      label: "Construction Services",
+      text: "Manage your construction services listings.",
+      to: `${url}/construction-services`,
+      icon: "fa fa-building",
+    },
+    {
+      label: "Inspection Services",
+      text: "Manage your inspection services listings.",
+      to: `${url}/inspection-services`,
+      icon: "fa fa-search",
+    },
+    {
+      label: "Repair Services",
+      text: "Manage your repair services listings.",
+      to: `${url}/repair-services`,
+      icon: "fa fa-wrench",
+    },
   ];
 
   return (
