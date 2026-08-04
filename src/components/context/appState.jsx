@@ -254,6 +254,105 @@ const repairServiceInitialForm = {
   rejectionReason: '',
 };
 
+const rentalTruckInitialForm = {
+  category: '',
+  subcategory: '',
+  title: '',
+  description: '',
+  brand: '',
+  wheelType: '',
+  driveType: '',
+  capacity: { payloadCapacity: '', grossVehicleWeight: '', bodyCapacity: '', tankCapacity: '', drumCapactiy: '' },
+  engineTransmission: { engineBrand: '', engineModel: '', engineCapactiy: '', engineHorsepower: '', torque: '', emissionStandard: '', fuelType: '', transmission: '', driveType: '' },
+  dimensions: { length: '', width: '', height: '', wheelBase: '', groundClearance: '' },
+  tyres: { tyreSize: '', numberOfTires: '', tyreCondition: '' },
+  body: { bodyType: '', bodyMaterial: '', chassisNumber: '', cabinType: 'day', steering: 'LHD' },
+  usage: { mileage: '', numberOfOwners: '', registrationCity: '', registrationStatus: 'registered' },
+  originalDocuments: false,
+  availableRentalDuration: { fromDate: '', toDate: '' },
+  perHourRentalCharges: '',
+  truckStatus: 'available',
+  images: [],
+  documentImages: [],
+  features: { ac: false, powerSteering: false, abs: false, differentialLock: false, pto: false, reverseCamera: false, gpsTracker: false, cruiseControl: false },
+  manufacturingYear: '',
+  modelYear: '',
+  importYear: '',
+  location: '',
+  deliveryProvided: false,
+  deliveryLocations: [],
+  approvalStatus: 'pending',
+  rejectionReason: '',
+};
+
+const rentalMachineryInitialForm = {
+  category: '',
+  subcategory: '',
+  title: '',
+  description: '',
+  brand: '',
+  manufacturingYear: '',
+  countryOfManufacture: '',
+  importYear: '',
+  condition: 'used',
+  capacity: {
+    operatingWeightTon: '',
+    bucketCapacityM3: '',
+    maximumDiggingDepth: '',
+    maximumDiggingReach: '',
+    maximumDumpingHeight: '',
+    liftCapacity: '',
+    boomLength: '',
+    bladeWidth: '',
+    drumWidth: '',
+    drumCapacity: '',
+    forkLength: '',
+  },
+  mechanical: {
+    engineBrand: '',
+    engineModel: '',
+    horsepowerHp: '',
+    engineCapacityCc: '',
+    fuelType: '',
+    transmission: '',
+    driveType: '',
+    hydraulicPumpBrand: '',
+    hydraulicSystem: false,
+  },
+  tyres: {
+    trackType: 'Steel',
+    trackShoeWidth: '',
+    trackCondition: '',
+    tyreSize: '',
+    numberOfTyres: '',
+    tyreCondition: '',
+  },
+  workingHours: '',
+  machineStatus: 'available',
+  features: {
+    airConditioner: false,
+    cabin: 'ROPS Cabin',
+    joystickControls: false,
+    gpsTracking: false,
+    reverseCamera: false,
+    autoGreasing: false,
+    ledWorkLights: false,
+    auxiliaryHydraulics: false,
+    autoIdle: false,
+    quickHitch: false,
+  },
+  documentImages: [],
+  images: [],
+  location: '',
+  deliveryProvided: false,
+  deliveryLocations: [],
+  approvalStatus: 'pending',
+  rejectionReason: '',
+  availableRentalDuration: { fromDate: '', toDate: '' },
+  perHourRentalCharges: '',
+  quantity: '',
+};
+
 const parseJson = async (response) => {
   const text = await response.text();
   try {
@@ -272,10 +371,14 @@ const AppState = ({ children }) => {
   const [subCategories, setSubCategories] = useState([]);
   const [userTrucks, setUserTrucks] = useState([]);
   const [allTrucks, setAllTrucks] = useState([]);
+  const [userRentalTrucks, setUserRentalTrucks] = useState([]);
+  const [allRentalTrucks, setAllRentalTrucks] = useState([]);
   const [userMaterials, setUserMaterials] = useState([]);
   const [allMaterials, setAllMaterials] = useState([]);
   const [userMachineries, setUserMachineries] = useState([]);
   const [allMachineries, setAllMachineries] = useState([]);
+  const [userRentalMachineries, setUserRentalMachineries] = useState([]);
+  const [allRentalMachineries, setAllRentalMachineries] = useState([]);
   const [userSpareParts, setUserSpareParts] = useState([]);
   const [allSpareParts, setAllSpareParts] = useState([]);
   const [userConstructionServices, setUserConstructionServices] = useState([]);
@@ -499,6 +602,60 @@ const AppState = ({ children }) => {
     return data;
   }, [request]);
 
+  const getApprovedRentalTrucks = useCallback(async () => {
+    const data = await request('/api/rental-truck/get-rental-trucks?approvalStatus=approved');
+    setAllRentalTrucks(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getAllRentalTrucks = useCallback(async () => {
+    const data = await request('/api/rental-truck/get-rental-trucks');
+    setAllRentalTrucks(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getUserRentalTrucks = useCallback(async () => {
+    const data = await request('/api/rental-truck/get-rental-trucks/me', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserRentalTrucks(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+  const getRentalTruckById = useCallback((id) => request(`/api/rental-truck/get-rental-truck/${id}`), [request]);
+  const createRentalTruck = useCallback(async (payload) => {
+    const data = await request('/api/rental-truck/create-rental-truck', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Rental truck listing created');
+    return data;
+  }, [request, userToken]);
+  const updateRentalTruck = useCallback(async (id, payload) => {
+    const data = await request(`/api/rental-truck/update-rental-truck/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Rental truck listing updated');
+    return data;
+  }, [request, userToken]);
+  const deleteRentalTruck = useCallback(async (id) => {
+    const data = await request(`/api/rental-truck/delete-rental-truck/${id}`, {
+      method: 'DELETE',
+      headers: { 'auth-token': userToken || adminToken },
+    });
+    toast.success('Rental truck listing deleted');
+    return data;
+  }, [adminToken, request, userToken]);
+  const updateRentalTruckStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/rental-truck/update-rental-truck-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Rental truck status updated');
+    return data;
+  }, [request]);
+
   const getApprovedMaterials = useCallback(async () => {
     const data = await request('/api/material/get-materials?approvalStatus=approved');
     setAllMaterials(Array.isArray(data) ? data : []);
@@ -604,6 +761,60 @@ const AppState = ({ children }) => {
       body: JSON.stringify(payload),
     });
     toast.success('Construction machinery status updated');
+    return data;
+  }, [request]);
+
+  const getApprovedRentalMachineries = useCallback(async () => {
+    const data = await request('/api/rental-machinery/get-rental-machineries?approvalStatus=approved');
+    setAllRentalMachineries(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getAllRentalMachineries = useCallback(async () => {
+    const data = await request('/api/rental-machinery/get-rental-machineries');
+    setAllRentalMachineries(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getUserRentalMachineries = useCallback(async () => {
+    const data = await request('/api/rental-machinery/get-rental-machineries/me', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserRentalMachineries(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+  const getRentalMachineryById = useCallback((id) => request(`/api/rental-machinery/get-rental-machinery/${id}`), [request]);
+  const createRentalMachinery = useCallback(async (payload) => {
+    const data = await request('/api/rental-machinery/create-rental-machinery', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Rental construction machinery listing created');
+    return data;
+  }, [request, userToken]);
+  const updateRentalMachinery = useCallback(async (id, payload) => {
+    const data = await request(`/api/rental-machinery/update-rental-machinery/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify({ ...payload, approvalStatus: 'pending', rejectionReason: '' }),
+    });
+    toast.success('Rental construction machinery listing updated');
+    return data;
+  }, [request, userToken]);
+  const deleteRentalMachinery = useCallback(async (id) => {
+    const data = await request(`/api/rental-machinery/delete-rental-machinery/${id}`, {
+      method: 'DELETE',
+      headers: { 'auth-token': userToken || adminToken },
+    });
+    toast.success('Rental construction machinery listing deleted');
+    return data;
+  }, [adminToken, request, userToken]);
+  const updateRentalMachineryStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/rental-machinery/update-rental-machinery-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Rental construction machinery status updated');
     return data;
   }, [request]);
 
@@ -830,6 +1041,8 @@ const AppState = ({ children }) => {
     allInspectionServices,
     allMaterials,
     allMachineries,
+    allRentalMachineries,
+    allRentalTrucks,
     allRepairServices,
     allSpareParts,
     allTrucks,
@@ -841,6 +1054,8 @@ const AppState = ({ children }) => {
     createInspectionService,
     createMachinery,
     createMaterial,
+    createRentalMachinery,
+    createRentalTruck,
     createRepairService,
     createSparePart,
     createSubCategory,
@@ -853,6 +1068,8 @@ const AppState = ({ children }) => {
     deleteInspectionService,
     deleteMachinery,
     deleteMaterial,
+    deleteRentalMachinery,
+    deleteRentalTruck,
     deleteRepairService,
     deleteSparePart,
     deleteSubCategory,
@@ -863,6 +1080,8 @@ const AppState = ({ children }) => {
     getAllInspectionServices,
     getAllMachineries,
     getAllMaterials,
+    getAllRentalMachineries,
+    getAllRentalTrucks,
     getAllRepairServices,
     getAllSpareParts,
     getAllTrucks,
@@ -870,6 +1089,8 @@ const AppState = ({ children }) => {
     getApprovedInspectionServices,
     getApprovedMachineries,
     getApprovedMaterials,
+    getApprovedRentalMachineries,
+    getApprovedRentalTrucks,
     getApprovedRepairServices,
     getApprovedSpareParts,
     getApprovedTrucks,
@@ -877,6 +1098,8 @@ const AppState = ({ children }) => {
     getInspectionServiceById,
     getMachineryById,
     getMaterialById,
+    getRentalMachineryById,
+    getRentalTruckById,
     getRepairServiceById,
     getSparePartById,
     getCategories,
@@ -886,6 +1109,8 @@ const AppState = ({ children }) => {
     getUserConstructionServices,
     getUserInspectionServices,
     getUserMachineries,
+    getUserRentalMachineries,
+    getUserRentalTrucks,
     getUserSpareParts,
     getTruckById,
     getUserMaterials,
@@ -906,6 +1131,8 @@ const AppState = ({ children }) => {
     materialUnits,
     pakistanCities,
     repairServiceInitialForm,
+    rentalMachineryInitialForm,
+    rentalTruckInitialForm,
     serviceCategoryTypes,
     sparePartInitialForm,
     signupUser,
@@ -920,6 +1147,10 @@ const AppState = ({ children }) => {
     updateMachineryStatus,
     updateMaterial,
     updateMaterialStatus,
+    updateRentalMachinery,
+    updateRentalMachineryStatus,
+    updateRentalTruck,
+    updateRentalTruckStatus,
     updateRepairService,
     updateRepairServiceStatus,
     updateSparePart,
@@ -934,6 +1165,8 @@ const AppState = ({ children }) => {
     userInspectionServices,
     userMachineries,
     userMaterials,
+    userRentalMachineries,
+    userRentalTrucks,
     userRepairServices,
     userSpareParts,
     userTrucks,
@@ -943,6 +1176,8 @@ const AppState = ({ children }) => {
     allInspectionServices,
     allMaterials,
     allMachineries,
+    allRentalMachineries,
+    allRentalTrucks,
     allRepairServices,
     allSpareParts,
     allTrucks,
@@ -952,6 +1187,8 @@ const AppState = ({ children }) => {
     createInspectionService,
     createMachinery,
     createMaterial,
+    createRentalMachinery,
+    createRentalTruck,
     createRepairService,
     createSparePart,
     createSubCategory,
@@ -964,6 +1201,8 @@ const AppState = ({ children }) => {
     deleteInspectionService,
     deleteMachinery,
     deleteMaterial,
+    deleteRentalMachinery,
+    deleteRentalTruck,
     deleteRepairService,
     deleteSparePart,
     deleteSubCategory,
@@ -974,6 +1213,8 @@ const AppState = ({ children }) => {
     getAllInspectionServices,
     getAllMachineries,
     getAllMaterials,
+    getAllRentalMachineries,
+    getAllRentalTrucks,
     getAllRepairServices,
     getAllSpareParts,
     getAllTrucks,
@@ -981,6 +1222,8 @@ const AppState = ({ children }) => {
     getApprovedInspectionServices,
     getApprovedMachineries,
     getApprovedMaterials,
+    getApprovedRentalMachineries,
+    getApprovedRentalTrucks,
     getApprovedRepairServices,
     getApprovedSpareParts,
     getApprovedTrucks,
@@ -988,6 +1231,8 @@ const AppState = ({ children }) => {
     getInspectionServiceById,
     getMachineryById,
     getMaterialById,
+    getRentalMachineryById,
+    getRentalTruckById,
     getRepairServiceById,
     getSparePartById,
     getCategories,
@@ -997,6 +1242,8 @@ const AppState = ({ children }) => {
     getUserConstructionServices,
     getUserInspectionServices,
     getUserMachineries,
+    getUserRentalMachineries,
+    getUserRentalTrucks,
     getUserSpareParts,
     getTruckById,
     getUserMaterials,
@@ -1018,6 +1265,10 @@ const AppState = ({ children }) => {
     updateMachineryStatus,
     updateMaterial,
     updateMaterialStatus,
+    updateRentalMachinery,
+    updateRentalMachineryStatus,
+    updateRentalTruck,
+    updateRentalTruckStatus,
     updateRepairService,
     updateRepairServiceStatus,
     updateCategory,
@@ -1030,6 +1281,8 @@ const AppState = ({ children }) => {
     userInspectionServices,
     userMachineries,
     userMaterials,
+    userRentalMachineries,
+    userRentalTrucks,
     userRepairServices,
     userSpareParts,
     userTrucks,

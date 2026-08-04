@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "keen-slider": "^6.8.6",
     "react": "^19.1.0",
+    "react-datepicker": "^9.1.0",
     "react-dom": "^19.1.0",
     "react-dropdown-select": "^5.0.2",
     "react-router-dom": "^5.3.4",

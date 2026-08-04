@@ -6,13 +6,13 @@ import importIcon from '../../assets/figma/import-icon.png';
 const routeItems = [
   { label: 'Home', to: '/', exact: true },
   { label: 'Marketplace', to: '/marketplace' },
+  { label: 'Rentals', to: '/rentals' },
   { label: 'Services', to: '/services' },
   { label: 'Blogs', to: '/blogs' },
   { label: 'Contact', to: '/contact' },
 ];
 
 const anchorItems = [
-  { label: 'Rentals', href: '/#marketplace' },
   { label: 'News', href: '/#testimonials' },
 ];
 

@@ -1,4 +1,5 @@
 import { useMemo, useRef } from 'react';
+import DatePicker from 'react-datepicker';
 import { formatFieldLabel } from './dashboardUtils';
 
 function MachineryForm({
@@ -24,9 +25,13 @@ function MachineryForm({
   onStatusChange,
   onSubmit,
   onTextChange,
+  onRentalDurationChange,
   statusActionLabel,
   subCategories,
   submitLabel,
+  showPriceField = true,
+  showRentalFields = false,
+  useRentalStatuses = false,
 }) {
   const imageInputRef = useRef(null);
   const documentInputRef = useRef(null);
@@ -82,7 +87,7 @@ function MachineryForm({
         <div className="form-field">
           <label>Machine Status</label>
           <select disabled={isAdminView} name="machineStatus" onChange={onTextChange} value={data.machineStatus}>
-            {machineryStatuses.map((item) => <option key={item} value={item}>{item}</option>)}
+            {(useRentalStatuses ? ['available', 'rented', 'fault'] : machineryStatuses).map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
         </div>
         <div className="form-field form-field-full">
@@ -111,10 +116,12 @@ function MachineryForm({
           <label>Working Hours</label>
           <input disabled={isAdminView} name="workingHours" onChange={onTextChange} type="number" value={data.workingHours} />
         </div>
-        <div className="form-field">
-          <label>Price</label>
-          <input disabled={isAdminView} name="price" onChange={onTextChange} type="number" value={data.price} />
-        </div>
+        {showPriceField ? (
+          <div className="form-field">
+            <label>Price</label>
+            <input disabled={isAdminView} name="price" onChange={onTextChange} type="number" value={data.price} />
+          </div>
+        ) : null}
         <div className="form-field">
           <label>Quantity</label>
           <input disabled={isAdminView} name="quantity" onChange={onTextChange} type="number" value={data.quantity} />
@@ -124,6 +131,41 @@ function MachineryForm({
           <input disabled={isAdminView} name="location" onChange={onTextChange} type="text" value={data.location} />
         </div>
       </div>
+
+      {showRentalFields ? (
+        <div className="dashboard-nested-section">
+          <h2>Rental Details</h2>
+          <div className="dashboard-form-grid">
+            <div className="form-field">
+              <label>Available Rental From</label>
+              <DatePicker
+                className="w-100"
+                dateFormat="dd/MM/yyyy"
+                disabled={isAdminView}
+                onChange={(date) => onRentalDurationChange?.('fromDate', date)}
+                placeholderText="Select from date"
+                selected={data.availableRentalDuration?.fromDate ? new Date(data.availableRentalDuration.fromDate) : null}
+              />
+            </div>
+            <div className="form-field">
+              <label>Available Rental To</label>
+              <DatePicker
+                className="w-100"
+                dateFormat="dd/MM/yyyy"
+                disabled={isAdminView}
+                minDate={data.availableRentalDuration?.fromDate ? new Date(data.availableRentalDuration.fromDate) : null}
+                onChange={(date) => onRentalDurationChange?.('toDate', date)}
+                placeholderText="Select to date"
+                selected={data.availableRentalDuration?.toDate ? new Date(data.availableRentalDuration.toDate) : null}
+              />
+            </div>
+            <div className="form-field">
+              <label>Per Hour Rental Charges</label>
+              <input disabled={isAdminView} name="perHourRentalCharges" onChange={onTextChange} type="number" value={data.perHourRentalCharges || ''} />
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {['capacity', 'mechanical', 'tyres'].map((section) => (
         <div className="dashboard-nested-section" key={section}>

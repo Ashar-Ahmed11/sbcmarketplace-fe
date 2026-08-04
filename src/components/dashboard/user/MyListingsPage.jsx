@@ -17,6 +17,18 @@ function MyListingsPage() {
       icon: "fa fa-cogs",
     },
     {
+      label: "Rental Truck",
+      text: "Manage your rental truck listings.",
+      to: `${url}/truck-rental`,
+      icon: "fa fa-truck",
+    },
+    {
+      label: "Rental Construction Machinery",
+      text: "Manage your rental construction machinery listings.",
+      to: `${url}/construction-machinery-rental`,
+      icon: "fa fa-industry",
+    },
+    {
       label: "Construction Material",
       text: "Manage your construction material listings.",
       to: `${url}/construction-material`,

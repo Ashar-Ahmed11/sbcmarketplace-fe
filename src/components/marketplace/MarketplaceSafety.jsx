@@ -28,7 +28,7 @@ function MarketplaceSafety() {
         <div className="marketplace-safety-list">
           {safetyItems.map((item) => (
             <article className="marketplace-safety-card" key={item.title}>
-              <span><i className="fa fa-shield" aria-hidden="true" /></span>
+              <span><i className="fa fa-check" aria-hidden="true" /></span>
               <div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>

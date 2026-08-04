@@ -1,4 +1,5 @@
 import { useMemo, useRef } from 'react';
+import DatePicker from 'react-datepicker';
 import { formatFieldLabel } from './dashboardUtils';
 
 const generalPrimaryFields = [
@@ -41,9 +42,14 @@ function TruckForm({
   onStatusChange,
   onSubmit,
   onTextChange,
+  onRentalDurationChange,
   statusActionLabel,
   subCategories,
   submitLabel,
+  showRentalFields = false,
+  showConditionField = true,
+  showPriceField = true,
+  showQuantityField = true,
 }) {
   const imageInputRef = useRef(null);
   const documentInputRef = useRef(null);
@@ -89,10 +95,12 @@ function TruckForm({
                 {brands.map((brand) => <option key={brand} value={brand}>{brand}</option>)}
               </select>
             ) : type === 'selectCondition' ? (
-              <select disabled={isAdminView} name={key} onChange={onTextChange} value={data[key]}>
-                <option value="used">Used</option>
-                <option value="new">New</option>
-              </select>
+              showConditionField ? (
+                <select disabled={isAdminView} name={key} onChange={onTextChange} value={data[key]}>
+                  <option value="used">Used</option>
+                  <option value="new">New</option>
+                </select>
+              ) : null
             ) : (
               <input disabled={isAdminView} name={key} onChange={onTextChange} type={type} value={data[key]} />
             )}
@@ -101,13 +109,60 @@ function TruckForm({
       </div>
 
       <div className="dashboard-form-grid">
-        {generalSecondaryFields.map(([key, label, type]) => (
+        {generalSecondaryFields.filter(([key]) => {
+          if (key === 'quantity') return showQuantityField;
+          if (key === 'price') return showPriceField;
+          return true;
+        }).map(([key, label, type]) => (
           <div className="form-field" key={key}>
             <label>{label}</label>
             <input disabled={isAdminView} name={key} onChange={onTextChange} type={type} value={data[key]} />
           </div>
         ))}
       </div>
+
+      {showRentalFields ? (
+        <div className="dashboard-nested-section">
+          <h2>Rental Details</h2>
+          <div className="dashboard-form-grid">
+            <div className="form-field">
+              <label>Available Rental From</label>
+              <DatePicker
+                className="w-100"
+                dateFormat="dd/MM/yyyy"
+                disabled={isAdminView}
+                onChange={(date) => onRentalDurationChange?.('fromDate', date)}
+                placeholderText="Select from date"
+                selected={data.availableRentalDuration?.fromDate ? new Date(data.availableRentalDuration.fromDate) : null}
+              />
+            </div>
+            <div className="form-field">
+              <label>Available Rental To</label>
+              <DatePicker
+                className="w-100"
+                dateFormat="dd/MM/yyyy"
+                disabled={isAdminView}
+                minDate={data.availableRentalDuration?.fromDate ? new Date(data.availableRentalDuration.fromDate) : null}
+                onChange={(date) => onRentalDurationChange?.('toDate', date)}
+                placeholderText="Select to date"
+                selected={data.availableRentalDuration?.toDate ? new Date(data.availableRentalDuration.toDate) : null}
+              />
+            </div>
+            <div className="form-field">
+              <label>Per Hour Rental Charges</label>
+              <input disabled={isAdminView} name="perHourRentalCharges" onChange={onTextChange} type="number" value={data.perHourRentalCharges || ''} />
+            </div>
+            <div className="form-field">
+              <label>Truck Status</label>
+              <select disabled={isAdminView} name="truckStatus" onChange={onTextChange} value={data.truckStatus || 'available'}>
+                <option value="available">Available</option>
+                <option value="rented">Rented</option>
+                <option value="fault">Fault</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {['capacity', 'engineTransmission', 'dimensions', 'tyres', 'body', 'usage'].map((section) => (
         <div className="dashboard-nested-section" key={section}>

@@ -1,7 +1,7 @@
 function MachineryCatalogHeader() {
   return (
     <div className="marketplace-heading-row">
-      <h2>APPROVED MACHINERY LISTINGS</h2>
+      <h2>WHAT WE OFFER</h2>
       <div className="marketplace-tabs">
         <span className="active">MACHINERY</span>
         <span>APPROVED</span>

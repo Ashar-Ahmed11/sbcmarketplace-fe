@@ -6,6 +6,8 @@ function AdminListings() {
   const items = [
     { label: 'Trucks and Transport Vehicle', text: 'Review all user truck listings.', to: `${url}/trucks`, icon: 'fa fa-truck' },
     { label: 'Construction Machinery', text: 'Review all user construction machinery listings.', to: `${url}/construction-machinery`, icon: 'fa fa-cogs' },
+    { label: 'Rental Truck', text: 'Review all user rental truck listings.', to: `${url}/truck-rental`, icon: 'fa fa-truck' },
+    { label: 'Rental Construction Machinery', text: 'Review all user rental construction machinery listings.', to: `${url}/construction-machinery-rental`, icon: 'fa fa-industry' },
     { label: 'Construction Material', text: 'Review all user construction material listings.', to: `${url}/construction-material`, icon: 'fa fa-cubes' },
     { label: 'Spare Parts', text: 'Review all user spare parts listings.', to: `${url}/spare-parts`, icon: 'fa fa-cogs' },
     { label: 'Construction Services', text: 'Review all user construction services listings.', to: `${url}/construction-services`, icon: 'fa fa-building' },

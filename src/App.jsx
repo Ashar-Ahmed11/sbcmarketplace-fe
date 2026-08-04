@@ -9,6 +9,9 @@ import MachineryDetailsPage from './components/marketplace/MachineryDetailsPage'
 import MarketplacePage from './components/marketplace/MarketplacePage';
 import MaterialDetailsPage from './components/marketplace/MaterialDetailsPage';
 import RepairServiceDetailsPage from './components/marketplace/RepairServiceDetailsPage';
+import RentalMachineryDetailsPage from './components/marketplace/RentalMachineryDetailsPage';
+import RentalMarketplacePage from './components/marketplace/RentalMarketplacePage';
+import RentalTruckDetailsPage from './components/marketplace/RentalTruckDetailsPage';
 import ServicesPage from './components/marketplace/ServicesPage';
 import SparePartDetailsPage from './components/marketplace/SparePartDetailsPage';
 import TruckDetailsPage from './components/marketplace/TruckDetailsPage';
@@ -35,9 +38,12 @@ function App() {
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/marketplace" component={MarketplacePage} />
+        <Route path="/rentals" component={RentalMarketplacePage} />
         <Route path="/services" component={ServicesPage} />
         <Route path="/truck-details/:truckId" exact component={TruckDetailsPage} />
         <Route path="/machinery-details/:machineryId" exact component={MachineryDetailsPage} />
+        <Route path="/rental-truck-details/:rentalTruckId" exact component={RentalTruckDetailsPage} />
+        <Route path="/rental-machinery-details/:rentalMachineryId" exact component={RentalMachineryDetailsPage} />
         <Route path="/material-details/:materialId" exact component={MaterialDetailsPage} />
         <Route path="/spare-part-details/:sparePartId" exact component={SparePartDetailsPage} />
         <Route path="/construction-services-details/:constructionServiceId" exact component={ConstructionServiceDetailsPage} />
