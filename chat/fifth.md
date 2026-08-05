@@ -25,9 +25,12 @@ programatically call the create basic info endpoint to create a basic info docum
       accepted:boolean default false
       }]
    8. advanceStatus:string enum('unpaid', 'pendingApproval','paid') default 'unpaid'
-   9. advancePaymentScreenshots:[{url:string}]
-   10. finalPaymentStatus:string enum('unpaid', 'pendingApproval','paid') default 'unpaid'
-   11. finalPaymentScreenshots:[{url:string}]
+   9. advanceStatusRejectionReason: string
+   10. advancePaymentScreenshots:[{url:string}]
+   11. finalPaymentStatus:string enum('unpaid', 'pendingApproval','paid') default 'unpaid'
+   12. finalPaymentStatusRejectionReason:string
+   13. finalPaymentScreenshots:[{url:string}]
+   14. purhcaseOrderDate: Date
 2. in the routes folder, create the respective route file for truckNegotiation to manage its crud endpoints.
 ## Frontend
 ## User Dashboard
@@ -73,27 +76,71 @@ In the trucks negotiation page it will fetch and show all the negotiations whose
    10. Once a negotiation is accepted then the Pay Advance Fee section will become visible having the following UI: [SBC Marketplace UI 1.0 Copy](https://www.figma.com/design/uJ82aUAo9qF9dUIBSw4lNP/SBC-Marketplace-UI-1.0--Copy-?node-id=253-3090&t=Q68W0nWhC32fdKID-4) .
    11. In the Pay Advance Fee Section:
        1. leave the Pay Online button unused for now.
-       2. Show the Amount of Advance Fee
-         1. The Advance fee is calculated as follows:
-            truckCost*advancePercentage
-         The advancePercentage comes from the basic info which admin has controlled.
-       3. Show the Platform Fee
+       2. Show the Truck Cost and Delivery Cost.
+       3. Show the Amount of Advance Fee
+          1. The Advance fee is calculated as follows:
+             (truckCost+deliveryCost)*advancePercentage
+          The advancePercentage comes from the basic info which admin has controlled.
+       4. Show the Platform Fee
           1. The Platform fee is calculated as follows:
-            truckCost*platformFeePercentage
-         The platformFeePercentage comes from the basic info which admin has controlled.
-       4. Show the Total Amount to be paid
-         The Total amount is the sum of Advance and Platform Fee.
-       5. clicking the Upload Payment Proof button will open the Upload Payment Proof bootstrap modal having the image upload and image preview mechanism just like listing creation.
-       6. after clicking on Submit, These images will become part of the advancePaymentScreenshots array and the advanceStatus will change from unpaid to pendingApproval.
-       7. once the status has been changed to paid by the admin then this section will now become invisible just like negotiations and now this Final Payment section will be visible following the UI of the figma design: [SBC Marketplace UI 1.0 Copy](https://www.figma.com/design/uJ82aUAo9qF9dUIBSw4lNP/SBC-Marketplace-UI-1.0--Copy-?node-id=253-3171&t=Q68W0nWhC32fdKID-4).
-      8. In this final payment section it will show the following amounts:
-         1. Agreed Price=truckCost
-         2. Advance Fee Paid= Yes
-         3. Advance Fee Amount = truckCost*advancePercentage
-         4. Platform Fee = truckCost*platformFeePercentage
-         5. Amount to be Paid= agreed price - advance fee amount + platform fee
-      the same mechanism applies for the upload payment proof just like Advance Fee, and clicking the submit button in the modal will make the images part of the finalPaymentScreenshots array and finalPaymentStatus will change to pendingApproval.
-      9. once the finalPaymentStatus is approved then it will show negotiation successful and a Purchase Order will be visible which consist of the following informations:
+             Advance Fee*platformFeePercentage
+          The platformFeePercentage comes from the basic info which admin has controlled.
+       5. Show the Total Amount to be paid
+          The Total amount is the sum of Advance and Platform Fee.
+       6. clicking the Upload Payment Proof button will open the Upload Payment Proof bootstrap modal having the image upload and image preview mechanism just like listing creation.
+       7. after clicking on Submit, These images will become part of the advancePaymentScreenshots array and the advanceStatus will change from unpaid to pendingApproval.
+       8. once the status has been changed to paid by the admin then this section will now become invisible just like negotiations and now this Final Payment section will be visible following the UI of the figma design: [SBC Marketplace UI 1.0 Copy](https://www.figma.com/design/uJ82aUAo9qF9dUIBSw4lNP/SBC-Marketplace-UI-1.0--Copy-?node-id=253-3171&t=Q68W0nWhC32fdKID-4).
+       9. In this final payment section it will show the following amounts:
+          1. Agreed Truck Cost=truckCost
+          2. Agreed Delivery Cost=deliveryCost => Show this line item only when the sellerDelivery is true, otherwise hide it because the deliveryCost would be 0.
+          3. Agreed Total Cost = Truck+Delivery
+          4. Advance Fee Paid= Yes
+          5. Advance Fee Amount = Agreed Total Cost *advancePercentage
+          6. Platform Fee = Agreed Total Cost *platformFeePercentage
+          7. Amount to be Paid= agreed total cost - advance fee amount + platform fee
+       the same mechanism applies for the upload payment proof just like Advance Fee, and clicking the submit button in the modal will make the images part of the finalPaymentScreenshots array and finalPaymentStatus will change to pendingApproval.
+       10. once the finalPaymentStatus is approved then it should update the purchaseOrderDate to the current date and it will show negotiation successful and a Purchase Order will be visible which consist of the following informations:
+          1. The Strucutre of the Truck Purchase Order should be similar to the reference purchase order image ![reference purchase order](image.png).
+          2. the UI of the purchase order should be designed as per the sbc theme and should have sbc logo
+          3. The following described information which the purchase order will show will be all rendered from the respective negotiation document(these all information will be taken from the respective negotiation document and use .populate for populating the ids) 
+          4. In place of Vendor it should be Buyer
+             1. In this column the following info should be visible:
+                1. Full Name
+                2. Address
+                3. City, State, Zip Code
+                4. Phone Number
+                   the respective fields are added in the [user.js](/Users/mac/gitRepos/sbc-marketplaced/Custom-ReactJS-Workflow/server/models/user.js) 
+                   so wire them up with the user dashboard as follows:
+                   1. In the user dashboard, add a new tab of basic info in the sidebar which takes the user to the basic info page of the user dashboard.
+                  2. The UI of the basic info page is simple, where it should render and prefill the following basic info fields in text, dropdown and number inputs as per the user schema fields.
+         5. In place of Ship To it should be Seller which should also render the same information of the seller the similar way as it is rendered for the user.
+         6. In Purchase Order Date render the purhcaseOrderDate.
+         7. The item table should consist of the following columns:
+            1. Title (render the truck title)
+            2. Category (render the category name of the truck)
+            3. Truck Brand
+            4. truck cost
+            In the last(total column) and second last column of the table show the following breakdown:
+             1. Subtotal=truckCost
+         2. Delivery Cost = deliveryCost
+          3. Advance Fee Amount = (truckCost+deliveryCost)*advancePercentage
+          4. Platform Fee = (truckCost+deliveryCost-advance fee amount)*platformFeePercentage
+          5. Total= (truckCost+deliveryCost) - advance fee amount + platform fee
+          6. after the table in place of the Payment Terms, it should be Delivery Details
+            1. Seller Delivery: "Provided" if sellerDelivery is true otherwise it should be "Not Provided"
+            2. Delivery Location: buyerDeliveryAddress
+            3. Delivery City: buyerDeliveryCity
+         7. Next write some hardcoded Special instructions of SBC Marketplace Purchase order.
+         8. thats it for the purchase order.
+## Admin Dashboard
+1. In the admin dashboard, add a new tab of View Negotiations in the sidebar which takes the admin to the View Negotitions page of the admin dashboard.
+2. The UI of the Negotiations page should be similar to the Ui of View listings, when the Admin clicks on the Trucks Negotiation then it should navigate the admin to the truck-neogtiations page.
+3. The UI of Truck Negotiations page is also similar to Trucks Lisitng page whcih will render all the negotiations of all the Users.
+4. Clicking on the view button of a particular truck negotiation will take the admin to the negotiation-detail/:truckNegotiationID.
+5. The UI of the truck negotiation detail page will follow the UI of the admin dashboard where it will render all the information of the respective truck negotiation.
+6. In the truck negotiation detail page, the admin can change the status from the dropdown of advanceStatus and finalPaymentStatus.
+7. After changing the statuses, the admin can hit the Update button to edit the changes.
+
       
 
 

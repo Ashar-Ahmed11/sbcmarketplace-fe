@@ -254,6 +254,11 @@ const repairServiceInitialForm = {
   rejectionReason: '',
 };
 
+const basicInfoInitialForm = {
+  advancePercentage: 0.1,
+  platformFeePercentage: 0.02,
+};
+
 const rentalTruckInitialForm = {
   category: '',
   subcategory: '',
@@ -387,6 +392,9 @@ const AppState = ({ children }) => {
   const [allInspectionServices, setAllInspectionServices] = useState([]);
   const [userRepairServices, setUserRepairServices] = useState([]);
   const [allRepairServices, setAllRepairServices] = useState([]);
+  const [basicInfo, setBasicInfo] = useState(basicInfoInitialForm);
+  const [userTruckNegotiations, setUserTruckNegotiations] = useState([]);
+  const [allTruckNegotiations, setAllTruckNegotiations] = useState([]);
   const [dashboardKpis] = useState([
     { label: 'Active Listings', value: '18' },
     { label: 'Approved Leads', value: '09' },
@@ -448,6 +456,17 @@ const AppState = ({ children }) => {
       headers: { 'auth-token': userToken },
     });
     setCurrentUser(data);
+    return data;
+  }, [request, userToken]);
+
+  const updateUserProfile = useCallback(async (payload) => {
+    const data = await request('/api/auth/update-user', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    setCurrentUser(data);
+    toast.success('Profile updated');
     return data;
   }, [request, userToken]);
 
@@ -545,6 +564,103 @@ const AppState = ({ children }) => {
   const deleteSubCategory = useCallback(async (id) => {
     const data = await request(`/api/subcategory/delete-subcategory/${id}`, { method: 'DELETE' });
     toast.success('Subcategory deleted');
+    return data;
+  }, [request]);
+
+  const getBasicInfo = useCallback(async () => {
+    const data = await request('/api/basic-info/get-basic-info');
+    setBasicInfo(data || basicInfoInitialForm);
+    return data;
+  }, [request]);
+
+  const updateBasicInfo = useCallback(async (id, payload) => {
+    const data = await request(`/api/basic-info/update-basic-info/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    setBasicInfo(data || basicInfoInitialForm);
+    toast.success('Basic info updated');
+    return data;
+  }, [request]);
+
+  const getUserTruckNegotiations = useCallback(async () => {
+    const data = await request('/api/truck-negotiation/get-my-truck-negotiations', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserTruckNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+
+  const getAllTruckNegotiations = useCallback(async () => {
+    const data = await request('/api/truck-negotiation/get-truck-negotiations');
+    setAllTruckNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+
+  const getTruckNegotiationById = useCallback(async (id) => (
+    request(`/api/truck-negotiation/get-truck-negotiation/${id}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const createTruckNegotiation = useCallback(async (payload) => {
+    const data = await request('/api/truck-negotiation/create-truck-negotiation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Negotiation submitted');
+    return data;
+  }, [request, userToken]);
+
+  const addTruckCounterOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/truck-negotiation/add-counter-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Counter offer submitted');
+    return data;
+  }, [request, userToken]);
+
+  const acceptTruckOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/truck-negotiation/accept-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Offer accepted');
+    return data;
+  }, [request, userToken]);
+
+  const submitAdvanceProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/truck-negotiation/submit-advance-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Advance payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const submitFinalProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/truck-negotiation/submit-final-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Final payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const updateTruckNegotiationStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/truck-negotiation/update-truck-negotiation-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Negotiation status updated');
     return data;
   }, [request]);
 
@@ -1041,11 +1157,14 @@ const AppState = ({ children }) => {
     allInspectionServices,
     allMaterials,
     allMachineries,
+    allTruckNegotiations,
     allRentalMachineries,
     allRentalTrucks,
     allRepairServices,
     allSpareParts,
     allTrucks,
+    basicInfo,
+    basicInfoInitialForm,
     categories,
     constructionServiceCompanyTypes,
     constructionServiceInitialForm,
@@ -1054,6 +1173,9 @@ const AppState = ({ children }) => {
     createInspectionService,
     createMachinery,
     createMaterial,
+    addTruckCounterOffer,
+    acceptTruckOffer,
+    createTruckNegotiation,
     createRentalMachinery,
     createRentalTruck,
     createRepairService,
@@ -1076,6 +1198,8 @@ const AppState = ({ children }) => {
     deleteTruck,
     fetchAdmin,
     fetchUser,
+    getAllTruckNegotiations,
+    getBasicInfo,
     getAllConstructionServices,
     getAllInspectionServices,
     getAllMachineries,
@@ -1106,12 +1230,14 @@ const AppState = ({ children }) => {
     getCategoryById,
     getSubCategories,
     getSubCategoryById,
+    getTruckNegotiationById,
     getUserConstructionServices,
     getUserInspectionServices,
     getUserMachineries,
     getUserRentalMachineries,
     getUserRentalTrucks,
     getUserSpareParts,
+    getUserTruckNegotiations,
     getTruckById,
     getUserMaterials,
     getUserRepairServices,
@@ -1137,8 +1263,11 @@ const AppState = ({ children }) => {
     sparePartInitialForm,
     signupUser,
     subCategories,
+    submitAdvanceProof,
+    submitFinalProof,
     truckBrands,
     truckInitialForm,
+    updateBasicInfo,
     updateConstructionService,
     updateConstructionServiceStatus,
     updateInspectionService,
@@ -1158,8 +1287,11 @@ const AppState = ({ children }) => {
     updateCategory,
     updateSubCategory,
     updateTruck,
+    updateTruckNegotiationStatus,
     updateTruckStatus,
+    updateUserProfile,
     uploadImage,
+    userTruckNegotiations,
     userToken,
     userConstructionServices,
     userInspectionServices,
@@ -1176,17 +1308,22 @@ const AppState = ({ children }) => {
     allInspectionServices,
     allMaterials,
     allMachineries,
+    allTruckNegotiations,
     allRentalMachineries,
     allRentalTrucks,
     allRepairServices,
     allSpareParts,
     allTrucks,
+    basicInfo,
     categories,
     createConstructionService,
     createCategory,
     createInspectionService,
     createMachinery,
     createMaterial,
+    addTruckCounterOffer,
+    acceptTruckOffer,
+    createTruckNegotiation,
     createRentalMachinery,
     createRentalTruck,
     createRepairService,
@@ -1209,6 +1346,8 @@ const AppState = ({ children }) => {
     deleteTruck,
     fetchAdmin,
     fetchUser,
+    getAllTruckNegotiations,
+    getBasicInfo,
     getAllConstructionServices,
     getAllInspectionServices,
     getAllMachineries,
@@ -1239,6 +1378,7 @@ const AppState = ({ children }) => {
     getCategoryById,
     getSubCategories,
     getSubCategoryById,
+    getTruckNegotiationById,
     getUserConstructionServices,
     getUserInspectionServices,
     getUserMachineries,
@@ -1248,6 +1388,7 @@ const AppState = ({ children }) => {
     getTruckById,
     getUserMaterials,
     getUserRepairServices,
+    getUserTruckNegotiations,
     getUserTrucks,
     loginAdmin,
     loginUser,
@@ -1255,6 +1396,9 @@ const AppState = ({ children }) => {
     logoutUser,
     signupUser,
     subCategories,
+    submitAdvanceProof,
+    submitFinalProof,
+    updateBasicInfo,
     updateConstructionService,
     updateConstructionServiceStatus,
     updateInspectionService,
@@ -1271,11 +1415,14 @@ const AppState = ({ children }) => {
     updateRentalTruckStatus,
     updateRepairService,
     updateRepairServiceStatus,
+    updateTruckNegotiationStatus,
     updateCategory,
     updateSubCategory,
     updateTruck,
     updateTruckStatus,
+    updateUserProfile,
     uploadImage,
+    userTruckNegotiations,
     userToken,
     userConstructionServices,
     userInspectionServices,

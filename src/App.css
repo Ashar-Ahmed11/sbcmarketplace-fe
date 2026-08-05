@@ -2260,7 +2260,8 @@ a {
 }
 
 .truck-figma-field input,
-.truck-figma-field textarea {
+.truck-figma-field textarea,
+.truck-figma-select {
   width: 100%;
   border: 1px solid #e0c0b1;
   border-radius: 3px;
@@ -2269,6 +2270,12 @@ a {
 }
 
 .truck-figma-field input {
+  height: 52px;
+  padding: 0 18px;
+  font-size: 19px;
+}
+
+.truck-figma-select {
   height: 52px;
   padding: 0 18px;
   font-size: 19px;
@@ -2293,6 +2300,12 @@ a {
   background: #fff;
   color: #6b7280;
   font-size: 19px;
+}
+
+.truck-figma-delivery-options button.active {
+  border-color: #082953;
+  background: #082953;
+  color: #fff;
 }
 
 .truck-figma-trust-card {
@@ -3325,6 +3338,270 @@ a {
 .dashboard-modal p {
   margin: 0;
   color: #66717d;
+}
+
+.truck-negotiation-proof-modal {
+  width: min(720px, calc(100% - 32px));
+}
+
+.status-badge.unpaid {
+  background: #ffe6e8;
+  color: #c73646;
+}
+
+.status-badge.pendingApproval {
+  background: #fff4df;
+  color: #d18900;
+}
+
+.status-badge.paid {
+  background: #e8f7ed;
+  color: #1b8b47;
+}
+
+.truck-negotiation-screen {
+  padding: 0;
+  overflow: hidden;
+}
+
+.truck-negotiation-screen__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 24px 28px;
+  border-bottom: 1px solid #eee;
+}
+
+.truck-negotiation-screen__head h1,
+.truck-negotiation-payment__head h1 {
+  margin: 0 0 6px;
+  color: #082953;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.truck-negotiation-screen__head p,
+.truck-negotiation-payment__head p {
+  margin: 0;
+  color: #66717d;
+}
+
+.truck-negotiation-screen__status {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #eee;
+  font-size: 12px;
+}
+
+.truck-negotiation-stage {
+  padding: 20px 28px 8px;
+  text-align: center;
+}
+
+.truck-negotiation-stage h2 {
+  margin: 0 0 10px;
+  color: #111;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.truck-negotiation-stage small {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.truck-negotiation-stage__bars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.truck-negotiation-stage__bars span {
+  width: 32px;
+  height: 5px;
+  background: #d9d9d9;
+}
+
+.truck-negotiation-stage__bars span:nth-child(1),
+.truck-negotiation-stage__bars span:nth-child(2) {
+  background: #082953;
+}
+
+.truck-negotiation-stage__bars span.active {
+  background: #ff7609;
+}
+
+.truck-negotiation-thread {
+  display: grid;
+  gap: 18px;
+  padding: 20px 28px 28px;
+  background: #fafafa;
+}
+
+.truck-negotiation-bubble {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.truck-negotiation-bubble.buyer {
+  justify-content: flex-end;
+}
+
+.truck-negotiation-bubble__inner {
+  width: min(100%, 420px);
+  padding: 16px 18px;
+  border: 1px solid #ddd;
+  border-left: 4px solid #082953;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0,0,0,.08);
+}
+
+.truck-negotiation-bubble.buyer .truck-negotiation-bubble__inner {
+  border-left: 1px solid #ddd;
+  border-right: 4px solid #111827;
+}
+
+.truck-negotiation-bubble__inner small,
+.truck-negotiation-bubble__inner span {
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.truck-negotiation-bubble__inner strong {
+  display: block;
+  margin: 4px 0;
+  color: #2c2c2c;
+  font-size: 24px;
+}
+
+.truck-negotiation-accept-btn {
+  min-width: 90px;
+}
+
+.truck-negotiation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 28px 28px;
+}
+
+.truck-negotiation-payment__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.truck-negotiation-payment__card {
+  padding: 24px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.truck-negotiation-payment__card h2 {
+  margin: 0 0 18px;
+  color: #082953;
+  font-size: 22px;
+}
+
+.truck-negotiation-payment__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.truck-negotiation-payment__row:last-of-type {
+  border-bottom: 0;
+}
+
+.truck-negotiation-payment__row span {
+  color: #4a5565;
+}
+
+.truck-negotiation-payment__row strong {
+  color: #111827;
+}
+
+.truck-negotiation-payment__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.truck-purchase-order {
+  padding: 34px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+}
+
+.truck-purchase-order__header {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.truck-purchase-order__header img {
+  width: 90px;
+}
+
+.truck-purchase-order__header h1 {
+  margin: 0;
+  color: #2c2c2c;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.truck-purchase-order__party-grid,
+.truck-purchase-order__footer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.truck-purchase-order__party-grid h2,
+.truck-purchase-order__footer-grid h3 {
+  margin: 0 0 10px;
+  color: #3b4354;
+  font-size: 18px;
+}
+
+.truck-purchase-order__party-grid p,
+.truck-purchase-order__footer-grid p {
+  margin: 0 0 6px;
+  color: #333;
+}
+
+.truck-purchase-order__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 28px 0 20px;
+  color: #222;
+}
+
+.truck-purchase-order__table-wrap {
+  margin-bottom: 24px;
+}
+
+.truck-purchase-order__table th,
+.truck-purchase-order__table td {
+  border: 1px solid #d9d9d9;
+  padding: 12px;
+}
+
+.truck-purchase-order__table th {
+  background: #f3f4f6;
 }
 
 .auth-page {

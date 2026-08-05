@@ -6,6 +6,7 @@ import DashboardSidebar from './DashboardSidebar';
 import InspectionServiceCreatePage from './user/InspectionServiceCreatePage';
 import MachineryCreatePage from './user/MachineryCreatePage';
 import MyListingsPage from './user/MyListingsPage';
+import MyNegotiationsPage from './user/MyNegotiationsPage';
 import MaterialCreatePage from './user/MaterialCreatePage';
 import RentalMachineryCreatePage from './user/RentalMachineryCreatePage';
 import RentalTruckCreatePage from './user/RentalTruckCreatePage';
@@ -14,6 +15,7 @@ import SparePartCreatePage from './user/SparePartCreatePage';
 import TruckCreatePage from './user/TruckCreatePage';
 import UserConstructionServicesPage from './user/UserConstructionServicesPage';
 import UserHome from './user/UserHome';
+import UserBasicInfoPage from './user/UserBasicInfoPage';
 import UserInspectionServicesPage from './user/UserInspectionServicesPage';
 import UserMachineriesPage from './user/UserMachineriesPage';
 import UserMaterialsPage from './user/UserMaterialsPage';
@@ -21,6 +23,8 @@ import UserRentalMachineriesPage from './user/UserRentalMachineriesPage';
 import UserRentalTrucksPage from './user/UserRentalTrucksPage';
 import UserRepairServicesPage from './user/UserRepairServicesPage';
 import UserSparePartsPage from './user/UserSparePartsPage';
+import UserTruckNegotiationDetailPage from './user/UserTruckNegotiationDetailPage';
+import UserTruckNegotiationsPage from './user/UserTruckNegotiationsPage';
 import UserTrucksPage from './user/UserTrucksPage';
 
 function UserDashboard() {
@@ -33,6 +37,8 @@ function UserDashboard() {
   const links = [
     { label: 'Home', to: `${url}`, exact: true, icon: 'fa fa-home' },
     { label: 'My Listings', to: `${url}/my-listings`, icon: 'fa fa-list' },
+    { label: 'My Negotiations', to: `${url}/my-negotiations`, icon: 'fa fa-comments' },
+    { label: 'Basic Info', to: `${url}/basic-info`, icon: 'fa fa-user' },
   ];
 
   return (
@@ -43,6 +49,10 @@ function UserDashboard() {
           <Switch>
             <Route component={UserHome} exact path={path} />
             <Route component={MyListingsPage} exact path={`${path}/my-listings`} />
+            <Route component={MyNegotiationsPage} exact path={`${path}/my-negotiations`} />
+            <Route component={UserBasicInfoPage} exact path={`${path}/basic-info`} />
+            <Route component={UserTruckNegotiationsPage} exact path={`${path}/my-negotiations/trucks`} />
+            <Route component={UserTruckNegotiationDetailPage} exact path={`${path}/truck-negotiation/:truckNegotiationId`} />
             <Route component={UserTrucksPage} exact path={`${path}/trucks`} />
             <Route component={UserTrucksPage} exact path={`${path}/my-listings/trucks`} />
             <Route component={UserMachineriesPage} exact path={`${path}/construction-machinery`} />
