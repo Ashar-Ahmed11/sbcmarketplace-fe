@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../SBC LOGO.png';
 import requirementIcon from '../../assets/figma/requirements-icon.png';
@@ -17,6 +18,19 @@ const anchorItems = [
 ];
 
 function Navbar() {
+  const collapseRef = useRef(null);
+
+  const closeNav = () => {
+    const el = collapseRef.current;
+    if (!el || !el.classList.contains('show')) return;
+    const bs = window.bootstrap;
+    if (bs && bs.Collapse) {
+      (bs.Collapse.getInstance(el) || new bs.Collapse(el, { toggle: false })).hide();
+    } else {
+      el.classList.remove('show');
+    }
+  };
+
   return (
     <header className="site-header">
       <div className="top-strip">
@@ -32,26 +46,26 @@ function Navbar() {
             <span><strong>SBC</strong><small>MARKETPLACE</small></span>
           </Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sbcNav" aria-controls="sbcNav" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon" /></button>
-          <div className="collapse navbar-collapse" id="sbcNav">
+          <div className="collapse navbar-collapse" id="sbcNav" ref={collapseRef}>
             <ul className="navbar-nav mx-auto mb-2 mb-xl-0">
               {routeItems.map((item) => (
                 <li className="nav-item" key={item.label}>
-                  <NavLink className="nav-link" activeClassName="active" exact={item.exact} to={item.to}>
+                  <NavLink className="nav-link" activeClassName="active" exact={item.exact} to={item.to} onClick={closeNav}>
                     {item.label}
                   </NavLink>
                 </li>
               ))}
               {anchorItems.map((item) => (
                 <li className="nav-item" key={item.label}>
-                  <a className="nav-link" href={item.href}>{item.label}</a>
+                  <a className="nav-link" href={item.href} onClick={closeNav}>{item.label}</a>
                 </li>
               ))}
             </ul>
             <div className="nav-actions d-none d-xl-flex">
-              <a className="nav-service" href="/marketplace#requirement"><img src={requirementIcon} alt="" /><span><small>RFQ</small><b>Post a Requirement</b></span></a>
-              <a className="nav-service" href="/marketplace"><img src={importIcon} alt="" /><b>SBC Import</b></a>
-              <Link className="avatar-btn d-inline-flex align-items-center justify-content-center" to="/login" aria-label="Account"><i className="fa fa-user-o" /></Link>
-              <button className="cart-btn" aria-label="Shopping cart"><i className="fa fa-shopping-cart" /><sup>2</sup></button>
+              <a className="nav-service" href="/marketplace#requirement" onClick={closeNav}><img src={requirementIcon} alt="" /><span><small>RFQ</small><b>Post a Requirement</b></span></a>
+              <a className="nav-service" href="/marketplace" onClick={closeNav}><img src={importIcon} alt="" /><b>SBC Import</b></a>
+              <Link className="avatar-btn d-inline-flex align-items-center justify-content-center" to="/login" aria-label="Account" onClick={closeNav}><i className="fa fa-user-o" /></Link>
+              <button className="cart-btn" aria-label="Shopping cart" onClick={closeNav}><i className="fa fa-shopping-cart" /><sup>2</sup></button>
             </div>
           </div>
         </div>

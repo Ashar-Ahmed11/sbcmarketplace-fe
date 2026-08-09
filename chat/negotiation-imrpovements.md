@@ -1,0 +1,11 @@
+[TruckDetailsSidebarCards.jsx](src/components/marketplace/TruckDetailsSidebarCards.jsx) 
+1. THe Seller Delivery button should only be enabled if the sellerDelivery is true for the truck listing.
+2. in the buyer delivery city dropdown only show those cities which are in the deliveryLocations array.
+3. Below the enter delivery cost input also render the Suggested Seller Delivery Cost: where it will show the price of the selected dropdown city.
+4. [TruckNegotiationConversation.jsx](src/components/dashboard/negotiations/TruckNegotiationConversation.jsx)only the Accept button should only be visible to the counter party, for example if the neogtiation is from buyer then only seller can accept it and vice versa.
+5. [AdminTruckNegotiationDetailPage.jsx](/Users/mac/gitRepos/sbc-marketplaced/Custom-ReactJS-Workflow/src/components/dashboard/admin/AdminTruckNegotiationDetailPage.jsx) 
+   1. the advance status and rejection reason dropdown and input should be visible in the advance payment proof section after the images
+   2. the final payment status and final rejection reason dropdown and input should be visible in the final payment proof section after the images
+   3. Instead of showing each buyer and seller offer in seperate cards, render the conversation in a bootstrap collapse, when the admin clicks on view conversation then the collapsable container should be expanded and render the conversation using the same conversation UI as used in [TruckNegotiationConversation.jsx](src/components/dashboard/negotiations/TruckNegotiationConversation.jsx) and the negotiation that is accepted should be marked as accepted in the conversation.
+   4. At the bottom also render the same purchase order which shows in [UserTruckNegotiationDetailPage.jsx](/Users/mac/gitRepos/sbc-marketplaced/Custom-ReactJS-Workflow/src/components/dashboard/user/UserTruckNegotiationDetailPage.jsx)
+6. The [PaymentProofModal.jsx](/Users/mac/gitRepos/sbc-marketplaced/Custom-ReactJS-Workflow/src/components/dashboard/negotiations/PaymentProofModal.jsx) should also have the same uplaod button and image removal mechanism as used in [TruckCreatePage.jsx](/Users/mac/gitRepos/sbc-marketplaced/Custom-ReactJS-Workflow/src/components/dashboard/user/TruckCreatePage.jsx) 

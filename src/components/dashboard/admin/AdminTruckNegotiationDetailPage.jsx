@@ -1,17 +1,22 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AppContext from '../../context/appContext';
+import TruckNegotiationConversation from '../negotiations/TruckNegotiationConversation';
+import TruckPurchaseOrder from '../negotiations/TruckPurchaseOrder';
+import { getAcceptedOffer } from '../negotiations/truckNegotiationUtils';
 
 function AdminTruckNegotiationDetailPage() {
   const { truckNegotiationId } = useParams();
-  const { getTruckNegotiationById, updateTruckNegotiationStatus } = useContext(AppContext);
+  const { basicInfo, getBasicInfo, getTruckNegotiationById, updateTruckNegotiationStatus } = useContext(AppContext);
   const [row, setRow] = useState(null);
 
   useEffect(() => {
+    getBasicInfo();
     getTruckNegotiationById(truckNegotiationId).then(setRow);
-  }, [getTruckNegotiationById, truckNegotiationId]);
+  }, [getBasicInfo, getTruckNegotiationById, truckNegotiationId]);
 
   if (!row) return null;
+  const acceptedOffer = getAcceptedOffer(row);
 
   return (
     <section className="dashboard-section-card form-card-panel">
@@ -41,21 +46,25 @@ function AdminTruckNegotiationDetailPage() {
           </div>
         </section>
 
-        {(row.negotiation || []).map((item) => (
-          <section className="truck-figma-specs-card truck-figma-specs-card--compact" key={item._id}>
-            <h3>{item.negotiator === 'buyer' ? 'Buyer Offer' : 'Seller Offer'}</h3>
-            <div className="truck-figma-specs-table">
-              <div className="truck-figma-specs-row">
-                <div className="truck-figma-specs-cell"><span>Truck Cost</span><strong>{item.truckCost ? `Rs. ${Number(item.truckCost).toLocaleString()}` : '—'}</strong></div>
-                <div className="truck-figma-specs-cell"><span>Delivery Cost</span><strong>{item.deliveryCost ? `Rs. ${Number(item.deliveryCost).toLocaleString()}` : '—'}</strong></div>
-              </div>
-              <div className="truck-figma-specs-row alt">
-                <div className="truck-figma-specs-cell"><span>Accepted</span><strong>{item.accepted ? 'Yes' : 'No'}</strong></div>
-                <div className="truck-figma-specs-cell"><span>Submitted</span><strong>{item.createdAt ? new Date(item.createdAt).toLocaleString() : '—'}</strong></div>
-              </div>
+        <section className="truck-figma-specs-card truck-figma-specs-card--compact">
+          <div className="dashboard-section-head mb-0">
+            <div>
+              <h3>Conversation</h3>
             </div>
-          </section>
-        ))}
+            <button className="dashboard-action-btn" data-bs-target="#adminNegotiationConversation" data-bs-toggle="collapse" type="button">View Conversation</button>
+          </div>
+          <div className="collapse mt-3" id="adminNegotiationConversation">
+            <TruckNegotiationConversation
+              currentUserId={row.seller?._id}
+              onAccept={() => {}}
+              onOpenCounterOffer={() => {}}
+              row={row}
+              showActionButtons={false}
+              showCounterButton={false}
+              title="Truck Negotiation Conversation"
+            />
+          </div>
+        </section>
 
         {row.advancePaymentScreenshots?.length ? (
           <section className="truck-figma-specs-card truck-figma-specs-card--compact">
@@ -66,6 +75,20 @@ function AdminTruckNegotiationDetailPage() {
                   <img alt="Advance payment proof" src={image.url} />
                 </div>
               ))}
+            </div>
+            <div className="dashboard-form-grid mt-3">
+              <div className="form-field">
+                <label>Advance Status</label>
+                <select onChange={(event) => setRow((current) => ({ ...current, advanceStatus: event.target.value }))} value={row.advanceStatus}>
+                  <option value="unpaid">Unpaid</option>
+                  <option value="pendingApproval">Pending Approval</option>
+                  <option value="paid">Paid</option>
+                </select>
+              </div>
+              <div className="form-field">
+                <label>Advance Rejection Reason</label>
+                <input name="advanceStatusRejectionReason" onChange={(event) => setRow((current) => ({ ...current, advanceStatusRejectionReason: event.target.value }))} type="text" value={row.advanceStatusRejectionReason || ''} />
+              </div>
             </div>
           </section>
         ) : null}
@@ -80,35 +103,24 @@ function AdminTruckNegotiationDetailPage() {
                 </div>
               ))}
             </div>
+            <div className="dashboard-form-grid mt-3">
+              <div className="form-field">
+                <label>Final Payment Status</label>
+                <select onChange={(event) => setRow((current) => ({ ...current, finalPaymentStatus: event.target.value }))} value={row.finalPaymentStatus}>
+                  <option value="unpaid">Unpaid</option>
+                  <option value="pendingApproval">Pending Approval</option>
+                  <option value="paid">Paid</option>
+                </select>
+              </div>
+              <div className="form-field">
+                <label>Final Rejection Reason</label>
+                <input name="finalPaymentStatusRejectionReason" onChange={(event) => setRow((current) => ({ ...current, finalPaymentStatusRejectionReason: event.target.value }))} type="text" value={row.finalPaymentStatusRejectionReason || ''} />
+              </div>
+            </div>
           </section>
         ) : null}
-      </div>
 
-      <div className="dashboard-form-grid">
-        <div className="form-field">
-          <label>Advance Status</label>
-          <select onChange={(event) => setRow((current) => ({ ...current, advanceStatus: event.target.value }))} value={row.advanceStatus}>
-            <option value="unpaid">Unpaid</option>
-            <option value="pendingApproval">Pending Approval</option>
-            <option value="paid">Paid</option>
-          </select>
-        </div>
-        <div className="form-field">
-          <label>Final Payment Status</label>
-          <select onChange={(event) => setRow((current) => ({ ...current, finalPaymentStatus: event.target.value }))} value={row.finalPaymentStatus}>
-            <option value="unpaid">Unpaid</option>
-            <option value="pendingApproval">Pending Approval</option>
-            <option value="paid">Paid</option>
-          </select>
-        </div>
-        <div className="form-field">
-          <label>Advance Rejection Reason</label>
-          <input name="advanceStatusRejectionReason" onChange={(event) => setRow((current) => ({ ...current, advanceStatusRejectionReason: event.target.value }))} type="text" value={row.advanceStatusRejectionReason || ''} />
-        </div>
-        <div className="form-field">
-          <label>Final Rejection Reason</label>
-          <input name="finalPaymentStatusRejectionReason" onChange={(event) => setRow((current) => ({ ...current, finalPaymentStatusRejectionReason: event.target.value }))} type="text" value={row.finalPaymentStatusRejectionReason || ''} />
-        </div>
+        {acceptedOffer && row.finalPaymentStatus === 'paid' ? <TruckPurchaseOrder basicInfo={basicInfo} row={row} /> : null}
       </div>
 
       <div className="dashboard-form-actions">

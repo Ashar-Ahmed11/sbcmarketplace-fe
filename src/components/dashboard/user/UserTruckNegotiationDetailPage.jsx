@@ -35,6 +35,7 @@ function UserTruckNegotiationDetailPage() {
   if (!row) return null;
 
   const acceptedOffer = getAcceptedOffer(row);
+  const isBuyer = String(row?.buyer?._id) === String(currentUser?._id);
 
   return (
     <>
@@ -51,6 +52,7 @@ function UserTruckNegotiationDetailPage() {
         <TruckNegotiationPaymentPanels
           acceptedOffer={acceptedOffer}
           basicInfo={basicInfo}
+          isBuyer={isBuyer}
           onOpenAdvanceProof={() => setProofModal({ open: true, type: 'advance' })}
           onOpenFinalProof={() => setProofModal({ open: true, type: 'final' })}
           row={row}

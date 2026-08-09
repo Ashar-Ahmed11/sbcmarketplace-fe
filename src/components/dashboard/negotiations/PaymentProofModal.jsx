@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 function PaymentProofModal({ open, onClose, onSubmit, title, uploadImage }) {
   const [images, setImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   if (!open) return null;
 
@@ -27,7 +28,11 @@ function PaymentProofModal({ open, onClose, onSubmit, title, uploadImage }) {
             <div>
               <h2>Payment Proof</h2>
             </div>
-            <input multiple onChange={onFileChange} type="file" />
+            <div className="dashboard-upload-actions">
+              <button className="dashboard-secondary-btn" onClick={() => fileInputRef.current?.click()} type="button">Upload Image</button>
+              <button className="dashboard-secondary-btn" onClick={() => setImages([])} type="button">Remove Images</button>
+            </div>
+            <input className="d-none" multiple onChange={onFileChange} ref={fileInputRef} type="file" />
           </div>
           <div className="upload-preview-grid">
             {images.map((image, index) => (
@@ -39,7 +44,7 @@ function PaymentProofModal({ open, onClose, onSubmit, title, uploadImage }) {
           </div>
         </div>
         <div className="dashboard-form-actions mt-3">
-          <button className="dashboard-secondary-btn" onClick={onClose} type="button">Cancel</button>
+          <button className="dashboard-secondary-btn" onClick={() => { setImages([]); onClose(); }} type="button">Cancel</button>
           <button className="dashboard-action-btn" disabled={!images.length || isUploading} onClick={() => { onSubmit(images); setImages([]); }} type="button">
             {isUploading ? 'Uploading...' : 'Submit'}
           </button>

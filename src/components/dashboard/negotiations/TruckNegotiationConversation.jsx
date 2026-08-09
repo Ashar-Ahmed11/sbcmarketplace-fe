@@ -4,7 +4,7 @@ function formatCurrency(value) {
   return `Rs. ${Number(value || 0).toLocaleString()}`;
 }
 
-function TruckNegotiationConversation({ currentUserId, onAccept, onOpenCounterOffer, row }) {
+function TruckNegotiationConversation({ currentUserId, onAccept, onOpenCounterOffer, row, showActionButtons = true, showCounterButton = true, title = 'Deals - Negotiations' }) {
   const acceptedOffer = getAcceptedOffer(row);
   const userRole = String(row?.buyer?._id) === String(currentUserId) ? 'buyer' : 'seller';
 
@@ -12,7 +12,7 @@ function TruckNegotiationConversation({ currentUserId, onAccept, onOpenCounterOf
     <section className="dashboard-section-card truck-negotiation-screen">
       <div className="truck-negotiation-screen__head">
         <div>
-          <h1>Deals - Negotiations</h1>
+          <h1>{title}</h1>
           <p>{row.truck?.title || 'Truck negotiation'}</p>
         </div>
         <span className="truck-negotiation-screen__status">Negotiating</span>
@@ -44,7 +44,7 @@ function TruckNegotiationConversation({ currentUserId, onAccept, onOpenCounterOf
                 </strong>
                 <span>{item.createdAt ? `Submitted ${new Date(item.createdAt).toLocaleString()}` : 'Submitted recently'}</span>
               </div>
-              {!acceptedOffer && item.negotiator !== userRole ? (
+              {!acceptedOffer && showActionButtons && item.negotiator !== userRole ? (
                 <button className="dashboard-action-btn truck-negotiation-accept-btn" onClick={() => onAccept(item._id)} type="button">Accept</button>
               ) : null}
             </div>
@@ -52,7 +52,7 @@ function TruckNegotiationConversation({ currentUserId, onAccept, onOpenCounterOf
         })}
       </div>
 
-      {!acceptedOffer ? (
+      {!acceptedOffer && showCounterButton ? (
         <div className="truck-negotiation-actions">
           <button className="dashboard-secondary-btn" type="button">Withdraw</button>
           <button className="dashboard-action-btn" onClick={onOpenCounterOffer} type="button">Counter Offer</button>

@@ -1,6 +1,63 @@
+import { useContext, useMemo, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import AppContext from '../context/appContext';
+import ConfirmModal from '../dashboard/ConfirmModal';
 import TruckDetailsFinancing from './TruckDetailsFinancing';
 
 function MaterialDetailsSidebarCards({ material }) {
+  const history = useHistory();
+  const { createConstructionMaterialNegotiation, currentUser, userToken } = useContext(AppContext);
+  const [offer, setOffer] = useState({
+    constructionMaterialCost: '',
+    quantity: '',
+    sellerDelivery: false,
+    buyerDeliveryCity: '',
+    buyerDeliveryAddress: '',
+    deliveryCost: '',
+  });
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const availableDeliveryCities = useMemo(
+    () => (material?.deliveryLocations || []).filter((item) => item?.city),
+    [material?.deliveryLocations]
+  );
+  const selectedDeliveryLocation = useMemo(
+    () => availableDeliveryCities.find((item) => item.city === offer.buyerDeliveryCity) || null,
+    [availableDeliveryCities, offer.buyerDeliveryCity]
+  );
+  const summaryText = useMemo(() => {
+    const deliveryText = offer.sellerDelivery
+      ? `Seller delivery to ${offer.buyerDeliveryCity || 'selected city'}`
+      : 'SBC delivery';
+    return `Submit an offer of Rs. ${offer.constructionMaterialCost || 0} for ${offer.quantity || 0} ${material?.unit || 'units'} of ${material?.title || 'this material'} with ${deliveryText}?`;
+  }, [material?.title, material?.unit, offer.buyerDeliveryCity, offer.constructionMaterialCost, offer.quantity, offer.sellerDelivery]);
+
+  const handleSubmit = async () => {
+    if (!userToken) {
+      history.push('/login');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const created = await createConstructionMaterialNegotiation({
+        constructionMaterialId: material._id,
+        sellerDelivery: offer.sellerDelivery,
+        buyerDeliveryAddress: offer.sellerDelivery ? offer.buyerDeliveryAddress : '',
+        buyerDeliveryCity: offer.sellerDelivery ? offer.buyerDeliveryCity : '',
+        quantity: Number(offer.quantity) || 0,
+        constructionMaterialCost: Number(offer.constructionMaterialCost) || 0,
+        deliveryCost: offer.sellerDelivery ? (Number(offer.deliveryCost) || 0) : null,
+      });
+      setShowConfirm(false);
+      history.push(`/user-dashboard/material-negotiation/${created._id}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const isOwner = String(currentUser?._id) === String(material?.user?._id);
+
   return (
     <div className="truck-figma-sidebar-stack">
       <section className="truck-figma-price-card">
@@ -12,25 +69,65 @@ function MaterialDetailsSidebarCards({ material }) {
       </section>
 
       <section className="truck-figma-offer-card">
-        <h3>Submit Material Inquiry</h3>
+        <h3>Submit Your Material Offer</h3>
         <div className="truck-figma-field">
-          <label>Offer Amount (PKR)</label>
-          <input placeholder="Enter your offer" type="text" />
+          <label>Offer Construction Material Amount (PKR)</label>
+          <input onChange={(event) => setOffer((current) => ({ ...current, constructionMaterialCost: event.target.value }))} placeholder="Enter your offer" type="number" value={offer.constructionMaterialCost} />
+        </div>
+        <div className="truck-figma-field">
+          <label>Construction Material Quantity</label>
+          <input onChange={(event) => setOffer((current) => ({ ...current, quantity: event.target.value }))} placeholder="Enter quantity" type="number" value={offer.quantity} />
         </div>
         <div className="truck-figma-field">
           <label>Select Delivery Type</label>
           <div className="truck-figma-delivery-options">
-            <button type="button">Seller Delivery</button>
-            <button type="button">Pickup</button>
+            <button
+              className={offer.sellerDelivery ? 'active' : ''}
+              disabled={!material?.deliveryProvided}
+              onClick={() => material?.deliveryProvided && setOffer((current) => ({ ...current, sellerDelivery: true, deliveryCost: current.deliveryCost || String(selectedDeliveryLocation?.price || '') }))}
+              type="button"
+            >
+              Seller Delivery
+            </button>
+            <button className={!offer.sellerDelivery ? 'active' : ''} onClick={() => setOffer((current) => ({ ...current, sellerDelivery: false, buyerDeliveryCity: '', buyerDeliveryAddress: '', deliveryCost: '' }))} type="button">SBC Delivery</button>
           </div>
         </div>
-        <div className="truck-figma-field">
-          <label>Message (Optional)</label>
-          <textarea placeholder="Add any note" rows="5" />
-        </div>
-        <button className="truck-figma-cta truck-figma-cta--primary" type="button">
+        {offer.sellerDelivery ? (
+          <>
+            <div className="truck-figma-field">
+              <label>Buyer Delivery City</label>
+              <select
+                className="truck-figma-select"
+                onChange={(event) => {
+                  const selected = availableDeliveryCities.find((item) => item.city === event.target.value);
+                  setOffer((current) => ({
+                    ...current,
+                    buyerDeliveryCity: event.target.value,
+                    deliveryCost: selected?.price ? String(selected.price) : '',
+                  }));
+                }}
+                value={offer.buyerDeliveryCity}
+              >
+                <option value="">Select city</option>
+                {availableDeliveryCities.map((item) => <option key={item.city} value={item.city}>{item.city}</option>)}
+              </select>
+            </div>
+            <div className="truck-figma-field">
+              <label>Buyer Delivery Address</label>
+              <input onChange={(event) => setOffer((current) => ({ ...current, buyerDeliveryAddress: event.target.value }))} placeholder="Enter delivery address" type="text" value={offer.buyerDeliveryAddress} />
+            </div>
+            <div className="truck-figma-field">
+              <label>Delivery Cost (PKR)</label>
+              <input onChange={(event) => setOffer((current) => ({ ...current, deliveryCost: event.target.value }))} placeholder="Enter delivery cost" type="number" value={offer.deliveryCost} />
+              <small className="truck-figma-field-hint">
+                Suggested Seller Delivery Cost: {selectedDeliveryLocation?.price ? `Rs. ${Number(selectedDeliveryLocation.price).toLocaleString()}` : '—'}
+              </small>
+            </div>
+          </>
+        ) : null}
+        <button className="truck-figma-cta truck-figma-cta--primary" disabled={!offer.constructionMaterialCost || !offer.quantity || isSubmitting || isOwner} onClick={() => setShowConfirm(true)} type="button">
           <i className="fa fa-calendar-check-o" aria-hidden="true" />
-          <span>Submit Inquiry</span>
+          <span>{isOwner ? 'Your Listing' : isSubmitting ? 'Submitting...' : 'Submit Offer'}</span>
         </button>
       </section>
 
@@ -44,6 +141,14 @@ function MaterialDetailsSidebarCards({ material }) {
         </div>
       </section>
       <TruckDetailsFinancing />
+      <ConfirmModal
+        body={summaryText}
+        confirmLabel={isSubmitting ? 'Submitting...' : 'Submit Offer'}
+        onClose={() => !isSubmitting && setShowConfirm(false)}
+        onConfirm={handleSubmit}
+        open={showConfirm}
+        title="Confirm Offer Submission"
+      />
     </div>
   );
 }

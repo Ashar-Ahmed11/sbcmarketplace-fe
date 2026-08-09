@@ -18,13 +18,22 @@ import AdminConstructionServiceView from './admin/AdminConstructionServiceView';
 import AdminInspectionServiceView from './admin/AdminInspectionServiceView';
 import AdminMachineryView from './admin/AdminMachineryView';
 import AdminMaterialView from './admin/AdminMaterialView';
+import AdminConstructionMaterialNegotiationDetailPage from './admin/AdminConstructionMaterialNegotiationDetailPage';
+import AdminConstructionMaterialNegotiationsPage from './admin/AdminConstructionMaterialNegotiationsPage';
+import AdminMachineryNegotiationDetailPage from './admin/AdminMachineryNegotiationDetailPage';
+import AdminMachineryNegotiationsPage from './admin/AdminMachineryNegotiationsPage';
 import AdminRentalMachineryView from './admin/AdminRentalMachineryView';
 import AdminRentalTruckView from './admin/AdminRentalTruckView';
 import AdminRepairServiceView from './admin/AdminRepairServiceView';
+import AdminSparePartNegotiationDetailPage from './admin/AdminSparePartNegotiationDetailPage';
+import AdminSparePartNegotiationsPage from './admin/AdminSparePartNegotiationsPage';
 import AdminSparePartView from './admin/AdminSparePartView';
 import AdminTruckNegotiationDetailPage from './admin/AdminTruckNegotiationDetailPage';
+import AdminTruckMeetingDetailPage from './admin/AdminTruckMeetingDetailPage';
+import AdminTruckMeetingsPage from './admin/AdminTruckMeetingsPage';
 import AdminTruckNegotiationsPage from './admin/AdminTruckNegotiationsPage';
 import AdminTruckView from './admin/AdminTruckView';
+import ViewMeetingsPage from './admin/ViewMeetingsPage';
 import ViewNegotiationsPage from './admin/ViewNegotiationsPage';
 import CategoriesPage from './admin/CategoriesPage';
 import CategoryEditor from './admin/CategoryEditor';
@@ -42,6 +51,7 @@ function AdminDashboard() {
     { label: 'Home', to: `${url}`, exact: true, icon: 'fa fa-home' },
     { label: 'View Listings', to: `${url}/view-listings`, icon: 'fa fa-list' },
     { label: 'View Negotiations', to: `${url}/view-negotiations`, icon: 'fa fa-comments' },
+    { label: 'View Meetings', to: `${url}/view-meetings`, icon: 'fa fa-calendar' },
     { label: 'Basic Info', to: `${url}/basic-info`, icon: 'fa fa-sliders' },
     { label: 'Categories', to: `${url}/categories`, icon: 'fa fa-folder-open' },
   ];
@@ -55,8 +65,13 @@ function AdminDashboard() {
             <Route component={AdminHome} exact path={path} />
             <Route component={AdminListings} exact path={`${path}/view-listings`} />
             <Route component={ViewNegotiationsPage} exact path={`${path}/view-negotiations`} />
+            <Route component={ViewMeetingsPage} exact path={`${path}/view-meetings`} />
             <Route component={AdminBasicInfoPage} exact path={`${path}/basic-info`} />
+            <Route component={AdminTruckMeetingsPage} exact path={`${path}/view-meetings/trucks`} />
             <Route component={AdminTruckNegotiationsPage} exact path={`${path}/view-negotiations/trucks`} />
+            <Route component={AdminMachineryNegotiationsPage} exact path={`${path}/view-negotiations/construction-machinery`} />
+            <Route component={AdminConstructionMaterialNegotiationsPage} exact path={`${path}/view-negotiations/construction-material`} />
+            <Route component={AdminSparePartNegotiationsPage} exact path={`${path}/view-negotiations/spare-parts`} />
             <Route component={AdminTruckList} exact path={`${path}/view-listings/trucks`} />
             <Route component={AdminMachineryList} exact path={`${path}/view-listings/construction-machinery`} />
             <Route component={AdminRentalTruckList} exact path={`${path}/view-listings/truck-rental`} />
@@ -81,7 +96,11 @@ function AdminDashboard() {
             <Route component={AdminConstructionServiceView} exact path={`${path}/view-construction-service/:constructionServiceId`} />
             <Route component={AdminInspectionServiceView} exact path={`${path}/view-inspection-service/:inspectionServiceId`} />
             <Route component={AdminRepairServiceView} exact path={`${path}/view-repair-service/:repairServiceId`} />
+            <Route component={AdminTruckMeetingDetailPage} exact path={`${path}/truck-meeting-detail/:truckMeetingId`} />
             <Route component={AdminTruckNegotiationDetailPage} exact path={`${path}/negotiation-detail/:truckNegotiationId`} />
+            <Route component={AdminMachineryNegotiationDetailPage} exact path={`${path}/machinery-negotiation-detail/:machineryNegotiationId`} />
+            <Route component={AdminConstructionMaterialNegotiationDetailPage} exact path={`${path}/material-negotiation-detail/:materialNegotiationId`} />
+            <Route component={AdminSparePartNegotiationDetailPage} exact path={`${path}/spare-part-negotiation-detail/:sparePartNegotiationId`} />
           </Switch>
         </section>
       </div>

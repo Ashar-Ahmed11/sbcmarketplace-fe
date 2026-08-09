@@ -13,7 +13,7 @@ function PaymentRow({ label, value }) {
   );
 }
 
-function TruckNegotiationPaymentPanels({ acceptedOffer, basicInfo, onOpenAdvanceProof, onOpenFinalProof, row }) {
+function TruckNegotiationPaymentPanels({ acceptedOffer, basicInfo, isBuyer, onOpenAdvanceProof, onOpenFinalProof, row }) {
   if (!acceptedOffer) return null;
 
   const totals = getNegotiationTotals(acceptedOffer, basicInfo);
@@ -32,13 +32,15 @@ function TruckNegotiationPaymentPanels({ acceptedOffer, basicInfo, onOpenAdvance
           <h2>Pay Advance Fee</h2>
           <PaymentRow label="Truck Cost" value={formatCurrency(totals.truckCost)} />
           <PaymentRow label="Delivery Cost" value={formatCurrency(totals.deliveryCost)} />
-          <PaymentRow label="Advance Fee" value={formatCurrency(totals.advanceFee)} />
-          <PaymentRow label="Platform Fee" value={formatCurrency(totals.advancePlatformFee)} />
+          <PaymentRow label={`Advance Fee (${basicInfo.advancePercentage}%)`} value={formatCurrency(totals.advanceFee)} />
+          <PaymentRow label={`Platform Fee (${basicInfo.platformFeePercentage}%)`} value={formatCurrency(totals.advancePlatformFee)} />
           <PaymentRow label="Total Amount to be Paid" value={formatCurrency(totals.advanceTotalToPay)} />
-          <div className="truck-negotiation-payment__actions">
-            <button className="dashboard-action-btn" onClick={onOpenAdvanceProof} type="button">Upload Payment Proof</button>
-            <button className="dashboard-secondary-btn" type="button">Pay Online</button>
-          </div>
+          {isBuyer ? (
+            <div className="truck-negotiation-payment__actions">
+              <button className="dashboard-action-btn" onClick={onOpenAdvanceProof} type="button">Upload Payment Proof</button>
+              <button className="dashboard-secondary-btn" type="button">Pay Online</button>
+            </div>
+          ) : null}
         </div>
       </section>
     );
@@ -63,10 +65,12 @@ function TruckNegotiationPaymentPanels({ acceptedOffer, basicInfo, onOpenAdvance
           <PaymentRow label="Advance Fee Amount" value={formatCurrency(totals.advanceFee)} />
           <PaymentRow label="Platform Fee" value={formatCurrency(totals.finalPlatformFee)} />
           <PaymentRow label="Amount to be Paid" value={formatCurrency(totals.finalAmountToPay)} />
-          <div className="truck-negotiation-payment__actions">
-            <button className="dashboard-action-btn" onClick={onOpenFinalProof} type="button">Upload Payment Proof</button>
-            <button className="dashboard-secondary-btn" type="button">Pay Online</button>
-          </div>
+          {isBuyer ? (
+            <div className="truck-negotiation-payment__actions">
+              <button className="dashboard-action-btn" onClick={onOpenFinalProof} type="button">Upload Payment Proof</button>
+              <button className="dashboard-secondary-btn" type="button">Pay Online</button>
+            </div>
+          ) : null}
         </div>
       </section>
     );

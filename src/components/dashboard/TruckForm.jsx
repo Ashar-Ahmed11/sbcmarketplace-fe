@@ -228,8 +228,8 @@ function TruckForm({
               {!isAdminView ? <button className="dashboard-secondary-btn" onClick={onAddDeliveryLocation} type="button">Add Location</button> : null}
             </div>
             {data.deliveryLocations.map((item, index) => (
-              <div className="dashboard-form-grid delivery-grid" key={`${item.city}-${index}`}>
-                <div className="form-field">
+              <div className="d-flex" key={`${item.city}-${index}`}>
+                <div className="form-field w-100">
                   <label>City</label>
                   {isAdminView ? (
                     <input disabled type="text" value={item.city} />
@@ -240,11 +240,13 @@ function TruckForm({
                     </select>
                   )}
                 </div>
-                <div className="form-field">
+                <div className="form-field px-2 w-100">
                   <label>Price</label>
                   <input disabled={isAdminView} onChange={(event) => onDeliveryLocationChange(index, 'price', event.target.value)} type="number" value={item.price} />
                 </div>
-                {!isAdminView ? <button className="dashboard-danger-btn align-self-end" onClick={() => onRemoveDeliveryLocation(index)} type="button">Remove</button> : null}
+                <div className='d-flex align-items-center px-2'>
+                {!isAdminView ? <button className="dashboard-danger-btn" onClick={() => onRemoveDeliveryLocation(index)} type="button">X</button> : null}
+                  </div>
               </div>
             ))}
           </div>

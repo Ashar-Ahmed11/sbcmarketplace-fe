@@ -18,7 +18,7 @@ function MarketplaceHero({
   return (
     <section className="page-hero marketplace-hero-block">
       <div className="page-hero-shade" />
-      <div className="container-xl page-hero-inner">
+      <div className="container-xl page-hero-inner px-3">
         <span className="page-hero-eyebrow">Pakistan&apos;s # 1 Construction Marketplace</span>
         <nav className="page-breadcrumb" aria-label="Breadcrumb">
           <span>Home</span>

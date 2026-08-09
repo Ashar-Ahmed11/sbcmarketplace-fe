@@ -8,6 +8,7 @@ import MachineryCreatePage from './user/MachineryCreatePage';
 import MyListingsPage from './user/MyListingsPage';
 import MyNegotiationsPage from './user/MyNegotiationsPage';
 import MaterialCreatePage from './user/MaterialCreatePage';
+import MyMeetingsPage from './user/MyMeetingsPage';
 import RentalMachineryCreatePage from './user/RentalMachineryCreatePage';
 import RentalTruckCreatePage from './user/RentalTruckCreatePage';
 import RepairServiceCreatePage from './user/RepairServiceCreatePage';
@@ -18,11 +19,19 @@ import UserHome from './user/UserHome';
 import UserBasicInfoPage from './user/UserBasicInfoPage';
 import UserInspectionServicesPage from './user/UserInspectionServicesPage';
 import UserMachineriesPage from './user/UserMachineriesPage';
+import UserConstructionMaterialNegotiationDetailPage from './user/UserConstructionMaterialNegotiationDetailPage';
+import UserConstructionMaterialNegotiationsPage from './user/UserConstructionMaterialNegotiationsPage';
+import UserMachineryNegotiationDetailPage from './user/UserMachineryNegotiationDetailPage';
+import UserMachineryNegotiationsPage from './user/UserMachineryNegotiationsPage';
 import UserMaterialsPage from './user/UserMaterialsPage';
 import UserRentalMachineriesPage from './user/UserRentalMachineriesPage';
 import UserRentalTrucksPage from './user/UserRentalTrucksPage';
 import UserRepairServicesPage from './user/UserRepairServicesPage';
+import UserSparePartNegotiationDetailPage from './user/UserSparePartNegotiationDetailPage';
+import UserSparePartNegotiationsPage from './user/UserSparePartNegotiationsPage';
 import UserSparePartsPage from './user/UserSparePartsPage';
+import UserTruckMeetingDetailPage from './user/UserTruckMeetingDetailPage';
+import UserTruckMeetingsPage from './user/UserTruckMeetingsPage';
 import UserTruckNegotiationDetailPage from './user/UserTruckNegotiationDetailPage';
 import UserTruckNegotiationsPage from './user/UserTruckNegotiationsPage';
 import UserTrucksPage from './user/UserTrucksPage';
@@ -38,6 +47,7 @@ function UserDashboard() {
     { label: 'Home', to: `${url}`, exact: true, icon: 'fa fa-home' },
     { label: 'My Listings', to: `${url}/my-listings`, icon: 'fa fa-list' },
     { label: 'My Negotiations', to: `${url}/my-negotiations`, icon: 'fa fa-comments' },
+    { label: 'My Meetings', to: `${url}/my-meetings`, icon: 'fa fa-calendar' },
     { label: 'Basic Info', to: `${url}/basic-info`, icon: 'fa fa-user' },
   ];
 
@@ -50,9 +60,18 @@ function UserDashboard() {
             <Route component={UserHome} exact path={path} />
             <Route component={MyListingsPage} exact path={`${path}/my-listings`} />
             <Route component={MyNegotiationsPage} exact path={`${path}/my-negotiations`} />
+            <Route component={MyMeetingsPage} exact path={`${path}/my-meetings`} />
             <Route component={UserBasicInfoPage} exact path={`${path}/basic-info`} />
+            <Route component={UserTruckMeetingsPage} exact path={`${path}/my-meetings/trucks`} />
             <Route component={UserTruckNegotiationsPage} exact path={`${path}/my-negotiations/trucks`} />
+            <Route component={UserMachineryNegotiationsPage} exact path={`${path}/my-negotiations/construction-machinery`} />
+            <Route component={UserConstructionMaterialNegotiationsPage} exact path={`${path}/my-negotiations/construction-material`} />
+            <Route component={UserSparePartNegotiationsPage} exact path={`${path}/my-negotiations/spare-parts`} />
+            <Route component={UserTruckMeetingDetailPage} exact path={`${path}/truck-meeting/:truckMeetingId`} />
             <Route component={UserTruckNegotiationDetailPage} exact path={`${path}/truck-negotiation/:truckNegotiationId`} />
+            <Route component={UserMachineryNegotiationDetailPage} exact path={`${path}/machinery-negotiation/:machineryNegotiationId`} />
+            <Route component={UserConstructionMaterialNegotiationDetailPage} exact path={`${path}/material-negotiation/:materialNegotiationId`} />
+            <Route component={UserSparePartNegotiationDetailPage} exact path={`${path}/spare-part-negotiation/:sparePartNegotiationId`} />
             <Route component={UserTrucksPage} exact path={`${path}/trucks`} />
             <Route component={UserTrucksPage} exact path={`${path}/my-listings/trucks`} />
             <Route component={UserMachineriesPage} exact path={`${path}/construction-machinery`} />

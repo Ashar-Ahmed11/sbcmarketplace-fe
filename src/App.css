@@ -1286,12 +1286,15 @@ a {
 .marketplace-brand {
   display: grid;
   place-items: center;
-  min-height: 70px;
-  color: #7c7c7c;
-  font-family: 'Barlow', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  text-align: center;
+  min-height: 120px;
+}
+
+.marketplace-brand-logo {
+  width: min(var(--brand-width, 300px), 100%);
+  height: 120px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
 }
 
 .marketplace-catalog {
@@ -1307,12 +1310,50 @@ a {
   align-items: start;
 }
 
+.marketplace-sidebar-shell {
+  min-width: 0;
+}
+
 .marketplace-sidebar {
   position: relative;
   padding: 62px 24px 28px;
   border-radius: 20px;
   background: var(--home-orange);
   color: #fff;
+}
+
+.marketplace-sidebar-mobile-toggle {
+  margin-bottom: 16px;
+}
+
+.marketplace-filter-toggle-btn {
+  width: 100%;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--home-navy);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.marketplace-filter-toggle-btn span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.marketplace-sidebar-inner {
+  position: relative;
+}
+
+.marketplace-mobile-collapse {
+  transition: none;
 }
 
 .marketplace-side-tools {
@@ -2306,6 +2347,18 @@ a {
   border-color: #082953;
   background: #082953;
   color: #fff;
+}
+
+.truck-figma-delivery-options button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.truck-figma-field-hint {
+  display: block;
+  margin-top: 8px;
+  color: #6b7280;
+  font-size: 13px;
 }
 
 .truck-figma-trust-card {
@@ -3359,9 +3412,40 @@ a {
   color: #1b8b47;
 }
 
+.status-badge.under-approval {
+  background: #fff4df;
+  color: #d18900;
+}
+
+.status-badge.scheduled-approved {
+  background: #e8f7ed;
+  color: #1b8b47;
+}
+
+.status-badge.successful {
+  background: #e8f7ed;
+  color: #1b8b47;
+}
+
 .truck-negotiation-screen {
   padding: 0;
   overflow: hidden;
+}
+
+.truck-time-picker {
+  width: 100%;
+}
+
+.truck-time-picker .react-time-picker__wrapper {
+  border: 1px solid #d9dde3;
+  border-radius: 12px;
+  min-height: 48px;
+  padding: 0 12px;
+}
+
+.truck-time-picker .react-time-picker__inputGroup {
+  min-width: 0;
+  font-size: 16px;
 }
 
 .truck-negotiation-screen__head {
@@ -3788,6 +3872,23 @@ a {
     font-size: 52px;
   }
 
+  .marketplace-hero-block {
+    min-height: unset;
+  }
+
+  .marketplace-hero-block .page-hero-inner {
+    padding: 48px 0 40px;
+  }
+
+  .page-hero-eyebrow {
+    margin-bottom: 32px;
+    font-size: 15px;
+  }
+
+  .marketplace-hero-block h1 {
+    font-size: 28px;
+  }
+
   .auth-grid {
     grid-template-columns: 1fr;
   }
@@ -3814,7 +3915,6 @@ a {
 }
 
 @media (max-width: 767.98px) {
-  .marketplace-searchbar,
   .marketplace-other-grid,
   .marketplace-brand-strip,
   .blogs-grid {
@@ -3823,6 +3923,105 @@ a {
 
   .marketplace-layout {
     gap: 28px;
+  }
+
+  .marketplace-hero-block .page-hero-inner {
+    padding: 36px 0 32px;
+  }
+
+  .page-hero-eyebrow {
+    margin-bottom: 22px;
+    font-size: 13px;
+  }
+
+  .page-breadcrumb {
+    flex-wrap: wrap;
+    row-gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .marketplace-hero-block h1 {
+    font-size: 24px;
+  }
+
+  .marketplace-searchbar {
+    grid-template-columns: 1fr 50px;
+    width: 100%;
+    margin-bottom: 18px;
+  }
+
+  .marketplace-searchbar input,
+  .marketplace-searchbar button {
+    height: 46px;
+  }
+
+  .marketplace-searchbar input {
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  .marketplace-pills {
+    /* display: grid; */
+    /* grid-template-columns: repeat(2, 1fr); */
+    gap: 10px;
+  }
+
+  .marketplace-pill {
+    min-width: 0;
+    /* width: 100%; */
+    height: auto;
+    min-height: 46px;
+    gap: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .marketplace-sidebar {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .marketplace-mobile-collapse {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.35s ease, opacity 0.25s ease, visibility 0.35s ease;
+  }
+
+  .marketplace-mobile-collapse.collapse:not(.show) {
+    display: block;
+  }
+
+  .marketplace-mobile-collapse.show {
+    max-height: var(--marketplace-collapse-height, 1400px);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .marketplace-sidebar-inner {
+    padding: 18px 18px 20px;
+    padding-top: 56px;
+    border-radius: 20px;
+    background: var(--home-orange);
+  }
+
+  .marketplace-side-tools {
+    top: 12px;
+    right: 0;
+  }
+
+  .marketplace-brand {
+    min-height: 96px;
+  }
+
+  .marketplace-brand-logo {
+    width: 100%;
+    max-width: 320px;
+    height: 96px;
   }
 
   .marketplace-heading-row,
@@ -3909,6 +4108,46 @@ a {
   .truck-figma-specs-cell + .truck-figma-specs-cell {
     border-left: 0;
     border-top: 1px solid #e0c0b1;
+  }
+}
+
+@media (max-width: 479.98px) {
+  .marketplace-hero-block .page-hero-inner {
+    padding: 28px 0 24px;
+  }
+
+  .page-hero-eyebrow {
+    margin-bottom: 18px;
+    font-size: 12px;
+  }
+
+  .marketplace-hero-block h1 {
+    font-size: 21px;
+  }
+
+  .marketplace-pills {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .marketplace-sidebar {
+    padding: 62px 24px 28px;
+    border-radius: 20px;
+    background: var(--home-orange);
+  }
+
+  .marketplace-mobile-collapse {
+    max-height: none !important;
+    overflow: visible;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .marketplace-sidebar-inner {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
   }
 }
 
