@@ -26,6 +26,12 @@ function ViewNegotiationsPage() {
           icon: 'fa fa-comments-o',
         },
         {
+          label: 'Rental Truck Negotiations',
+          text: 'Review all buyer-seller rental truck negotiations and payment status flows.',
+          to: `${url}/rental-trucks`,
+          icon: 'fa fa-comments-o',
+        },
+        {
           label: 'Spare Part Negotiations',
           text: 'Review all buyer-seller spare part negotiations and payment status flows.',
           to: `${url}/spare-parts`,

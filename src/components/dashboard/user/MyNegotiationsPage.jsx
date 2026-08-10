@@ -26,6 +26,12 @@ function MyNegotiationsPage() {
           icon: 'fa fa-comments-o',
         },
         {
+          label: 'Rental Truck Negotiations',
+          text: 'Review and continue your active buyer-seller rental truck negotiations.',
+          to: `${url}/rental-trucks`,
+          icon: 'fa fa-comments-o',
+        },
+        {
           label: 'Spare Part Negotiations',
           text: 'Review and continue your active buyer-seller spare part negotiations.',
           to: `${url}/spare-parts`,

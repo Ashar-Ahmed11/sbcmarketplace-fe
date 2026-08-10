@@ -16,8 +16,8 @@ export const getNegotiationTotals = (offer, basicInfo) => {
   const advanceTotalToPay = advanceFee + advancePlatformFee;
   const finalPlatformFee = agreedTotal * platformFeePercentage;
   const finalAmountToPay = agreedTotal - advanceFee + finalPlatformFee;
-  const purchaseOrderPlatformFee = (agreedTotal - advanceFee) * platformFeePercentage;
-  const purchaseOrderTotal = agreedTotal - advanceFee + purchaseOrderPlatformFee;
+  const purchaseOrderPlatformFee = agreedTotal * platformFeePercentage;
+  const purchaseOrderTotal = agreedTotal + purchaseOrderPlatformFee;
 
   return {
     truckCost,

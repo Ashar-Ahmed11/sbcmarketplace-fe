@@ -3622,6 +3622,48 @@ a {
   margin-top: 18px;
 }
 
+.rental-negotiation-modal-backdrop {
+  z-index: 1050;
+}
+
+.rental-negotiation-modal {
+  max-width: 760px;
+}
+
+.rental-negotiation-modal__content {
+  border: 0;
+  border-radius: 20px;
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.18);
+}
+
+.rental-negotiation-modal__header {
+  align-items: flex-start;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1.25rem 1.25rem 1rem;
+}
+
+.rental-negotiation-modal__header h2 {
+  margin: 0;
+  color: #101828;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.rental-negotiation-modal__header p {
+  margin-top: 0.35rem;
+  color: #667085;
+  font-size: 0.95rem;
+}
+
+.rental-negotiation-modal__body {
+  padding: 1.25rem;
+}
+
+.rental-negotiation-modal__footer {
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
 .truck-purchase-order {
   padding: 34px;
   border: 1px solid #e6e6e6;

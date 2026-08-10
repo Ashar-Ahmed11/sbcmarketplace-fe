@@ -22,6 +22,8 @@ import AdminConstructionMaterialNegotiationDetailPage from './admin/AdminConstru
 import AdminConstructionMaterialNegotiationsPage from './admin/AdminConstructionMaterialNegotiationsPage';
 import AdminMachineryNegotiationDetailPage from './admin/AdminMachineryNegotiationDetailPage';
 import AdminMachineryNegotiationsPage from './admin/AdminMachineryNegotiationsPage';
+import AdminRentalTruckNegotiationDetailPage from './admin/AdminRentalTruckNegotiationDetailPage';
+import AdminRentalTruckNegotiationsPage from './admin/AdminRentalTruckNegotiationsPage';
 import AdminRentalMachineryView from './admin/AdminRentalMachineryView';
 import AdminRentalTruckView from './admin/AdminRentalTruckView';
 import AdminRepairServiceView from './admin/AdminRepairServiceView';
@@ -71,6 +73,7 @@ function AdminDashboard() {
             <Route component={AdminTruckNegotiationsPage} exact path={`${path}/view-negotiations/trucks`} />
             <Route component={AdminMachineryNegotiationsPage} exact path={`${path}/view-negotiations/construction-machinery`} />
             <Route component={AdminConstructionMaterialNegotiationsPage} exact path={`${path}/view-negotiations/construction-material`} />
+            <Route component={AdminRentalTruckNegotiationsPage} exact path={`${path}/view-negotiations/rental-trucks`} />
             <Route component={AdminSparePartNegotiationsPage} exact path={`${path}/view-negotiations/spare-parts`} />
             <Route component={AdminTruckList} exact path={`${path}/view-listings/trucks`} />
             <Route component={AdminMachineryList} exact path={`${path}/view-listings/construction-machinery`} />
@@ -100,6 +103,7 @@ function AdminDashboard() {
             <Route component={AdminTruckNegotiationDetailPage} exact path={`${path}/negotiation-detail/:truckNegotiationId`} />
             <Route component={AdminMachineryNegotiationDetailPage} exact path={`${path}/machinery-negotiation-detail/:machineryNegotiationId`} />
             <Route component={AdminConstructionMaterialNegotiationDetailPage} exact path={`${path}/material-negotiation-detail/:materialNegotiationId`} />
+            <Route component={AdminRentalTruckNegotiationDetailPage} exact path={`${path}/rental-truck-negotiation-detail/:rentalTruckNegotiationId`} />
             <Route component={AdminSparePartNegotiationDetailPage} exact path={`${path}/spare-part-negotiation-detail/:sparePartNegotiationId`} />
           </Switch>
         </section>
