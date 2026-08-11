@@ -26,9 +26,21 @@ function MyNegotiationsPage() {
           icon: 'fa fa-comments-o',
         },
         {
+          label: 'Construction Service Negotiations',
+          text: 'Review and continue your active buyer-seller construction service negotiations.',
+          to: `${url}/construction-services`,
+          icon: 'fa fa-comments-o',
+        },
+        {
           label: 'Rental Truck Negotiations',
           text: 'Review and continue your active buyer-seller rental truck negotiations.',
           to: `${url}/rental-trucks`,
+          icon: 'fa fa-comments-o',
+        },
+        {
+          label: 'Repair Service Negotiations',
+          text: 'Review and continue your active buyer-seller repair service negotiations.',
+          to: `${url}/repair-services`,
           icon: 'fa fa-comments-o',
         },
         {

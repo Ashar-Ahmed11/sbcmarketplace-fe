@@ -26,9 +26,21 @@ function ViewNegotiationsPage() {
           icon: 'fa fa-comments-o',
         },
         {
+          label: 'Construction Service Negotiations',
+          text: 'Review all buyer-seller construction service negotiations and payment status flows.',
+          to: `${url}/construction-services`,
+          icon: 'fa fa-comments-o',
+        },
+        {
           label: 'Rental Truck Negotiations',
           text: 'Review all buyer-seller rental truck negotiations and payment status flows.',
           to: `${url}/rental-trucks`,
+          icon: 'fa fa-comments-o',
+        },
+        {
+          label: 'Repair Service Negotiations',
+          text: 'Review all buyer-seller repair service negotiations and payment status flows.',
+          to: `${url}/repair-services`,
           icon: 'fa fa-comments-o',
         },
         {

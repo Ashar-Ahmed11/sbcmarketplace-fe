@@ -402,6 +402,10 @@ const AppState = ({ children }) => {
   const [allMachineryNegotiations, setAllMachineryNegotiations] = useState([]);
   const [userConstructionMaterialNegotiations, setUserConstructionMaterialNegotiations] = useState([]);
   const [allConstructionMaterialNegotiations, setAllConstructionMaterialNegotiations] = useState([]);
+  const [userRepairServiceNegotiations, setUserRepairServiceNegotiations] = useState([]);
+  const [allRepairServiceNegotiations, setAllRepairServiceNegotiations] = useState([]);
+  const [userConstructionServiceNegotiations, setUserConstructionServiceNegotiations] = useState([]);
+  const [allConstructionServiceNegotiations, setAllConstructionServiceNegotiations] = useState([]);
   const [userSparePartNegotiations, setUserSparePartNegotiations] = useState([]);
   const [allSparePartNegotiations, setAllSparePartNegotiations] = useState([]);
   const [userTruckMeetings, setUserTruckMeetings] = useState([]);
@@ -907,6 +911,176 @@ const AppState = ({ children }) => {
 
   const updateConstructionMaterialNegotiationStatus = useCallback(async (id, payload) => {
     const data = await request(`/api/material-negotiation/update-construction-material-negotiation-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Negotiation status updated');
+    return data;
+  }, [request]);
+
+  const getUserRepairServiceNegotiations = useCallback(async () => {
+    const data = await request('/api/repair-service-negotiation/get-my-repair-service-negotiations', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserRepairServiceNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+
+  const getAllRepairServiceNegotiations = useCallback(async () => {
+    const data = await request('/api/repair-service-negotiation/get-repair-service-negotiations');
+    setAllRepairServiceNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+
+  const getRepairServiceNegotiationById = useCallback(async (id) => (
+    request(`/api/repair-service-negotiation/get-repair-service-negotiation/${id}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const createRepairServiceNegotiation = useCallback(async (payload) => {
+    const data = await request('/api/repair-service-negotiation/create-repair-service-negotiation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Negotiation submitted');
+    return data;
+  }, [request, userToken]);
+
+  const addRepairServiceCounterOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/repair-service-negotiation/add-counter-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Counter offer submitted');
+    return data;
+  }, [request, userToken]);
+
+  const acceptRepairServiceOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/repair-service-negotiation/accept-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Offer accepted');
+    return data;
+  }, [request, userToken]);
+
+  const submitRepairServiceAdvanceProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/repair-service-negotiation/submit-advance-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Advance payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const submitRepairServiceFinalProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/repair-service-negotiation/submit-final-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Final payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const updateRepairServiceNegotiationStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/repair-service-negotiation/update-repair-service-negotiation-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Negotiation status updated');
+    return data;
+  }, [request]);
+
+  const getUserConstructionServiceNegotiations = useCallback(async () => {
+    const data = await request('/api/construction-service-negotiation/get-my-construction-service-negotiations', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserConstructionServiceNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+
+  const getAllConstructionServiceNegotiations = useCallback(async () => {
+    const data = await request('/api/construction-service-negotiation/get-construction-service-negotiations');
+    setAllConstructionServiceNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+
+  const getConstructionServiceNegotiationById = useCallback(async (id) => (
+    request(`/api/construction-service-negotiation/get-construction-service-negotiation/${id}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const createConstructionServiceNegotiation = useCallback(async (payload) => {
+    const data = await request('/api/construction-service-negotiation/create-construction-service-negotiation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Negotiation submitted');
+    return data;
+  }, [request, userToken]);
+
+  const addConstructionServiceCounterOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-service-negotiation/add-counter-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Counter offer submitted');
+    return data;
+  }, [request, userToken]);
+
+  const acceptConstructionServiceOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-service-negotiation/accept-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Offer accepted');
+    return data;
+  }, [request, userToken]);
+
+  const submitConstructionServiceAdvanceProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-service-negotiation/submit-advance-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Advance payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const submitConstructionServiceFinalProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-service-negotiation/submit-final-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Final payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const updateConstructionServiceMilestone = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-service-negotiation/update-milestone/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Milestone updated');
+    return data;
+  }, [request, userToken]);
+
+  const updateConstructionServiceNegotiationStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-service-negotiation/update-construction-service-negotiation-status/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -1546,10 +1720,12 @@ const AppState = ({ children }) => {
     adminToken,
     allConstructionServices,
     allConstructionMaterialNegotiations,
+    allConstructionServiceNegotiations,
     allInspectionServices,
     allMachineryNegotiations,
     allMaterials,
     allMachineries,
+    allRepairServiceNegotiations,
     allRentalTruckNegotiations,
     allSparePartNegotiations,
     allTruckMeetings,
@@ -1567,20 +1743,26 @@ const AppState = ({ children }) => {
     createCategory,
     createConstructionService,
     createConstructionMaterialNegotiation,
+    createConstructionServiceNegotiation,
     createInspectionService,
     createMachineryNegotiation,
     createMachinery,
     createMaterial,
+    createRepairServiceNegotiation,
     createRentalTruckNegotiation,
     createSparePartNegotiation,
+    addConstructionServiceCounterOffer,
     addConstructionMaterialCounterOffer,
     addMachineryCounterOffer,
+    addRepairServiceCounterOffer,
     addRentalTruckCounterOffer,
     addSparePartCounterOffer,
     addTruckMeetingCounterOffer,
     addTruckCounterOffer,
+    acceptConstructionServiceOffer,
     acceptConstructionMaterialOffer,
     acceptMachineryOffer,
+    acceptRepairServiceOffer,
     acceptRentalTruckOffer,
     acceptSparePartOffer,
     acceptTruckMeetingOffer,
@@ -1609,8 +1791,10 @@ const AppState = ({ children }) => {
     deleteTruck,
     fetchAdmin,
     fetchUser,
+    getAllConstructionServiceNegotiations,
     getAllConstructionMaterialNegotiations,
     getAllMachineryNegotiations,
+    getAllRepairServiceNegotiations,
     getAllRentalTruckNegotiations,
     getAllSparePartNegotiations,
     getAllTruckMeetings,
@@ -1634,12 +1818,14 @@ const AppState = ({ children }) => {
     getApprovedRepairServices,
     getApprovedSpareParts,
     getApprovedTrucks,
+    getConstructionServiceNegotiationById,
     getConstructionMaterialNegotiationById,
     getConstructionServiceById,
     getInspectionServiceById,
     getMachineryById,
     getMaterialById,
     getMachineryNegotiationById,
+    getRepairServiceNegotiationById,
     getRentalMachineryById,
     getRentalTruckById,
     getRentalTruckNegotiationById,
@@ -1652,11 +1838,13 @@ const AppState = ({ children }) => {
     getSubCategoryById,
     getTruckMeetingById,
     getTruckNegotiationById,
+    getUserConstructionServiceNegotiations,
     getUserConstructionMaterialNegotiations,
     getUserConstructionServices,
     getUserInspectionServices,
     getUserMachineries,
     getUserMachineryNegotiations,
+    getUserRepairServiceNegotiations,
     getUserRentalMachineries,
     getUserRentalTruckNegotiations,
     getUserRentalTrucks,
@@ -1689,8 +1877,12 @@ const AppState = ({ children }) => {
     sparePartInitialForm,
     signupUser,
     subCategories,
+    submitConstructionServiceAdvanceProof,
+    submitConstructionServiceFinalProof,
     submitConstructionMaterialAdvanceProof,
     submitConstructionMaterialFinalProof,
+    submitRepairServiceAdvanceProof,
+    submitRepairServiceFinalProof,
     submitRentalTruckAdvanceProof,
     submitRentalTruckFinalProof,
     submitSparePartAdvanceProof,
@@ -1702,6 +1894,8 @@ const AppState = ({ children }) => {
     truckBrands,
     truckInitialForm,
     updateBasicInfo,
+    updateConstructionServiceMilestone,
+    updateConstructionServiceNegotiationStatus,
     updateConstructionMaterialNegotiationStatus,
     updateConstructionService,
     updateConstructionServiceStatus,
@@ -1712,6 +1906,7 @@ const AppState = ({ children }) => {
     updateMachineryStatus,
     updateMaterial,
     updateMaterialStatus,
+    updateRepairServiceNegotiationStatus,
     updateRentalMachinery,
     updateRentalMachineryStatus,
     updateRentalTruckNegotiationStatus,
@@ -1730,8 +1925,10 @@ const AppState = ({ children }) => {
     updateTruckStatus,
     updateUserProfile,
     uploadImage,
+    userConstructionServiceNegotiations,
     userConstructionMaterialNegotiations,
     userMachineryNegotiations,
+    userRepairServiceNegotiations,
     userRentalTruckNegotiations,
     userSparePartNegotiations,
     userTruckMeetings,
@@ -1750,10 +1947,12 @@ const AppState = ({ children }) => {
     adminToken,
     allConstructionServices,
     allConstructionMaterialNegotiations,
+    allConstructionServiceNegotiations,
     allInspectionServices,
     allMachineryNegotiations,
     allMaterials,
     allMachineries,
+    allRepairServiceNegotiations,
     allRentalTruckNegotiations,
     allSparePartNegotiations,
     allTruckMeetings,
@@ -1768,19 +1967,25 @@ const AppState = ({ children }) => {
     createConstructionService,
     createCategory,
     createConstructionMaterialNegotiation,
+    createConstructionServiceNegotiation,
     createInspectionService,
     createMachinery,
     createMaterial,
+    createRepairServiceNegotiation,
     createRentalTruckNegotiation,
     createSparePartNegotiation,
+    addConstructionServiceCounterOffer,
     addConstructionMaterialCounterOffer,
     addMachineryCounterOffer,
+    addRepairServiceCounterOffer,
     addRentalTruckCounterOffer,
     addSparePartCounterOffer,
     addTruckMeetingCounterOffer,
     addTruckCounterOffer,
+    acceptConstructionServiceOffer,
     acceptConstructionMaterialOffer,
     acceptMachineryOffer,
+    acceptRepairServiceOffer,
     acceptRentalTruckOffer,
     acceptSparePartOffer,
     acceptTruckMeetingOffer,
@@ -1810,8 +2015,10 @@ const AppState = ({ children }) => {
     deleteTruck,
     fetchAdmin,
     fetchUser,
+    getAllConstructionServiceNegotiations,
     getAllConstructionMaterialNegotiations,
     getAllMachineryNegotiations,
+    getAllRepairServiceNegotiations,
     getAllRentalTruckNegotiations,
     getAllSparePartNegotiations,
     getAllTruckMeetings,
@@ -1835,11 +2042,13 @@ const AppState = ({ children }) => {
     getApprovedRepairServices,
     getApprovedSpareParts,
     getApprovedTrucks,
+    getConstructionServiceNegotiationById,
     getConstructionMaterialNegotiationById,
     getConstructionServiceById,
     getInspectionServiceById,
     getMachineryById,
     getMaterialById,
+    getRepairServiceNegotiationById,
     getRentalMachineryById,
     getRentalTruckById,
     getRentalTruckNegotiationById,
@@ -1853,11 +2062,13 @@ const AppState = ({ children }) => {
     getMachineryNegotiationById,
     getTruckMeetingById,
     getTruckNegotiationById,
+    getUserConstructionServiceNegotiations,
     getUserConstructionMaterialNegotiations,
     getUserConstructionServices,
     getUserInspectionServices,
     getUserMachineries,
     getUserMachineryNegotiations,
+    getUserRepairServiceNegotiations,
     getUserRentalMachineries,
     getUserRentalTruckNegotiations,
     getUserRentalTrucks,
@@ -1875,8 +2086,12 @@ const AppState = ({ children }) => {
     logoutUser,
     signupUser,
     subCategories,
+    submitConstructionServiceAdvanceProof,
+    submitConstructionServiceFinalProof,
     submitConstructionMaterialAdvanceProof,
     submitConstructionMaterialFinalProof,
+    submitRepairServiceAdvanceProof,
+    submitRepairServiceFinalProof,
     submitRentalTruckAdvanceProof,
     submitRentalTruckFinalProof,
     submitSparePartAdvanceProof,
@@ -1886,6 +2101,8 @@ const AppState = ({ children }) => {
     submitAdvanceProof,
     submitFinalProof,
     updateBasicInfo,
+    updateConstructionServiceMilestone,
+    updateConstructionServiceNegotiationStatus,
     updateConstructionMaterialNegotiationStatus,
     updateConstructionService,
     updateConstructionServiceStatus,
@@ -1897,6 +2114,7 @@ const AppState = ({ children }) => {
     updateMachineryStatus,
     updateMaterial,
     updateMaterialStatus,
+    updateRepairServiceNegotiationStatus,
     updateRentalMachinery,
     updateRentalMachineryStatus,
     updateRentalTruckNegotiationStatus,
@@ -1914,8 +2132,10 @@ const AppState = ({ children }) => {
     updateTruckStatus,
     updateUserProfile,
     uploadImage,
+    userConstructionServiceNegotiations,
     userConstructionMaterialNegotiations,
     userMachineryNegotiations,
+    userRepairServiceNegotiations,
     userRentalTruckNegotiations,
     userSparePartNegotiations,
     userTruckMeetings,

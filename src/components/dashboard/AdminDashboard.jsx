@@ -20,10 +20,14 @@ import AdminMachineryView from './admin/AdminMachineryView';
 import AdminMaterialView from './admin/AdminMaterialView';
 import AdminConstructionMaterialNegotiationDetailPage from './admin/AdminConstructionMaterialNegotiationDetailPage';
 import AdminConstructionMaterialNegotiationsPage from './admin/AdminConstructionMaterialNegotiationsPage';
+import AdminConstructionServiceNegotiationDetailPage from './admin/AdminConstructionServiceNegotiationDetailPage';
+import AdminConstructionServiceNegotiationsPage from './admin/AdminConstructionServiceNegotiationsPage';
 import AdminMachineryNegotiationDetailPage from './admin/AdminMachineryNegotiationDetailPage';
 import AdminMachineryNegotiationsPage from './admin/AdminMachineryNegotiationsPage';
 import AdminRentalTruckNegotiationDetailPage from './admin/AdminRentalTruckNegotiationDetailPage';
 import AdminRentalTruckNegotiationsPage from './admin/AdminRentalTruckNegotiationsPage';
+import AdminRepairServiceNegotiationDetailPage from './admin/AdminRepairServiceNegotiationDetailPage';
+import AdminRepairServiceNegotiationsPage from './admin/AdminRepairServiceNegotiationsPage';
 import AdminRentalMachineryView from './admin/AdminRentalMachineryView';
 import AdminRentalTruckView from './admin/AdminRentalTruckView';
 import AdminRepairServiceView from './admin/AdminRepairServiceView';
@@ -73,7 +77,9 @@ function AdminDashboard() {
             <Route component={AdminTruckNegotiationsPage} exact path={`${path}/view-negotiations/trucks`} />
             <Route component={AdminMachineryNegotiationsPage} exact path={`${path}/view-negotiations/construction-machinery`} />
             <Route component={AdminConstructionMaterialNegotiationsPage} exact path={`${path}/view-negotiations/construction-material`} />
+            <Route component={AdminConstructionServiceNegotiationsPage} exact path={`${path}/view-negotiations/construction-services`} />
             <Route component={AdminRentalTruckNegotiationsPage} exact path={`${path}/view-negotiations/rental-trucks`} />
+            <Route component={AdminRepairServiceNegotiationsPage} exact path={`${path}/view-negotiations/repair-services`} />
             <Route component={AdminSparePartNegotiationsPage} exact path={`${path}/view-negotiations/spare-parts`} />
             <Route component={AdminTruckList} exact path={`${path}/view-listings/trucks`} />
             <Route component={AdminMachineryList} exact path={`${path}/view-listings/construction-machinery`} />
@@ -103,7 +109,9 @@ function AdminDashboard() {
             <Route component={AdminTruckNegotiationDetailPage} exact path={`${path}/negotiation-detail/:truckNegotiationId`} />
             <Route component={AdminMachineryNegotiationDetailPage} exact path={`${path}/machinery-negotiation-detail/:machineryNegotiationId`} />
             <Route component={AdminConstructionMaterialNegotiationDetailPage} exact path={`${path}/material-negotiation-detail/:materialNegotiationId`} />
+            <Route component={AdminConstructionServiceNegotiationDetailPage} exact path={`${path}/construction-service-negotiation-detail/:constructionServiceNegotiationId`} />
             <Route component={AdminRentalTruckNegotiationDetailPage} exact path={`${path}/rental-truck-negotiation-detail/:rentalTruckNegotiationId`} />
+            <Route component={AdminRepairServiceNegotiationDetailPage} exact path={`${path}/repair-service-negotiation-detail/:repairServiceNegotiationId`} />
             <Route component={AdminSparePartNegotiationDetailPage} exact path={`${path}/spare-part-negotiation-detail/:sparePartNegotiationId`} />
           </Switch>
         </section>
