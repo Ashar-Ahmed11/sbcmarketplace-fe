@@ -5,7 +5,7 @@ import PaymentProofModal from '../negotiations/PaymentProofModal';
 import ConstructionServiceNegotiationConversation from '../constructionServiceNegotiations/ConstructionServiceNegotiationConversation';
 import ConstructionServiceNegotiationPaymentPanels from '../constructionServiceNegotiations/ConstructionServiceNegotiationPaymentPanels';
 import ConstructionServicePurchaseOrder from '../constructionServiceNegotiations/ConstructionServicePurchaseOrder';
-import { getAcceptedConstructionServiceOffer } from '../constructionServiceNegotiations/constructionServiceNegotiationUtils';
+import { getAcceptedConstructionServiceOffer, shouldShowConstructionServicePurchaseOrder } from '../constructionServiceNegotiations/constructionServiceNegotiationUtils';
 
 const DEFAULT_COUNTER_OFFER = {
   labourCharges: '',
@@ -43,6 +43,7 @@ function UserConstructionServiceNegotiationDetailPage() {
   if (!row) return null;
 
   const acceptedOffer = getAcceptedConstructionServiceOffer(row);
+  const canShowPurchaseOrder = shouldShowConstructionServicePurchaseOrder(row, acceptedOffer);
 
   return (
     <>
@@ -107,7 +108,7 @@ function UserConstructionServiceNegotiationDetailPage() {
         />
       ) : null}
 
-      {row.finalPaymentStatus === 'paid' ? <ConstructionServicePurchaseOrder basicInfo={basicInfo} row={row} /> : null}
+      {canShowPurchaseOrder ? <ConstructionServicePurchaseOrder basicInfo={basicInfo} row={row} /> : null}
 
       {showCounterModal ? (
         <>

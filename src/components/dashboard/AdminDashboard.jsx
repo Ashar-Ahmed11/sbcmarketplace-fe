@@ -3,7 +3,9 @@ import { Redirect, Route, Switch, useHistory, useRouteMatch } from 'react-router
 import AppContext from '../context/appContext';
 import DashboardSidebar from './DashboardSidebar';
 import AdminConstructionServiceList from './admin/AdminConstructionServiceList';
+import AdminInspectionHubPage from './admin/AdminInspectionHubPage';
 import AdminInspectionServiceList from './admin/AdminInspectionServiceList';
+import AdminInspectionNegotiationsPage from './admin/AdminInspectionNegotiationsPage';
 import AdminBasicInfoPage from './admin/AdminBasicInfoPage';
 import AdminHome from './admin/AdminHome';
 import AdminListings from './admin/AdminListings';
@@ -16,6 +18,10 @@ import AdminSparePartList from './admin/AdminSparePartList';
 import AdminTruckList from './admin/AdminTruckList';
 import AdminConstructionServiceView from './admin/AdminConstructionServiceView';
 import AdminInspectionServiceView from './admin/AdminInspectionServiceView';
+import AdminTruckInspectionNegotiationDetailPage from './admin/AdminTruckInspectionNegotiationDetailPage';
+import AdminTruckInspectionNegotiationsPage from './admin/AdminTruckInspectionNegotiationsPage';
+import AdminTruckInspectionReportDetailPage from './admin/AdminTruckInspectionReportDetailPage';
+import AdminTruckInspectionReportsPage from './admin/AdminTruckInspectionReportsPage';
 import AdminMachineryView from './admin/AdminMachineryView';
 import AdminMaterialView from './admin/AdminMaterialView';
 import AdminConstructionMaterialNegotiationDetailPage from './admin/AdminConstructionMaterialNegotiationDetailPage';
@@ -57,6 +63,7 @@ function AdminDashboard() {
     { label: 'Home', to: `${url}`, exact: true, icon: 'fa fa-home' },
     { label: 'View Listings', to: `${url}/view-listings`, icon: 'fa fa-list' },
     { label: 'View Negotiations', to: `${url}/view-negotiations`, icon: 'fa fa-comments' },
+    { label: 'Inspection', to: `${url}/inspection`, icon: 'fa fa-search' },
     { label: 'View Meetings', to: `${url}/view-meetings`, icon: 'fa fa-calendar' },
     { label: 'Basic Info', to: `${url}/basic-info`, icon: 'fa fa-sliders' },
     { label: 'Categories', to: `${url}/categories`, icon: 'fa fa-folder-open' },
@@ -71,8 +78,12 @@ function AdminDashboard() {
             <Route component={AdminHome} exact path={path} />
             <Route component={AdminListings} exact path={`${path}/view-listings`} />
             <Route component={ViewNegotiationsPage} exact path={`${path}/view-negotiations`} />
+            <Route component={AdminInspectionHubPage} exact path={`${path}/inspection`} />
+            <Route component={AdminTruckInspectionReportsPage} exact path={`${path}/inspection/truck-inspection`} />
             <Route component={ViewMeetingsPage} exact path={`${path}/view-meetings`} />
             <Route component={AdminBasicInfoPage} exact path={`${path}/basic-info`} />
+            <Route component={AdminInspectionNegotiationsPage} exact path={`${path}/view-negotiations/inspection-services`} />
+            <Route component={AdminTruckInspectionNegotiationsPage} exact path={`${path}/view-negotiations/inspection-services/truck-inspection`} />
             <Route component={AdminTruckMeetingsPage} exact path={`${path}/view-meetings/trucks`} />
             <Route component={AdminTruckNegotiationsPage} exact path={`${path}/view-negotiations/trucks`} />
             <Route component={AdminMachineryNegotiationsPage} exact path={`${path}/view-negotiations/construction-machinery`} />
@@ -104,8 +115,10 @@ function AdminDashboard() {
             <Route component={AdminSparePartView} exact path={`${path}/view-spare-part/:sparePartId`} />
             <Route component={AdminConstructionServiceView} exact path={`${path}/view-construction-service/:constructionServiceId`} />
             <Route component={AdminInspectionServiceView} exact path={`${path}/view-inspection-service/:inspectionServiceId`} />
+            <Route component={AdminTruckInspectionReportDetailPage} exact path={`${path}/truck-inspection-report/:truckInspectionReportId`} />
             <Route component={AdminRepairServiceView} exact path={`${path}/view-repair-service/:repairServiceId`} />
             <Route component={AdminTruckMeetingDetailPage} exact path={`${path}/truck-meeting-detail/:truckMeetingId`} />
+            <Route component={AdminTruckInspectionNegotiationDetailPage} exact path={`${path}/truck-inspection-negotiation-detail/:truckInspectionServiceNegotiationId`} />
             <Route component={AdminTruckNegotiationDetailPage} exact path={`${path}/negotiation-detail/:truckNegotiationId`} />
             <Route component={AdminMachineryNegotiationDetailPage} exact path={`${path}/machinery-negotiation-detail/:machineryNegotiationId`} />
             <Route component={AdminConstructionMaterialNegotiationDetailPage} exact path={`${path}/material-negotiation-detail/:materialNegotiationId`} />

@@ -8,6 +8,12 @@ function MyNegotiationsPage() {
     <ListingTypeCards
       items={[
         {
+          label: 'Inspection Negotiations',
+          text: 'Review and continue your active truck inspection service negotiations.',
+          to: `${url}/inspection-services`,
+          icon: 'fa fa-search',
+        },
+        {
           label: 'Truck Negotiations',
           text: 'Review and continue your active buyer-seller truck negotiations.',
           to: `${url}/trucks`,

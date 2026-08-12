@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import AppContext from '../../context/appContext';
 import ConstructionServiceNegotiationConversation from '../constructionServiceNegotiations/ConstructionServiceNegotiationConversation';
 import ConstructionServicePurchaseOrder from '../constructionServiceNegotiations/ConstructionServicePurchaseOrder';
-import { getAcceptedConstructionServiceOffer } from '../constructionServiceNegotiations/constructionServiceNegotiationUtils';
+import { getAcceptedConstructionServiceOffer, shouldShowConstructionServicePurchaseOrder } from '../constructionServiceNegotiations/constructionServiceNegotiationUtils';
 
 function AdminConstructionServiceNegotiationDetailPage() {
   const { constructionServiceNegotiationId } = useParams();
@@ -17,6 +17,7 @@ function AdminConstructionServiceNegotiationDetailPage() {
 
   if (!row) return null;
   const acceptedOffer = getAcceptedConstructionServiceOffer(row);
+  const canShowPurchaseOrder = shouldShowConstructionServicePurchaseOrder(row, acceptedOffer);
 
   return (
     <section className="dashboard-section-card form-card-panel">
@@ -219,7 +220,7 @@ function AdminConstructionServiceNegotiationDetailPage() {
           </section>
         ) : null}
 
-        {acceptedOffer && row.finalPaymentStatus === 'paid' ? <ConstructionServicePurchaseOrder basicInfo={basicInfo} row={row} /> : null}
+        {acceptedOffer && canShowPurchaseOrder ? <ConstructionServicePurchaseOrder basicInfo={basicInfo} row={row} /> : null}
       </div>
       <div className="dashboard-form-actions">
         <button className="dashboard-action-btn" onClick={async () => setRow(await updateConstructionServiceNegotiationStatus(constructionServiceNegotiationId, {

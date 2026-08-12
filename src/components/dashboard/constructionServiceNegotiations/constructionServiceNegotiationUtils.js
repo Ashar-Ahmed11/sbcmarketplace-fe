@@ -7,6 +7,15 @@ export const getAcceptedConstructionServiceOffer = (row) => (row?.negotiation ||
 
 export const getPendingConstructionServiceMilestone = (offer) => (offer?.milestones || []).find((item) => !item.isCompleted);
 
+export const shouldShowConstructionServicePurchaseOrder = (row, offer) => {
+  if (row?.finalPaymentStatus === 'paid') return true;
+
+  const milestones = offer?.milestones || [];
+  if (!milestones.length) return false;
+
+  return milestones.every((item) => item?.paymentStatus === 'paid');
+};
+
 export const getConstructionServiceProgress = (offer) => {
   const milestones = offer?.milestones || [];
   if (!milestones.length) return 0;
