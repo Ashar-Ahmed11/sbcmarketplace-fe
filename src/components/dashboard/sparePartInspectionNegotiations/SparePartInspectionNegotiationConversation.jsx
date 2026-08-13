@@ -1,19 +1,19 @@
-import { formatInspectionSchedule, getAcceptedTruckInspectionServiceOffer } from './truckInspectionNegotiationUtils';
+import { formatInspectionSchedule, getAcceptedSparePartInspectionOffer } from './sparePartInspectionNegotiationUtils';
 
 function formatCurrency(value) {
   return `Rs. ${Number(value || 0).toLocaleString()}`;
 }
 
-function TruckInspectionNegotiationConversation({
+function SparePartInspectionNegotiationConversation({
   currentUserId,
   onAccept,
   onOpenCounterOffer,
   row,
   showActionButtons = true,
   showCounterButton = true,
-  title = 'Inspection Negotiation',
+  title = 'Spare Part Inspection Negotiation',
 }) {
-  const acceptedOffer = getAcceptedTruckInspectionServiceOffer(row);
+  const acceptedOffer = getAcceptedSparePartInspectionOffer(row);
   const userRole = String(row?.buyer?._id) === String(currentUserId) ? 'buyer' : 'seller';
 
   return (
@@ -21,7 +21,7 @@ function TruckInspectionNegotiationConversation({
       <div className="truck-negotiation-screen__head">
         <div>
           <h1>{title}</h1>
-          <p>{row.inspectionService?.title || 'Truck inspection service negotiation'}</p>
+          <p>{row.inspectionService?.title || 'Spare part inspection service negotiation'}</p>
         </div>
         <span className="truck-negotiation-screen__status">Negotiating</span>
       </div>
@@ -70,4 +70,4 @@ function TruckInspectionNegotiationConversation({
   );
 }
 
-export default TruckInspectionNegotiationConversation;
+export default SparePartInspectionNegotiationConversation;

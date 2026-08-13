@@ -410,6 +410,18 @@ const AppState = ({ children }) => {
   const [allTruckInspectionServiceNegotiations, setAllTruckInspectionServiceNegotiations] = useState([]);
   const [userTruckInspectionReports, setUserTruckInspectionReports] = useState([]);
   const [allTruckInspectionReports, setAllTruckInspectionReports] = useState([]);
+  const [userMachineryInspectionNegotiations, setUserMachineryInspectionNegotiations] = useState([]);
+  const [allMachineryInspectionNegotiations, setAllMachineryInspectionNegotiations] = useState([]);
+  const [userMachineryInspectionReports, setUserMachineryInspectionReports] = useState([]);
+  const [allMachineryInspectionReports, setAllMachineryInspectionReports] = useState([]);
+  const [userSparePartInspectionNegotiations, setUserSparePartInspectionNegotiations] = useState([]);
+  const [allSparePartInspectionNegotiations, setAllSparePartInspectionNegotiations] = useState([]);
+  const [userSparePartInspectionReports, setUserSparePartInspectionReports] = useState([]);
+  const [allSparePartInspectionReports, setAllSparePartInspectionReports] = useState([]);
+  const [userConstructionMaterialInspectionNegotiations, setUserConstructionMaterialInspectionNegotiations] = useState([]);
+  const [allConstructionMaterialInspectionNegotiations, setAllConstructionMaterialInspectionNegotiations] = useState([]);
+  const [userConstructionMaterialInspectionReports, setUserConstructionMaterialInspectionReports] = useState([]);
+  const [allConstructionMaterialInspectionReports, setAllConstructionMaterialInspectionReports] = useState([]);
   const [userSparePartNegotiations, setUserSparePartNegotiations] = useState([]);
   const [allSparePartNegotiations, setAllSparePartNegotiations] = useState([]);
   const [userTruckMeetings, setUserTruckMeetings] = useState([]);
@@ -1225,6 +1237,402 @@ const AppState = ({ children }) => {
     return data;
   }, [request]);
 
+  const getUserMachineryInspectionNegotiations = useCallback(async () => {
+    const data = await request('/api/machinery-inspection-negotiation/get-visible-machinery-inspection-negotiations', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserMachineryInspectionNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+
+  const getAllMachineryInspectionNegotiations = useCallback(async () => {
+    const data = await request('/api/machinery-inspection-negotiation/get-machinery-inspection-negotiations');
+    setAllMachineryInspectionNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+
+  const getMachineryInspectionNegotiationById = useCallback(async (id) => (
+    request(`/api/machinery-inspection-negotiation/get-machinery-inspection-negotiation/${id}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const searchNegotiationEligibleMachineries = useCallback(async (inspectionServiceId, query = '') => (
+    request(`/api/machinery-inspection-negotiation/search-machineries?inspectionServiceId=${encodeURIComponent(inspectionServiceId || '')}&q=${encodeURIComponent(query)}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const createMachineryInspectionNegotiation = useCallback(async (payload) => {
+    const data = await request('/api/machinery-inspection-negotiation/create-machinery-inspection-negotiation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Machinery inspection negotiation submitted');
+    return data;
+  }, [request, userToken]);
+
+  const addMachineryInspectionCounterOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/machinery-inspection-negotiation/add-counter-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Counter offer submitted');
+    return data;
+  }, [request, userToken]);
+
+  const acceptMachineryInspectionOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/machinery-inspection-negotiation/accept-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Offer accepted');
+    return data;
+  }, [request, userToken]);
+
+  const submitMachineryInspectionAdvanceProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/machinery-inspection-negotiation/submit-advance-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Advance payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const submitMachineryInspectionFinalProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/machinery-inspection-negotiation/submit-final-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Final payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const updateMachineryInspectionNegotiationStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/machinery-inspection-negotiation/update-machinery-inspection-negotiation-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Negotiation status updated');
+    return data;
+  }, [request]);
+
+  const getUserMachineryInspectionReports = useCallback(async () => {
+    const data = await request('/api/machinery-inspection-report/get-visible-machinery-inspection-reports', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserMachineryInspectionReports(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+
+  const getAllMachineryInspectionReports = useCallback(async () => {
+    const data = await request('/api/machinery-inspection-report/get-machinery-inspection-reports');
+    setAllMachineryInspectionReports(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+
+  const getMachineryInspectionReportById = useCallback(async (id) => (
+    request(`/api/machinery-inspection-report/get-machinery-inspection-report/${id}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const searchEligibleMachineryInspectionNegotiations = useCallback(async (query = '') => (
+    request(`/api/machinery-inspection-report/search-eligible-negotiations?q=${encodeURIComponent(query)}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const createMachineryInspectionReport = useCallback(async (payload) => {
+    const data = await request('/api/machinery-inspection-report/create-machinery-inspection-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Machinery inspection report created');
+    return data;
+  }, [request, userToken]);
+
+  const updateMachineryInspectionReportStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/machinery-inspection-report/update-machinery-inspection-report-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Inspection report status updated');
+    return data;
+  }, [request]);
+
+  const getUserSparePartInspectionNegotiations = useCallback(async () => {
+    const data = await request('/api/spare-part-inspection-negotiation/get-visible-spare-part-inspection-negotiations', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserSparePartInspectionNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+
+  const getAllSparePartInspectionNegotiations = useCallback(async () => {
+    const data = await request('/api/spare-part-inspection-negotiation/get-spare-part-inspection-negotiations');
+    setAllSparePartInspectionNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+
+  const getSparePartInspectionNegotiationById = useCallback(async (id) => (
+    request(`/api/spare-part-inspection-negotiation/get-spare-part-inspection-negotiation/${id}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const searchNegotiationEligibleSpareParts = useCallback(async (inspectionServiceId, query = '') => (
+    request(`/api/spare-part-inspection-negotiation/search-spare-parts?inspectionServiceId=${encodeURIComponent(inspectionServiceId || '')}&q=${encodeURIComponent(query)}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const createSparePartInspectionNegotiation = useCallback(async (payload) => {
+    const data = await request('/api/spare-part-inspection-negotiation/create-spare-part-inspection-negotiation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Spare part inspection negotiation submitted');
+    return data;
+  }, [request, userToken]);
+
+  const addSparePartInspectionCounterOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/spare-part-inspection-negotiation/add-counter-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Counter offer submitted');
+    return data;
+  }, [request, userToken]);
+
+  const acceptSparePartInspectionOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/spare-part-inspection-negotiation/accept-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Offer accepted');
+    return data;
+  }, [request, userToken]);
+
+  const submitSparePartInspectionAdvanceProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/spare-part-inspection-negotiation/submit-advance-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Advance payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const submitSparePartInspectionFinalProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/spare-part-inspection-negotiation/submit-final-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Final payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const updateSparePartInspectionNegotiationStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/spare-part-inspection-negotiation/update-spare-part-inspection-negotiation-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Negotiation status updated');
+    return data;
+  }, [request]);
+
+  const getUserSparePartInspectionReports = useCallback(async () => {
+    const data = await request('/api/spare-part-inspection-report/get-visible-spare-part-inspection-reports', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserSparePartInspectionReports(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+
+  const getAllSparePartInspectionReports = useCallback(async () => {
+    const data = await request('/api/spare-part-inspection-report/get-spare-part-inspection-reports');
+    setAllSparePartInspectionReports(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+
+  const getSparePartInspectionReportById = useCallback(async (id) => (
+    request(`/api/spare-part-inspection-report/get-spare-part-inspection-report/${id}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const searchEligibleSparePartInspectionNegotiations = useCallback(async (query = '') => (
+    request(`/api/spare-part-inspection-report/search-eligible-negotiations?q=${encodeURIComponent(query)}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const createSparePartInspectionReport = useCallback(async (payload) => {
+    const data = await request('/api/spare-part-inspection-report/create-spare-part-inspection-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Spare part inspection report created');
+    return data;
+  }, [request, userToken]);
+
+  const updateSparePartInspectionReportStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/spare-part-inspection-report/update-spare-part-inspection-report-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Inspection report status updated');
+    return data;
+  }, [request]);
+
+  const getUserConstructionMaterialInspectionNegotiations = useCallback(async () => {
+    const data = await request('/api/construction-material-inspection-negotiation/get-visible-construction-material-inspection-negotiations', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserConstructionMaterialInspectionNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+
+  const getAllConstructionMaterialInspectionNegotiations = useCallback(async () => {
+    const data = await request('/api/construction-material-inspection-negotiation/get-construction-material-inspection-negotiations');
+    setAllConstructionMaterialInspectionNegotiations(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+
+  const getConstructionMaterialInspectionNegotiationById = useCallback(async (id) => (
+    request(`/api/construction-material-inspection-negotiation/get-construction-material-inspection-negotiation/${id}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const searchNegotiationEligibleConstructionMaterials = useCallback(async (inspectionServiceId, query = '') => (
+    request(`/api/construction-material-inspection-negotiation/search-construction-materials?inspectionServiceId=${encodeURIComponent(inspectionServiceId || '')}&q=${encodeURIComponent(query)}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const createConstructionMaterialInspectionNegotiation = useCallback(async (payload) => {
+    const data = await request('/api/construction-material-inspection-negotiation/create-construction-material-inspection-negotiation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Construction material inspection negotiation submitted');
+    return data;
+  }, [request, userToken]);
+
+  const addConstructionMaterialInspectionCounterOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-material-inspection-negotiation/add-counter-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Counter offer submitted');
+    return data;
+  }, [request, userToken]);
+
+  const acceptConstructionMaterialInspectionOffer = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-material-inspection-negotiation/accept-offer/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Offer accepted');
+    return data;
+  }, [request, userToken]);
+
+  const submitConstructionMaterialInspectionAdvanceProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-material-inspection-negotiation/submit-advance-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Advance payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const submitConstructionMaterialInspectionFinalProof = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-material-inspection-negotiation/submit-final-proof/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Final payment proof submitted');
+    return data;
+  }, [request, userToken]);
+
+  const updateConstructionMaterialInspectionNegotiationStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-material-inspection-negotiation/update-construction-material-inspection-negotiation-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Negotiation status updated');
+    return data;
+  }, [request]);
+
+  const getUserConstructionMaterialInspectionReports = useCallback(async () => {
+    const data = await request('/api/construction-material-inspection-report/get-visible-construction-material-inspection-reports', {
+      headers: { 'auth-token': userToken },
+    });
+    setUserConstructionMaterialInspectionReports(Array.isArray(data) ? data : []);
+    return data;
+  }, [request, userToken]);
+
+  const getAllConstructionMaterialInspectionReports = useCallback(async () => {
+    const data = await request('/api/construction-material-inspection-report/get-construction-material-inspection-reports');
+    setAllConstructionMaterialInspectionReports(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+
+  const getConstructionMaterialInspectionReportById = useCallback(async (id) => (
+    request(`/api/construction-material-inspection-report/get-construction-material-inspection-report/${id}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const searchEligibleConstructionMaterialInspectionNegotiations = useCallback(async (query = '') => (
+    request(`/api/construction-material-inspection-report/search-eligible-negotiations?q=${encodeURIComponent(query)}`, {
+      headers: { 'auth-token': userToken || adminToken },
+    })
+  ), [adminToken, request, userToken]);
+
+  const createConstructionMaterialInspectionReport = useCallback(async (payload) => {
+    const data = await request('/api/construction-material-inspection-report/create-construction-material-inspection-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Construction material inspection report created');
+    return data;
+  }, [request, userToken]);
+
+  const updateConstructionMaterialInspectionReportStatus = useCallback(async (id, payload) => {
+    const data = await request(`/api/construction-material-inspection-report/update-construction-material-inspection-report-status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Inspection report status updated');
+    return data;
+  }, [request]);
+
   const getUserSparePartNegotiations = useCallback(async () => {
     const data = await request('/api/spare-part-negotiation/get-my-spare-part-negotiations', {
       headers: { 'auth-token': userToken },
@@ -1851,6 +2259,7 @@ const AppState = ({ children }) => {
     return data;
   }, [request]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const contextValue = useMemo(() => ({
     API_BASE,
     adminToken,
@@ -1858,6 +2267,12 @@ const AppState = ({ children }) => {
     allConstructionMaterialNegotiations,
     allConstructionServiceNegotiations,
     allInspectionServices,
+    allMachineryInspectionNegotiations,
+    allMachineryInspectionReports,
+    allConstructionMaterialInspectionNegotiations,
+    allConstructionMaterialInspectionReports,
+    allSparePartInspectionNegotiations,
+    allSparePartInspectionReports,
     allTruckInspectionReports,
     allTruckInspectionServiceNegotiations,
     allMachineryNegotiations,
@@ -1883,6 +2298,12 @@ const AppState = ({ children }) => {
     createConstructionMaterialNegotiation,
     createConstructionServiceNegotiation,
     createInspectionService,
+    createMachineryInspectionNegotiation,
+    createMachineryInspectionReport,
+    createConstructionMaterialInspectionNegotiation,
+    createConstructionMaterialInspectionReport,
+    createSparePartInspectionNegotiation,
+    createSparePartInspectionReport,
     createTruckInspectionReport,
     createTruckInspectionServiceNegotiation,
     createMachineryNegotiation,
@@ -1893,6 +2314,9 @@ const AppState = ({ children }) => {
     createSparePartNegotiation,
     addConstructionServiceCounterOffer,
     addConstructionMaterialCounterOffer,
+    addMachineryInspectionCounterOffer,
+    addConstructionMaterialInspectionCounterOffer,
+    addSparePartInspectionCounterOffer,
     addTruckInspectionServiceCounterOffer,
     addMachineryCounterOffer,
     addRepairServiceCounterOffer,
@@ -1902,6 +2326,9 @@ const AppState = ({ children }) => {
     addTruckCounterOffer,
     acceptConstructionServiceOffer,
     acceptConstructionMaterialOffer,
+    acceptMachineryInspectionOffer,
+    acceptConstructionMaterialInspectionOffer,
+    acceptSparePartInspectionOffer,
     acceptTruckInspectionServiceOffer,
     acceptMachineryOffer,
     acceptRepairServiceOffer,
@@ -1988,8 +2415,26 @@ const AppState = ({ children }) => {
     getUserConstructionMaterialNegotiations,
     getUserConstructionServices,
     getUserInspectionServices,
+    getUserMachineryInspectionNegotiations,
+    getUserMachineryInspectionReports,
+    getUserConstructionMaterialInspectionNegotiations,
+    getUserConstructionMaterialInspectionReports,
+    getUserSparePartInspectionNegotiations,
+    getUserSparePartInspectionReports,
     getUserTruckInspectionReports,
     getUserTruckInspectionServiceNegotiations,
+    getAllMachineryInspectionNegotiations,
+    getAllMachineryInspectionReports,
+    getAllConstructionMaterialInspectionNegotiations,
+    getAllConstructionMaterialInspectionReports,
+    getMachineryInspectionNegotiationById,
+    getMachineryInspectionReportById,
+    getConstructionMaterialInspectionNegotiationById,
+    getConstructionMaterialInspectionReportById,
+    getAllSparePartInspectionNegotiations,
+    getAllSparePartInspectionReports,
+    getSparePartInspectionNegotiationById,
+    getSparePartInspectionReportById,
     getUserMachineries,
     getUserMachineryNegotiations,
     getUserRepairServiceNegotiations,
@@ -2021,7 +2466,13 @@ const AppState = ({ children }) => {
     repairServiceInitialForm,
     rentalMachineryInitialForm,
     rentalTruckInitialForm,
+    searchEligibleConstructionMaterialInspectionNegotiations,
+    searchEligibleSparePartInspectionNegotiations,
     searchEligibleTruckInspectionNegotiations,
+    searchEligibleMachineryInspectionNegotiations,
+    searchNegotiationEligibleConstructionMaterials,
+    searchNegotiationEligibleMachineries,
+    searchNegotiationEligibleSpareParts,
     searchNegotiationEligibleTrucks,
     serviceCategoryTypes,
     sparePartInitialForm,
@@ -2029,6 +2480,12 @@ const AppState = ({ children }) => {
     subCategories,
     submitConstructionServiceAdvanceProof,
     submitConstructionServiceFinalProof,
+    submitMachineryInspectionAdvanceProof,
+    submitMachineryInspectionFinalProof,
+    submitConstructionMaterialInspectionAdvanceProof,
+    submitConstructionMaterialInspectionFinalProof,
+    submitSparePartInspectionAdvanceProof,
+    submitSparePartInspectionFinalProof,
     submitTruckInspectionServiceAdvanceProof,
     submitTruckInspectionServiceFinalProof,
     submitConstructionMaterialAdvanceProof,
@@ -2048,6 +2505,12 @@ const AppState = ({ children }) => {
     updateBasicInfo,
     updateConstructionServiceMilestone,
     updateConstructionServiceNegotiationStatus,
+    updateMachineryInspectionNegotiationStatus,
+    updateMachineryInspectionReportStatus,
+    updateConstructionMaterialInspectionNegotiationStatus,
+    updateConstructionMaterialInspectionReportStatus,
+    updateSparePartInspectionNegotiationStatus,
+    updateSparePartInspectionReportStatus,
     updateTruckInspectionReportStatus,
     updateTruckInspectionServiceNegotiationStatus,
     updateConstructionMaterialNegotiationStatus,
@@ -2081,6 +2544,12 @@ const AppState = ({ children }) => {
     uploadImage,
     userConstructionServiceNegotiations,
     userConstructionMaterialNegotiations,
+    userMachineryInspectionNegotiations,
+    userMachineryInspectionReports,
+    userConstructionMaterialInspectionNegotiations,
+    userConstructionMaterialInspectionReports,
+    userSparePartInspectionNegotiations,
+    userSparePartInspectionReports,
     userTruckInspectionReports,
     userTruckInspectionServiceNegotiations,
     userMachineryNegotiations,
@@ -2105,6 +2574,12 @@ const AppState = ({ children }) => {
     allConstructionMaterialNegotiations,
     allConstructionServiceNegotiations,
     allInspectionServices,
+    allMachineryInspectionNegotiations,
+    allMachineryInspectionReports,
+    allConstructionMaterialInspectionNegotiations,
+    allConstructionMaterialInspectionReports,
+    allSparePartInspectionNegotiations,
+    allSparePartInspectionReports,
     allTruckInspectionReports,
     allTruckInspectionServiceNegotiations,
     allMachineryNegotiations,
@@ -2127,6 +2602,12 @@ const AppState = ({ children }) => {
     createConstructionMaterialNegotiation,
     createConstructionServiceNegotiation,
     createInspectionService,
+    createMachineryInspectionNegotiation,
+    createMachineryInspectionReport,
+    createConstructionMaterialInspectionNegotiation,
+    createConstructionMaterialInspectionReport,
+    createSparePartInspectionNegotiation,
+    createSparePartInspectionReport,
     createTruckInspectionReport,
     createTruckInspectionServiceNegotiation,
     createMachinery,
@@ -2136,6 +2617,9 @@ const AppState = ({ children }) => {
     createSparePartNegotiation,
     addConstructionServiceCounterOffer,
     addConstructionMaterialCounterOffer,
+    addMachineryInspectionCounterOffer,
+    addConstructionMaterialInspectionCounterOffer,
+    addSparePartInspectionCounterOffer,
     addTruckInspectionServiceCounterOffer,
     addMachineryCounterOffer,
     addRepairServiceCounterOffer,
@@ -2145,6 +2629,9 @@ const AppState = ({ children }) => {
     addTruckCounterOffer,
     acceptConstructionServiceOffer,
     acceptConstructionMaterialOffer,
+    acceptMachineryInspectionOffer,
+    acceptConstructionMaterialInspectionOffer,
+    acceptSparePartInspectionOffer,
     acceptTruckInspectionServiceOffer,
     acceptMachineryOffer,
     acceptRepairServiceOffer,
@@ -2232,8 +2719,26 @@ const AppState = ({ children }) => {
     getUserConstructionMaterialNegotiations,
     getUserConstructionServices,
     getUserInspectionServices,
+    getUserMachineryInspectionNegotiations,
+    getUserMachineryInspectionReports,
+    getUserConstructionMaterialInspectionNegotiations,
+    getUserConstructionMaterialInspectionReports,
+    getUserSparePartInspectionNegotiations,
+    getUserSparePartInspectionReports,
     getUserTruckInspectionReports,
     getUserTruckInspectionServiceNegotiations,
+    getAllMachineryInspectionNegotiations,
+    getAllMachineryInspectionReports,
+    getAllConstructionMaterialInspectionNegotiations,
+    getAllConstructionMaterialInspectionReports,
+    getMachineryInspectionNegotiationById,
+    getMachineryInspectionReportById,
+    getConstructionMaterialInspectionNegotiationById,
+    getConstructionMaterialInspectionReportById,
+    getAllSparePartInspectionNegotiations,
+    getAllSparePartInspectionReports,
+    getSparePartInspectionNegotiationById,
+    getSparePartInspectionReportById,
     getUserMachineries,
     getUserMachineryNegotiations,
     getUserRepairServiceNegotiations,
@@ -2252,12 +2757,24 @@ const AppState = ({ children }) => {
     loginUser,
     logoutAdmin,
     logoutUser,
+    searchEligibleConstructionMaterialInspectionNegotiations,
+    searchEligibleSparePartInspectionNegotiations,
+    searchEligibleMachineryInspectionNegotiations,
     searchEligibleTruckInspectionNegotiations,
+    searchNegotiationEligibleConstructionMaterials,
+    searchNegotiationEligibleMachineries,
+    searchNegotiationEligibleSpareParts,
     searchNegotiationEligibleTrucks,
     signupUser,
     subCategories,
     submitConstructionServiceAdvanceProof,
     submitConstructionServiceFinalProof,
+    submitMachineryInspectionAdvanceProof,
+    submitMachineryInspectionFinalProof,
+    submitConstructionMaterialInspectionAdvanceProof,
+    submitConstructionMaterialInspectionFinalProof,
+    submitSparePartInspectionAdvanceProof,
+    submitSparePartInspectionFinalProof,
     submitTruckInspectionServiceAdvanceProof,
     submitTruckInspectionServiceFinalProof,
     submitConstructionMaterialAdvanceProof,
@@ -2275,6 +2792,12 @@ const AppState = ({ children }) => {
     updateBasicInfo,
     updateConstructionServiceMilestone,
     updateConstructionServiceNegotiationStatus,
+    updateMachineryInspectionNegotiationStatus,
+    updateMachineryInspectionReportStatus,
+    updateConstructionMaterialInspectionNegotiationStatus,
+    updateConstructionMaterialInspectionReportStatus,
+    updateSparePartInspectionNegotiationStatus,
+    updateSparePartInspectionReportStatus,
     updateTruckInspectionReportStatus,
     updateTruckInspectionServiceNegotiationStatus,
     updateConstructionMaterialNegotiationStatus,
@@ -2308,6 +2831,12 @@ const AppState = ({ children }) => {
     uploadImage,
     userConstructionServiceNegotiations,
     userConstructionMaterialNegotiations,
+    userMachineryInspectionNegotiations,
+    userMachineryInspectionReports,
+    userConstructionMaterialInspectionNegotiations,
+    userConstructionMaterialInspectionReports,
+    userSparePartInspectionNegotiations,
+    userSparePartInspectionReports,
     userTruckInspectionReports,
     userTruckInspectionServiceNegotiations,
     userMachineryNegotiations,

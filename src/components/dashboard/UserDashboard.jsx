@@ -17,10 +17,21 @@ import TruckCreatePage from './user/TruckCreatePage';
 import UserConstructionServicesPage from './user/UserConstructionServicesPage';
 import UserHome from './user/UserHome';
 import UserBasicInfoPage from './user/UserBasicInfoPage';
+import UserCreateMachineryInspectionReportPage from './user/UserCreateMachineryInspectionReportPage';
+import UserCreateConstructionMaterialInspectionReportPage from './user/UserCreateConstructionMaterialInspectionReportPage';
+import UserCreateSparePartInspectionReportPage from './user/UserCreateSparePartInspectionReportPage';
 import UserCreateTruckInspectionReportPage from './user/UserCreateTruckInspectionReportPage';
 import UserInspectionHubPage from './user/UserInspectionHubPage';
 import UserInspectionNegotiationsPage from './user/UserInspectionNegotiationsPage';
 import UserInspectionServicesPage from './user/UserInspectionServicesPage';
+import UserMachineryInspectionNegotiationDetailPage from './user/UserMachineryInspectionNegotiationDetailPage';
+import UserMachineryInspectionNegotiationsPage from './user/UserMachineryInspectionNegotiationsPage';
+import UserMachineryInspectionReportDetailPage from './user/UserMachineryInspectionReportDetailPage';
+import UserMachineryInspectionReportsPage from './user/UserMachineryInspectionReportsPage';
+import UserConstructionMaterialInspectionNegotiationDetailPage from './user/UserConstructionMaterialInspectionNegotiationDetailPage';
+import UserConstructionMaterialInspectionNegotiationsPage from './user/UserConstructionMaterialInspectionNegotiationsPage';
+import UserConstructionMaterialInspectionReportDetailPage from './user/UserConstructionMaterialInspectionReportDetailPage';
+import UserConstructionMaterialInspectionReportsPage from './user/UserConstructionMaterialInspectionReportsPage';
 import UserMachineriesPage from './user/UserMachineriesPage';
 import UserConstructionMaterialNegotiationDetailPage from './user/UserConstructionMaterialNegotiationDetailPage';
 import UserConstructionMaterialNegotiationsPage from './user/UserConstructionMaterialNegotiationsPage';
@@ -36,6 +47,10 @@ import UserRentalTrucksPage from './user/UserRentalTrucksPage';
 import UserRepairServicesPage from './user/UserRepairServicesPage';
 import UserRepairServiceNegotiationDetailPage from './user/UserRepairServiceNegotiationDetailPage';
 import UserRepairServiceNegotiationsPage from './user/UserRepairServiceNegotiationsPage';
+import UserSparePartInspectionNegotiationDetailPage from './user/UserSparePartInspectionNegotiationDetailPage';
+import UserSparePartInspectionNegotiationsPage from './user/UserSparePartInspectionNegotiationsPage';
+import UserSparePartInspectionReportDetailPage from './user/UserSparePartInspectionReportDetailPage';
+import UserSparePartInspectionReportsPage from './user/UserSparePartInspectionReportsPage';
 import UserSparePartNegotiationDetailPage from './user/UserSparePartNegotiationDetailPage';
 import UserSparePartNegotiationsPage from './user/UserSparePartNegotiationsPage';
 import UserSparePartsPage from './user/UserSparePartsPage';
@@ -77,11 +92,20 @@ function UserDashboard() {
             <Route component={UserInspectionHubPage} exact path={`${path}/inspection`} />
             <Route component={UserTruckInspectionReportsPage} exact path={`${path}/inspection/truck-inspection`} />
             <Route component={UserCreateTruckInspectionReportPage} exact path={`${path}/inspection/truck-inspection/create`} />
+            <Route component={UserMachineryInspectionReportsPage} exact path={`${path}/inspection/machinery-inspection`} />
+            <Route component={UserCreateMachineryInspectionReportPage} exact path={`${path}/inspection/machinery-inspection/create`} />
+            <Route component={UserConstructionMaterialInspectionReportsPage} exact path={`${path}/inspection/construction-material-inspection`} />
+            <Route component={UserCreateConstructionMaterialInspectionReportPage} exact path={`${path}/inspection/construction-material-inspection/create`} />
+            <Route component={UserSparePartInspectionReportsPage} exact path={`${path}/inspection/spare-part-inspection`} />
+            <Route component={UserCreateSparePartInspectionReportPage} exact path={`${path}/inspection/spare-part-inspection/create`} />
             <Route component={MyMeetingsPage} exact path={`${path}/my-meetings`} />
             <Route component={UserBasicInfoPage} exact path={`${path}/basic-info`} />
             <Route component={UserTruckMeetingsPage} exact path={`${path}/my-meetings/trucks`} />
             <Route component={UserInspectionNegotiationsPage} exact path={`${path}/my-negotiations/inspection-services`} />
             <Route component={UserTruckInspectionNegotiationsPage} exact path={`${path}/my-negotiations/inspection-services/truck-inspection`} />
+            <Route component={UserMachineryInspectionNegotiationsPage} exact path={`${path}/my-negotiations/inspection-services/machinery-inspection`} />
+            <Route component={UserConstructionMaterialInspectionNegotiationsPage} exact path={`${path}/my-negotiations/inspection-services/construction-material-inspection`} />
+            <Route component={UserSparePartInspectionNegotiationsPage} exact path={`${path}/my-negotiations/inspection-services/spare-part-inspection`} />
             <Route component={UserTruckNegotiationsPage} exact path={`${path}/my-negotiations/trucks`} />
             <Route component={UserMachineryNegotiationsPage} exact path={`${path}/my-negotiations/construction-machinery`} />
             <Route component={UserConstructionMaterialNegotiationsPage} exact path={`${path}/my-negotiations/construction-material`} />
@@ -92,6 +116,12 @@ function UserDashboard() {
             <Route component={UserTruckMeetingDetailPage} exact path={`${path}/truck-meeting/:truckMeetingId`} />
             <Route component={UserTruckInspectionNegotiationDetailPage} exact path={`${path}/truck-inspection-negotiation/:truckInspectionServiceNegotiationId`} />
             <Route component={UserTruckInspectionReportDetailPage} exact path={`${path}/truck-inspection-report/:truckInspectionReportId`} />
+            <Route component={UserMachineryInspectionNegotiationDetailPage} exact path={`${path}/machinery-inspection-negotiation/:machineryInspectionNegotiationId`} />
+            <Route component={UserMachineryInspectionReportDetailPage} exact path={`${path}/machinery-inspection-report/:machineryInspectionReportId`} />
+            <Route component={UserConstructionMaterialInspectionNegotiationDetailPage} exact path={`${path}/construction-material-inspection-negotiation/:constructionMaterialInspectionNegotiationId`} />
+            <Route component={UserConstructionMaterialInspectionReportDetailPage} exact path={`${path}/construction-material-inspection-report/:constructionMaterialInspectionReportId`} />
+            <Route component={UserSparePartInspectionNegotiationDetailPage} exact path={`${path}/spare-part-inspection-negotiation/:sparePartInspectionNegotiationId`} />
+            <Route component={UserSparePartInspectionReportDetailPage} exact path={`${path}/spare-part-inspection-report/:sparePartInspectionReportId`} />
             <Route component={UserTruckNegotiationDetailPage} exact path={`${path}/truck-negotiation/:truckNegotiationId`} />
             <Route component={UserMachineryNegotiationDetailPage} exact path={`${path}/machinery-negotiation/:machineryNegotiationId`} />
             <Route component={UserConstructionMaterialNegotiationDetailPage} exact path={`${path}/material-negotiation/:materialNegotiationId`} />

@@ -30,9 +30,9 @@ export const formatInspectionSchedule = (dateValue, timeValue) => {
   return `${dateText} at ${timeText}`;
 };
 
-export const getAcceptedTruckInspectionServiceOffer = (row) => (row?.negotiation || []).find((item) => item.accepted);
+export const getAcceptedSparePartInspectionOffer = (row) => (row?.negotiation || []).find((item) => item.accepted);
 
-export const getTruckInspectionServiceNegotiationTotals = (offer, basicInfo) => {
+export const getSparePartInspectionNegotiationTotals = (offer, basicInfo) => {
   const labourCharges = Number(offer?.labourCharges) || 0;
   const deliveryCost = 0;
   const agreedTotal = labourCharges + deliveryCost;
@@ -60,7 +60,7 @@ export const getTruckInspectionServiceNegotiationTotals = (offer, basicInfo) => 
   };
 };
 
-export const getTruckInspectionReportStatus = (row) => {
-  if (!row?.truckInspectionReport?._id) return 'pending';
-  return row.truckInspectionReport?.status || 'pending approval';
+export const getSparePartInspectionReportStatus = (row) => {
+  if (!row?.sparePartInspectionReport?._id) return 'pending';
+  return row?.sparePartInspectionReport?.status || 'pending approval';
 };

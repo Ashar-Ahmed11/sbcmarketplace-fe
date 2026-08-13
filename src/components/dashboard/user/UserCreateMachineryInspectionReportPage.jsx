@@ -1,8 +1,8 @@
 import { useContext, useMemo, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../../context/appContext';
-import { createEmptyTruckInspectionReportForm, getTruckInspectionOverallScore, truckInspectionReportSections } from '../truckInspectionReports/truckInspectionReportUtils';
-import TruckInspectionReportPreview from '../truckInspectionReports/TruckInspectionReportPreview';
+import { createEmptyMachineryInspectionReportForm, getMachineryInspectionOverallScore, machineryInspectionReportSections } from '../machineryInspectionReports/machineryInspectionReportUtils';
+import MachineryInspectionReportPreview from '../machineryInspectionReports/MachineryInspectionReportPreview';
 
 function formatNegotiationDateTime(value) {
   if (!value) return '—';
@@ -11,25 +11,25 @@ function formatNegotiationDateTime(value) {
   return `${date.toLocaleDateString()} • ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 }
 
-function UserCreateTruckInspectionReportPage() {
+function UserCreateMachineryInspectionReportPage() {
   const history = useHistory();
-  const { createTruckInspectionReport, searchEligibleTruckInspectionNegotiations, uploadImage } = useContext(AppContext);
-  const [form, setForm] = useState(createEmptyTruckInspectionReportForm());
+  const { createMachineryInspectionReport, searchEligibleMachineryInspectionNegotiations, uploadImage } = useContext(AppContext);
+  const [form, setForm] = useState(createEmptyMachineryInspectionReportForm());
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [selectedNegotiation, setSelectedNegotiation] = useState(null);
   const fileInputRefs = useRef({});
 
   const visibleResults = useMemo(
-    () => results.filter((item) => String(item._id) !== String(form.truckInspectionServiceNegotiation)),
-    [form.truckInspectionServiceNegotiation, results]
+    () => results.filter((item) => String(item._id) !== String(form.machineryInspectionNegotiation)),
+    [form.machineryInspectionNegotiation, results]
   );
 
-  const overallScore = getTruckInspectionOverallScore(form);
+  const overallScore = getMachineryInspectionOverallScore(form);
 
   const handleSearch = async (value) => {
     setQuery(value);
-    const data = await searchEligibleTruckInspectionNegotiations(value);
+    const data = await searchEligibleMachineryInspectionNegotiations(value);
     setResults(Array.isArray(data) ? data : []);
   };
 
@@ -37,7 +37,7 @@ function UserCreateTruckInspectionReportPage() {
     setSelectedNegotiation(negotiation);
     setForm((current) => ({
       ...current,
-      truckInspectionServiceNegotiation: negotiation?._id || '',
+      machineryInspectionNegotiation: negotiation?._id || '',
       inspectionRequester: negotiation?.buyer?._id || '',
     }));
   };
@@ -46,7 +46,7 @@ function UserCreateTruckInspectionReportPage() {
     setSelectedNegotiation(null);
     setForm((current) => ({
       ...current,
-      truckInspectionServiceNegotiation: '',
+      machineryInspectionNegotiation: '',
       inspectionRequester: '',
     }));
   };
@@ -66,25 +66,25 @@ function UserCreateTruckInspectionReportPage() {
     <section className="dashboard-section-card form-card-panel">
       <div className="dashboard-section-head">
         <div>
-          <h1>Create Truck Inspection Report</h1>
+          <h1>Create Machinery Inspection Report</h1>
           <p>Fill the inspection findings and submit the report for admin approval.</p>
         </div>
       </div>
 
       <div className="dashboard-form-grid">
         <div className="form-field">
-          <label>Search Truck Inspection Negotiation</label>
+          <label>Search Machinery Inspection Negotiation</label>
           <input onChange={(event) => handleSearch(event.target.value)} placeholder="Search by buyer name or username" type="text" value={query} />
           {selectedNegotiation ? (
             <div className="inspection-search-selected mt-2">
               <div>
-                <strong>{selectedNegotiation.truck?.title || 'Selected Negotiation'}</strong>
+                <strong>{selectedNegotiation.constructionMachinery?.title || 'Selected Negotiation'}</strong>
                 <span>
                   {[
                     selectedNegotiation.buyer?.fullName || selectedNegotiation.buyer?.username,
-                    selectedNegotiation.truck?.brand,
-                    selectedNegotiation.truck?.location,
-                  ].filter(Boolean).join(' • ') || 'Truck inspection negotiation'}
+                    selectedNegotiation.constructionMachinery?.brand,
+                    selectedNegotiation.constructionMachinery?.location,
+                  ].filter(Boolean).join(' • ') || 'Machinery inspection negotiation'}
                 </span>
                 <span>{formatNegotiationDateTime(selectedNegotiation.createdAt)}</span>
               </div>
@@ -95,18 +95,18 @@ function UserCreateTruckInspectionReportPage() {
             <div className="inspection-search-results mt-2">
               {visibleResults.length ? visibleResults.map((item) => (
                 <button className="inspection-search-result" key={item._id} onClick={() => handleSelectNegotiation(item)} type="button">
-                  <strong>{item.truck?.title || 'Truck'}</strong>
+                  <strong>{item.constructionMachinery?.title || 'Machinery'}</strong>
                   <span>
                     {[
                       item.buyer?.fullName || item.buyer?.username,
-                      item.truck?.brand,
-                      item.truck?.location,
-                    ].filter(Boolean).join(' • ') || 'Truck inspection negotiation'}
+                      item.constructionMachinery?.brand,
+                      item.constructionMachinery?.location,
+                    ].filter(Boolean).join(' • ') || 'Machinery inspection negotiation'}
                   </span>
                   <span>{formatNegotiationDateTime(item.createdAt)}</span>
                 </button>
               )) : (
-                <div className="inspection-search-empty">No matching truck inspection negotiations found.</div>
+                <div className="inspection-search-empty">No matching machinery inspection negotiations found.</div>
               )}
             </div>
           ) : null}
@@ -125,7 +125,7 @@ function UserCreateTruckInspectionReportPage() {
       </div>
 
       <div className="row g-3 mt-3">
-        {truckInspectionReportSections.map(({ key, label }) => (
+        {machineryInspectionReportSections.map(({ key, label }) => (
           <div className="col-12" key={key}>
             <div className="construction-negotiation-milestone-card">
               <div className="construction-negotiation-milestone-card__head">
@@ -196,16 +196,18 @@ function UserCreateTruckInspectionReportPage() {
           </div>
         </div>
       </div>
-            <div className="py-2">
-      <TruckInspectionReportPreview form={form} overallScore={overallScore} selectedNegotiation={selectedNegotiation} />
-</div>
+
+      <div className="py-2">
+        <MachineryInspectionReportPreview form={form} overallScore={overallScore} selectedNegotiation={selectedNegotiation} />
+      </div>
+
       <div className="dashboard-form-actions mt-4">
         <button
           className="dashboard-action-btn"
-          disabled={!form.truckInspectionServiceNegotiation}
+          disabled={!form.machineryInspectionNegotiation}
           onClick={async () => {
-            const created = await createTruckInspectionReport(form);
-            history.push(`/user-dashboard/truck-inspection-report/${created._id}`);
+            const created = await createMachineryInspectionReport(form);
+            history.push(`/user-dashboard/machinery-inspection-report/${created._id}`);
           }}
           type="button"
         >
@@ -216,4 +218,4 @@ function UserCreateTruckInspectionReportPage() {
   );
 }
 
-export default UserCreateTruckInspectionReportPage;
+export default UserCreateMachineryInspectionReportPage;

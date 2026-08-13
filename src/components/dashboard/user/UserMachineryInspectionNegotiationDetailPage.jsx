@@ -6,27 +6,27 @@ import 'react-time-picker/dist/TimePicker.css';
 import { useParams } from 'react-router-dom';
 import AppContext from '../../context/appContext';
 import PaymentProofModal from '../negotiations/PaymentProofModal';
-import TruckInspectionNegotiationConversation from '../truckInspectionNegotiations/TruckInspectionNegotiationConversation';
-import TruckInspectionNegotiationPaymentPanels from '../truckInspectionNegotiations/TruckInspectionNegotiationPaymentPanels';
-import TruckInspectionServicePurchaseOrder from '../truckInspectionNegotiations/TruckInspectionServicePurchaseOrder';
+import MachineryInspectionNegotiationConversation from '../machineryInspectionNegotiations/MachineryInspectionNegotiationConversation';
+import MachineryInspectionNegotiationPaymentPanels from '../machineryInspectionNegotiations/MachineryInspectionNegotiationPaymentPanels';
+import MachineryInspectionPurchaseOrder from '../machineryInspectionNegotiations/MachineryInspectionPurchaseOrder';
 import {
   formatInspectionDate,
   formatInspectionTime,
-  getAcceptedTruckInspectionServiceOffer,
-} from '../truckInspectionNegotiations/truckInspectionNegotiationUtils';
+  getAcceptedMachineryInspectionOffer,
+} from '../machineryInspectionNegotiations/machineryInspectionNegotiationUtils';
 
-function UserTruckInspectionNegotiationDetailPage() {
-  const { truckInspectionServiceNegotiationId } = useParams();
+function UserMachineryInspectionNegotiationDetailPage() {
+  const { machineryInspectionNegotiationId } = useParams();
   const {
-    acceptTruckInspectionServiceOffer,
-    addTruckInspectionServiceCounterOffer,
+    acceptMachineryInspectionOffer,
+    addMachineryInspectionCounterOffer,
     basicInfo,
     currentUser,
     fetchUser,
     getBasicInfo,
-    getTruckInspectionServiceNegotiationById,
-    submitTruckInspectionServiceAdvanceProof,
-    submitTruckInspectionServiceFinalProof,
+    getMachineryInspectionNegotiationById,
+    submitMachineryInspectionAdvanceProof,
+    submitMachineryInspectionFinalProof,
     uploadImage,
   } = useContext(AppContext);
   const [row, setRow] = useState(null);
@@ -37,12 +37,11 @@ function UserTruckInspectionNegotiationDetailPage() {
   useEffect(() => {
     fetchUser();
     getBasicInfo();
-    getTruckInspectionServiceNegotiationById(truckInspectionServiceNegotiationId).then(setRow);
-  }, [fetchUser, getBasicInfo, getTruckInspectionServiceNegotiationById, truckInspectionServiceNegotiationId]);
+    getMachineryInspectionNegotiationById(machineryInspectionNegotiationId).then(setRow);
+  }, [fetchUser, getBasicInfo, getMachineryInspectionNegotiationById, machineryInspectionNegotiationId]);
 
   if (!row) return null;
-
-  const acceptedOffer = getAcceptedTruckInspectionServiceOffer(row);
+  const acceptedOffer = getAcceptedMachineryInspectionOffer(row);
   const isBuyer = String(row?.buyer?._id) === String(currentUser?._id);
 
   return (
@@ -50,8 +49,8 @@ function UserTruckInspectionNegotiationDetailPage() {
       <section className="dashboard-section-card form-card-panel">
         <div className="dashboard-section-head">
           <div>
-            <h1>Truck Inspection Negotiation</h1>
-            <p>{row.inspectionService?.title || 'Truck inspection service request'}</p>
+            <h1>Machinery Inspection Negotiation</h1>
+            <p>{row.inspectionService?.title || 'Machinery inspection service request'}</p>
           </div>
         </div>
         <div className="truck-figma-details-stack">
@@ -59,8 +58,8 @@ function UserTruckInspectionNegotiationDetailPage() {
             <div className="truck-figma-specs-table">
               <div className="truck-figma-specs-row">
                 <div className="truck-figma-specs-cell">
-                  <span>Selected Truck</span>
-                  <strong>{row.truck?.title || '—'}</strong>
+                  <span>Selected Machinery</span>
+                  <strong>{row.constructionMachinery?.title || '—'}</strong>
                 </div>
                 <div className="truck-figma-specs-cell">
                   <span>Inspection Mode</span>
@@ -93,17 +92,17 @@ function UserTruckInspectionNegotiationDetailPage() {
       </section>
 
       {(!acceptedOffer || row.advanceStatus !== 'paid') ? (
-        <TruckInspectionNegotiationConversation
+        <MachineryInspectionNegotiationConversation
           currentUserId={currentUser?._id}
-          onAccept={async (negotiationId) => setRow(await acceptTruckInspectionServiceOffer(truckInspectionServiceNegotiationId, { negotiationId }))}
+          onAccept={async (negotiationId) => setRow(await acceptMachineryInspectionOffer(machineryInspectionNegotiationId, { negotiationId }))}
           onOpenCounterOffer={() => setShowCounterModal(true)}
           row={row}
-          title="Truck Inspection Service Negotiation"
+          title="Machinery Inspection Service Negotiation"
         />
       ) : null}
 
       {acceptedOffer ? (
-        <TruckInspectionNegotiationPaymentPanels
+        <MachineryInspectionNegotiationPaymentPanels
           acceptedOffer={acceptedOffer}
           basicInfo={basicInfo}
           isBuyer={isBuyer}
@@ -113,7 +112,7 @@ function UserTruckInspectionNegotiationDetailPage() {
         />
       ) : null}
 
-      {row.finalPaymentStatus === 'paid' ? <TruckInspectionServicePurchaseOrder basicInfo={basicInfo} reportBasePath="/user-dashboard/truck-inspection-report" row={row} /> : null}
+      {row.finalPaymentStatus === 'paid' ? <MachineryInspectionPurchaseOrder basicInfo={basicInfo} reportBasePath="/user-dashboard/machinery-inspection-report" row={row} /> : null}
 
       {showCounterModal ? (
         <div className="dashboard-modal-backdrop">
@@ -152,7 +151,7 @@ function UserTruckInspectionNegotiationDetailPage() {
                 className="dashboard-action-btn"
                 disabled={!counterOffer.inspectionDate || !counterOffer.inspectionTime}
                 onClick={async () => {
-                  setRow(await addTruckInspectionServiceCounterOffer(truckInspectionServiceNegotiationId, counterOffer));
+                  setRow(await addMachineryInspectionCounterOffer(machineryInspectionNegotiationId, counterOffer));
                   setCounterOffer({ labourCharges: '', inspectionDate: null, inspectionTime: '09:00' });
                   setShowCounterModal(false);
                 }}
@@ -169,8 +168,8 @@ function UserTruckInspectionNegotiationDetailPage() {
         onClose={() => setProofModal({ open: false, type: 'advance' })}
         onSubmit={async (images) => {
           const updated = proofModal.type === 'advance'
-            ? await submitTruckInspectionServiceAdvanceProof(truckInspectionServiceNegotiationId, { advancePaymentScreenshots: images })
-            : await submitTruckInspectionServiceFinalProof(truckInspectionServiceNegotiationId, { finalPaymentScreenshots: images });
+            ? await submitMachineryInspectionAdvanceProof(machineryInspectionNegotiationId, { advancePaymentScreenshots: images })
+            : await submitMachineryInspectionFinalProof(machineryInspectionNegotiationId, { finalPaymentScreenshots: images });
           setRow(updated);
           setProofModal({ open: false, type: 'advance' });
         }}
@@ -182,4 +181,4 @@ function UserTruckInspectionNegotiationDetailPage() {
   );
 }
 
-export default UserTruckInspectionNegotiationDetailPage;
+export default UserMachineryInspectionNegotiationDetailPage;

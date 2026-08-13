@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AppContext from '../../context/appContext';
-import { getTruckInspectionOverallScore, truckInspectionReportSections } from '../truckInspectionReports/truckInspectionReportUtils';
-import TruckInspectionReportPreview from '../truckInspectionReports/TruckInspectionReportPreview';
+import { getMachineryInspectionOverallScore, machineryInspectionReportSections } from '../machineryInspectionReports/machineryInspectionReportUtils';
+import MachineryInspectionReportPreview from '../machineryInspectionReports/MachineryInspectionReportPreview';
 
-function AdminTruckInspectionReportDetailPage() {
-  const { truckInspectionReportId } = useParams();
-  const { getTruckInspectionReportById, updateTruckInspectionReportStatus } = useContext(AppContext);
+function AdminMachineryInspectionReportDetailPage() {
+  const { machineryInspectionReportId } = useParams();
+  const { getMachineryInspectionReportById, updateMachineryInspectionReportStatus } = useContext(AppContext);
   const [row, setRow] = useState(null);
 
   useEffect(() => {
-    getTruckInspectionReportById(truckInspectionReportId).then(setRow);
-  }, [getTruckInspectionReportById, truckInspectionReportId]);
+    getMachineryInspectionReportById(machineryInspectionReportId).then(setRow);
+  }, [getMachineryInspectionReportById, machineryInspectionReportId]);
 
   if (!row) return null;
 
@@ -20,8 +20,8 @@ function AdminTruckInspectionReportDetailPage() {
       <section className="dashboard-section-card form-card-panel">
         <div className="dashboard-section-head">
           <div>
-            <h1>Truck Inspection Report</h1>
-            <p>{row.truckInspectionServiceNegotiation?.truck?.title || 'Inspection report'}</p>
+            <h1>Machinery Inspection Report</h1>
+            <p>{row.machineryInspectionNegotiation?.constructionMachinery?.title || 'Inspection report'}</p>
           </div>
         </div>
 
@@ -42,23 +42,16 @@ function AdminTruckInspectionReportDetailPage() {
 
         <div className="truck-purchase-order__meta mb-4">
           <span>Inspection Date: {row.inspectionDate ? new Date(row.inspectionDate).toLocaleDateString() : '—'}</span>
-          <span>Overall Score: {getTruckInspectionOverallScore(row)}%</span>
+          <span>Overall Score: {getMachineryInspectionOverallScore(row)}%</span>
         </div>
 
         <div className="dashboard-form-actions mb-3">
-          <button
-            className="dashboard-action-btn"
-            data-bs-target="#adminTruckInspectionReportDetailsCollapse"
-            data-bs-toggle="collapse"
-            type="button"
-          >
-            View Details
-          </button>
+          <button className="dashboard-action-btn" data-bs-target="#adminMachineryInspectionReportDetailsCollapse" data-bs-toggle="collapse" type="button">View Details</button>
         </div>
 
-        <div className="collapse mt-3" id="adminTruckInspectionReportDetailsCollapse">
+        <div className="collapse mt-3" id="adminMachineryInspectionReportDetailsCollapse">
           <div className="row g-3">
-            {truckInspectionReportSections.map(({ key, label }) => (
+            {machineryInspectionReportSections.map(({ key, label }) => (
               <div className="col-12" key={key}>
                 <div className="construction-negotiation-milestone-card">
                   <div className="construction-negotiation-milestone-card__head">
@@ -79,17 +72,17 @@ function AdminTruckInspectionReportDetailPage() {
         </div>
 
         <div className="dashboard-form-actions mt-4">
-          <button className="dashboard-action-btn" onClick={async () => setRow(await updateTruckInspectionReportStatus(truckInspectionReportId, { status: row.status, rejectionReason: row.rejectionReason || '' }))} type="button">Update</button>
+          <button className="dashboard-action-btn" onClick={async () => setRow(await updateMachineryInspectionReportStatus(machineryInspectionReportId, { status: row.status, rejectionReason: row.rejectionReason || '' }))} type="button">Update</button>
         </div>
       </section>
 
-      <TruckInspectionReportPreview
+      <MachineryInspectionReportPreview
         form={row}
-        overallScore={getTruckInspectionOverallScore(row)}
-        selectedNegotiation={row.truckInspectionServiceNegotiation}
+        overallScore={getMachineryInspectionOverallScore(row)}
+        selectedNegotiation={row.machineryInspectionNegotiation}
       />
     </>
   );
 }
 
-export default AdminTruckInspectionReportDetailPage;
+export default AdminMachineryInspectionReportDetailPage;

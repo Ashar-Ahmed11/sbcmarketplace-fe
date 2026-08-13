@@ -1,33 +1,33 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AppContext from '../../context/appContext';
-import TruckInspectionNegotiationConversation from '../truckInspectionNegotiations/TruckInspectionNegotiationConversation';
-import TruckInspectionServicePurchaseOrder from '../truckInspectionNegotiations/TruckInspectionServicePurchaseOrder';
+import MachineryInspectionNegotiationConversation from '../machineryInspectionNegotiations/MachineryInspectionNegotiationConversation';
+import MachineryInspectionPurchaseOrder from '../machineryInspectionNegotiations/MachineryInspectionPurchaseOrder';
 import {
   formatInspectionDate,
   formatInspectionTime,
-  getAcceptedTruckInspectionServiceOffer,
-} from '../truckInspectionNegotiations/truckInspectionNegotiationUtils';
+  getAcceptedMachineryInspectionOffer,
+} from '../machineryInspectionNegotiations/machineryInspectionNegotiationUtils';
 
-function AdminTruckInspectionNegotiationDetailPage() {
-  const { truckInspectionServiceNegotiationId } = useParams();
-  const { basicInfo, getBasicInfo, getTruckInspectionServiceNegotiationById, updateTruckInspectionServiceNegotiationStatus } = useContext(AppContext);
+function AdminMachineryInspectionNegotiationDetailPage() {
+  const { machineryInspectionNegotiationId } = useParams();
+  const { basicInfo, getBasicInfo, getMachineryInspectionNegotiationById, updateMachineryInspectionNegotiationStatus } = useContext(AppContext);
   const [row, setRow] = useState(null);
 
   useEffect(() => {
     getBasicInfo();
-    getTruckInspectionServiceNegotiationById(truckInspectionServiceNegotiationId).then(setRow);
-  }, [getBasicInfo, getTruckInspectionServiceNegotiationById, truckInspectionServiceNegotiationId]);
+    getMachineryInspectionNegotiationById(machineryInspectionNegotiationId).then(setRow);
+  }, [getBasicInfo, getMachineryInspectionNegotiationById, machineryInspectionNegotiationId]);
 
   if (!row) return null;
-  const acceptedOffer = getAcceptedTruckInspectionServiceOffer(row);
+  const acceptedOffer = getAcceptedMachineryInspectionOffer(row);
 
   return (
     <section className="dashboard-section-card form-card-panel">
       <div className="dashboard-section-head">
         <div>
           <h1>Negotiation Detail</h1>
-          <p>{row.inspectionService?.title || 'Truck inspection service negotiation'}</p>
+          <p>{row.inspectionService?.title || 'Machinery inspection service negotiation'}</p>
         </div>
       </div>
 
@@ -40,7 +40,7 @@ function AdminTruckInspectionNegotiationDetailPage() {
               <div className="truck-figma-specs-cell"><span>Seller</span><strong>{row.seller?.fullName || row.seller?.username || '—'}</strong></div>
             </div>
             <div className="truck-figma-specs-row alt">
-              <div className="truck-figma-specs-cell"><span>Truck</span><strong>{row.truck?.title || '—'}</strong></div>
+              <div className="truck-figma-specs-cell"><span>Machinery</span><strong>{row.constructionMachinery?.title || '—'}</strong></div>
               <div className="truck-figma-specs-cell"><span>Inspection Type</span><strong>{row.onSite ? 'On-Site' : 'Workshop'}</strong></div>
             </div>
             <div className="truck-figma-specs-row">
@@ -57,17 +57,17 @@ function AdminTruckInspectionNegotiationDetailPage() {
         <section className="truck-figma-specs-card truck-figma-specs-card--compact">
           <div className="dashboard-section-head mb-0">
             <div><h3>Conversation</h3></div>
-            <button className="dashboard-action-btn" data-bs-target="#adminTruckInspectionNegotiationConversation" data-bs-toggle="collapse" type="button">View Conversation</button>
+            <button className="dashboard-action-btn" data-bs-target="#adminMachineryInspectionNegotiationConversation" data-bs-toggle="collapse" type="button">View Conversation</button>
           </div>
-          <div className="collapse mt-3" id="adminTruckInspectionNegotiationConversation">
-            <TruckInspectionNegotiationConversation
+          <div className="collapse mt-3" id="adminMachineryInspectionNegotiationConversation">
+            <MachineryInspectionNegotiationConversation
               currentUserId={row.seller?._id}
               onAccept={() => {}}
               onOpenCounterOffer={() => {}}
               row={row}
               showActionButtons={false}
               showCounterButton={false}
-              title="Truck Inspection Negotiation Conversation"
+              title="Machinery Inspection Negotiation Conversation"
             />
           </div>
         </section>
@@ -126,11 +126,11 @@ function AdminTruckInspectionNegotiationDetailPage() {
           </section>
         ) : null}
 
-        {acceptedOffer && row.finalPaymentStatus === 'paid' ? <TruckInspectionServicePurchaseOrder basicInfo={basicInfo} reportBasePath="/admin-dashboard/truck-inspection-report" row={row} /> : null}
+        {acceptedOffer && row.finalPaymentStatus === 'paid' ? <MachineryInspectionPurchaseOrder basicInfo={basicInfo} reportBasePath="/admin-dashboard/machinery-inspection-report" row={row} /> : null}
       </div>
 
       <div className="dashboard-form-actions">
-        <button className="dashboard-action-btn" onClick={async () => setRow(await updateTruckInspectionServiceNegotiationStatus(truckInspectionServiceNegotiationId, {
+        <button className="dashboard-action-btn" onClick={async () => setRow(await updateMachineryInspectionNegotiationStatus(machineryInspectionNegotiationId, {
           advanceStatus: row.advanceStatus,
           finalPaymentStatus: row.finalPaymentStatus,
           advanceStatusRejectionReason: row.advanceStatusRejectionReason || '',
@@ -141,4 +141,4 @@ function AdminTruckInspectionNegotiationDetailPage() {
   );
 }
 
-export default AdminTruckInspectionNegotiationDetailPage;
+export default AdminMachineryInspectionNegotiationDetailPage;

@@ -15,20 +15,20 @@ function AdminInspectionHubPage() {
         },
         {
           label: 'Machinery Inspection',
-          text: 'Dedicated report workflow will be added here next.',
-          to: `${url}/truck-inspection`,
+          text: 'Review all machinery inspection reports.',
+          to: `${url}/machinery-inspection`,
           icon: 'fa fa-cogs',
         },
         {
           label: 'Spare Part Inspection',
-          text: 'Dedicated report workflow will be added here next.',
-          to: `${url}/truck-inspection`,
+          text: 'Review all spare part inspection reports.',
+          to: `${url}/spare-part-inspection`,
           icon: 'fa fa-wrench',
         },
         {
           label: 'Material Inspection',
-          text: 'Dedicated report workflow will be added here next.',
-          to: `${url}/truck-inspection`,
+          text: 'Review all construction material inspection reports.',
+          to: `${url}/construction-material-inspection`,
           icon: 'fa fa-cubes',
         },
       ]}

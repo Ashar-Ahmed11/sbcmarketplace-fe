@@ -15,20 +15,20 @@ function UserInspectionNegotiationsPage() {
         },
         {
           label: 'Machinery Inspection',
-          text: 'Dedicated negotiation flow will be added here next.',
-          to: `${url}/truck-inspection`,
+          text: 'Review and continue your machinery inspection service negotiations.',
+          to: `${url}/machinery-inspection`,
           icon: 'fa fa-cogs',
         },
         {
           label: 'Spare Part Inspection',
-          text: 'Dedicated negotiation flow will be added here next.',
-          to: `${url}/truck-inspection`,
+          text: 'Review and continue your spare part inspection service negotiations.',
+          to: `${url}/spare-part-inspection`,
           icon: 'fa fa-wrench',
         },
         {
           label: 'Material Inspection',
-          text: 'Dedicated negotiation flow will be added here next.',
-          to: `${url}/truck-inspection`,
+          text: 'Review and continue your construction material inspection service negotiations.',
+          to: `${url}/construction-material-inspection`,
           icon: 'fa fa-cubes',
         },
       ]}

@@ -4,7 +4,7 @@ now we are going to create the mechanism for the Rental Truck Negotiation having
 1. in the models folder create a new schema for Rental Truck negotiation which consist of the following fields:
    1. buyer: id ref(user)
    2. seller: id ref(user)
-   3. rentalTruck: id ref(rentalTruck)
+   3. machinery: id ref(machinery)
    4. sellerDelivery: boolean
    5. buyerDeliveryAddress: string
    6. buyerDeliveryCity:string
@@ -26,19 +26,19 @@ now we are going to create the mechanism for the Rental Truck Negotiation having
    12. finalPaymentStatusRejectionReason:string
    13. finalPaymentScreenshots:[{url:string}]
    14. purhcaseOrderDate: Date
-2. in the routes folder, create the respective route file for rentalTruckNegotiation to manage its crud endpoints.
+2. in the routes folder, create the respective route file for constructionMachineryNegotiation to manage its crud endpoints.
 ## Frontend
 ## User Dashboard
 1. In the user dashboard, add a new tab of My Negotiations in the sidebar which takes the user to the My Negotiations page of the user dashboard.
 2. the ui of the my negotiations page is similar to the ui of the My Listings page.
 3. clicking on the rental truck negotiation will take the user to the rental-truck-negotiations page whose ui is similar to Rental Truck Negotiations listing page.
 In the Rental Truck Negotiations negotiation page it will fetch and show all the negotiations whose buyer or seller field matches the logged in user id.
-4. Clicking on the view button will take the user to the /rental-trucks-negotiation/:rentalTruckNegotiationID dynamic route which is described below in next point.
+4. Clicking on the view button will take the user to the /rental-trucks-negotiation/:machineryNegotiationID dynamic route which is described below in next point.
 
 ## Rental Truck Details Page
 1. [Rental Truck NegotiationDetailsSidebarCards.jsx](/Users/mac/gitRepos/sbc-marketplaced/Custom-ReactJS-Workflow/src/components/marketplace/Rental Truck NegotiationDetailsSidebarCards.jsx) write Offer Rental Amoount instead of Offer Amount.
 2. remove the message textarea in the submit your offer card.
-3. Instead of enter your budget input, it should be Enter Your Per Day Rental Offer following the perDayRentalCharges as per the rentalTruckNegotiation schema.
+3. Instead of enter your budget input, it should be Enter Your Per Day Rental Offer following the perDayRentalCharges as per the machineryNegotiation schema.
 4. rental Duration: 2 date pickers for from date and to date.
 5. dropdown for fuel responsibility (buyer or seller)
 6. dropdown for maintenance responsibility (buyer or seller)

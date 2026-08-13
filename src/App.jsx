@@ -25,7 +25,6 @@ import UserDashboard from './components/dashboard/UserDashboard';
 import SubmissionSuccess from './components/SubmissionSuccess';
 import ProtectedRoute from './components/dashboard/ProtectedRoute';
 import NotFoundPage from './components/NotFoundPage';
-import ComingSoon from './components/ComingSoon';
 
 function App() {
   const location = useLocation();
