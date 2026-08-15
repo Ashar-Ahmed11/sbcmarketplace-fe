@@ -14,6 +14,12 @@ function MyNegotiationsPage() {
           icon: 'fa fa-search',
         },
         {
+          label: 'Finance Negotiations',
+          text: 'Review and continue your active truck finance negotiations.',
+          to: `${url}/finance`,
+          icon: 'fa fa-money',
+        },
+        {
           label: 'Truck Negotiations',
           text: 'Review and continue your active buyer-seller truck negotiations.',
           to: `${url}/trucks`,
@@ -41,6 +47,12 @@ function MyNegotiationsPage() {
           label: 'Rental Truck Negotiations',
           text: 'Review and continue your active buyer-seller rental truck negotiations.',
           to: `${url}/rental-trucks`,
+          icon: 'fa fa-comments-o',
+        },
+        {
+          label: 'Rental Machinery Negotiations',
+          text: 'Review and continue your active buyer-seller rental construction machinery negotiations.',
+          to: `${url}/rental-construction-machinery`,
           icon: 'fa fa-comments-o',
         },
         {

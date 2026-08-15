@@ -3698,6 +3698,13 @@ a {
   margin-top: 18px;
 }
 
+.truck-installment-action-btn {
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 0.88rem;
+  line-height: 1;
+}
+
 .rental-negotiation-modal-backdrop {
   z-index: 1050;
 }
@@ -3909,7 +3916,71 @@ a {
   line-height: 1;
 }
 
+.finance-truck-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: #fff;
+}
+
+.finance-truck-preview-card__media {
+  overflow: hidden;
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  background: #f3f5f7;
+}
+
+.finance-truck-preview-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.finance-truck-preview-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #fff4e8 0%, #f2f6fb 100%);
+  color: var(--sbc-orange);
+  font-size: 1.8rem;
+}
+
+.finance-truck-preview-card__content {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.finance-truck-preview-card__content h2 {
+  margin: 0 0 4px;
+  color: #082953;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.finance-truck-preview-card__content p {
+  margin: 0;
+  color: #667085;
+  font-size: 0.92rem;
+}
+
 @media (max-width: 767.98px) {
+  .finance-truck-preview-card {
+    align-items: flex-start;
+  }
+
+  .finance-truck-preview-card__content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .construction-negotiation-progress-stepper {
     grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
     gap: 8px;

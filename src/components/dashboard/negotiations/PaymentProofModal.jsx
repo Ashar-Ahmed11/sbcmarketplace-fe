@@ -1,9 +1,20 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-function PaymentProofModal({ open, onClose, onSubmit, title, uploadImage }) {
+const EMPTY_IMAGES = [];
+
+function PaymentProofModal({ existingImages, open, onClose, onSubmit, title, uploadImage }) {
   const [images, setImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
+  const normalizedExistingImages = existingImages || EMPTY_IMAGES;
+
+  useEffect(() => {
+    if (open) {
+      setImages(normalizedExistingImages);
+    } else {
+      setImages([]);
+    }
+  }, [normalizedExistingImages, open]);
 
   if (!open) return null;
 

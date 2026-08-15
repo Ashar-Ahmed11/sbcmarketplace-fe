@@ -3,11 +3,12 @@ import { useHistory } from 'react-router-dom';
 import AppContext from '../context/appContext';
 import ConfirmModal from '../dashboard/ConfirmModal';
 import TruckDetailsFinancing from './TruckDetailsFinancing';
+import TruckFinancingRequestModal from './TruckFinancingRequestModal';
 import TruckMeetingRequestModal from './TruckMeetingRequestModal';
 
 function TruckDetailsSidebarCards({ truck }) {
   const history = useHistory();
-  const { createTruckMeeting, createTruckNegotiation, currentUser, userToken } = useContext(AppContext);
+  const { createFinanceTruckRequest, createTruckMeeting, createTruckNegotiation, currentUser, pakistanCities, userToken } = useContext(AppContext);
   const [offer, setOffer] = useState({
     truckCost: '',
     sellerDelivery: false,
@@ -17,8 +18,11 @@ function TruckDetailsSidebarCards({ truck }) {
   });
   const [showConfirm, setShowConfirm] = useState(false);
   const [showMeetingModal, setShowMeetingModal] = useState(false);
+  const [showFinanceModal, setShowFinanceModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMeetingSubmitting, setIsMeetingSubmitting] = useState(false);
+  const [isFinanceSubmitting, setIsFinanceSubmitting] = useState(false);
+  const [financeRequestCount, setFinanceRequestCount] = useState(0);
   const availableDeliveryCities = useMemo(
     () => (truck?.deliveryLocations || []).filter((item) => item?.city),
     [truck?.deliveryLocations]
@@ -74,6 +78,24 @@ function TruckDetailsSidebarCards({ truck }) {
       history.push(`/user-dashboard/truck-meeting/${created._id}`);
     } finally {
       setIsMeetingSubmitting(false);
+    }
+  };
+
+  const handleFinanceRequest = async (payload) => {
+    if (!userToken) {
+      history.push('/login');
+      return;
+    }
+
+    setIsFinanceSubmitting(true);
+    try {
+      const response = await createFinanceTruckRequest({
+        truckId: truck._id,
+        ...payload,
+      });
+      setFinanceRequestCount(Number(response?.createdCount) || 0);
+    } finally {
+      setIsFinanceSubmitting(false);
     }
   };
 
@@ -159,7 +181,10 @@ function TruckDetailsSidebarCards({ truck }) {
           <p>Last inspected 14 days ago by certified engineer.</p>
         </div>
       </section>
-      <TruckDetailsFinancing/>
+      <TruckDetailsFinancing
+        onCheckEligibility={() => setShowFinanceModal(true)}
+        onRequestFinancing={() => setShowFinanceModal(true)}
+      />
       <ConfirmModal
         body={summaryText}
         confirmLabel={isSubmitting ? 'Submitting...' : 'Submit Offer'}
@@ -175,6 +200,19 @@ function TruckDetailsSidebarCards({ truck }) {
         open={showMeetingModal}
         truckTitle={truck?.title}
       />
+      <TruckFinancingRequestModal
+        cities={pakistanCities}
+        isSubmitting={isFinanceSubmitting}
+        onClose={() => { setShowFinanceModal(false); setFinanceRequestCount(0); }}
+        onSubmit={handleFinanceRequest}
+        open={showFinanceModal}
+        submittedCount={financeRequestCount}
+      />
+      {showFinanceModal && financeRequestCount ? (
+        <div className="dashboard-form-actions mt-3">
+          <button className="dashboard-action-btn" onClick={() => history.push('/user-dashboard/my-negotiations/finance')} type="button">View Requests</button>
+        </div>
+      ) : null}
     </div>
   );
 }

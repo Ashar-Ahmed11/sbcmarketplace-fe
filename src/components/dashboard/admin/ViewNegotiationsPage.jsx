@@ -14,6 +14,12 @@ function ViewNegotiationsPage() {
           icon: 'fa fa-search',
         },
         {
+          label: 'Finance Negotiations',
+          text: 'Review all truck finance negotiations and payment status flows.',
+          to: `${url}/finance`,
+          icon: 'fa fa-money',
+        },
+        {
           label: 'Truck Negotiations',
           text: 'Review all buyer-seller truck negotiations and payment status flows.',
           to: `${url}/trucks`,
@@ -41,6 +47,12 @@ function ViewNegotiationsPage() {
           label: 'Rental Truck Negotiations',
           text: 'Review all buyer-seller rental truck negotiations and payment status flows.',
           to: `${url}/rental-trucks`,
+          icon: 'fa fa-comments-o',
+        },
+        {
+          label: 'Rental Machinery Negotiations',
+          text: 'Review all buyer-seller rental construction machinery negotiations and payment status flows.',
+          to: `${url}/rental-construction-machinery`,
           icon: 'fa fa-comments-o',
         },
         {
