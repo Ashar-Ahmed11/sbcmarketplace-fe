@@ -6,13 +6,24 @@ import MachineryListingsSection from './MachineryListingsSection';
 import MachineryOtherProducts from './MachineryOtherProducts';
 import MachineryRentalBanner from './MachineryRentalBanner';
 
-function MarketplaceMachineryCatalog({ listings = [] }) {
+function MarketplaceMachineryCatalog({
+  categories = [],
+  cities = [],
+  filters = {},
+  listings = [],
+  onFiltersChange = () => {},
+}) {
   const renderedListings = listings.map(normalizeMachineryListing);
 
   return (
     <section className="marketplace-catalog">
       <div className="container-xl marketplace-layout">
-        <MachineryCatalogFilters />
+        <MachineryCatalogFilters
+          categories={categories}
+          cities={cities}
+          filters={filters}
+          onChange={onFiltersChange}
+        />
         <div className="marketplace-main">
           <MachineryCatalogHeader />
           <MachineryListingsSection listings={renderedListings} />

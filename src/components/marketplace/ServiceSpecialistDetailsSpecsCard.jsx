@@ -2,11 +2,12 @@ function ServiceSpecialistDetailsSpecsCard({ service, titleFallback }) {
   const statBadges = [
     { icon: 'fa fa-users', label: 'Team Size', value: service?.teamSize || '—', accent: true },
     { icon: 'fa fa-briefcase', label: 'Experience', value: service?.yearsOfExperience ? `${service.yearsOfExperience} years` : '—' },
-    { icon: 'fa fa-map-marker', label: 'Location', value: service?.location || 'Pakistan' },
+    { icon: 'fa fa-map-marker', label: 'City', value: service?.city || 'Pakistan' },
   ];
 
   const specRows = [
     ['Categories', service?.category?.length || 0, 'Onsite', (service?.offerOnsiteInspection ?? service?.offerOnsiteRepair) ? 'Available' : 'Not Offered'],
+    ['Location', service?.location || 'Pakistan'],
   ];
 
   return (

@@ -47,7 +47,8 @@ function RentalMachineryDetailsInfoSections({ rentalMachinery }) {
         ['Manufacturing Year', valueOrDash(rentalMachinery?.manufacturingYear), 'Import Year', valueOrDash(rentalMachinery?.importYear)],
         ['Country of Manufacture', valueOrDash(rentalMachinery?.countryOfManufacture), 'Machine Status', valueOrDash(rentalMachinery?.machineStatus)],
         ['Working Hours', valueOrDash(rentalMachinery?.workingHours), 'Quantity', valueOrDash(rentalMachinery?.quantity)],
-        ['Location', valueOrDash(rentalMachinery?.location), 'Approval Status', valueOrDash(rentalMachinery?.approvalStatus)],
+        ['City', valueOrDash(rentalMachinery?.city), 'Location', valueOrDash(rentalMachinery?.location)],
+        ['Approval Status', valueOrDash(rentalMachinery?.approvalStatus)],
       ],
     },
     {

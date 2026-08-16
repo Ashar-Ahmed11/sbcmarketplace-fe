@@ -6,13 +6,26 @@ import MaterialListingsSection from './MaterialListingsSection';
 import MaterialOtherProducts from './MaterialOtherProducts';
 import MaterialRentalBanner from './MaterialRentalBanner';
 
-function MarketplaceMaterialsCatalog({ listings = [] }) {
+function MarketplaceMaterialsCatalog({
+  categories = [],
+  cities = [],
+  filters = {},
+  listings = [],
+  onFiltersChange = () => {},
+  subCategories = [],
+}) {
   const renderedListings = listings.map(normalizeMaterialListing);
 
   return (
     <section className="marketplace-catalog">
       <div className="container-xl marketplace-layout">
-        <MaterialCatalogFilters />
+        <MaterialCatalogFilters
+          categories={categories}
+          cities={cities}
+          filters={filters}
+          onChange={onFiltersChange}
+          subCategories={subCategories}
+        />
         <div className="marketplace-main">
           <MaterialCatalogHeader />
           <MaterialListingsSection listings={renderedListings} />

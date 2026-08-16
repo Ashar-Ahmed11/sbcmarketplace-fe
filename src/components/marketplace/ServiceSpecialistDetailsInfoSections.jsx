@@ -38,7 +38,8 @@ function ServiceSpecialistDetailsInfoSections({ service, areaField, areaLabel })
       title: 'Listing Overview',
       rows: [
         ['Categories', valueOrDash(categories), 'Years of Experience', valueOrDash(service?.yearsOfExperience)],
-        ['Team Size', valueOrDash(service?.teamSize), 'Location', valueOrDash(service?.location)],
+        ['Team Size', valueOrDash(service?.teamSize), 'City', valueOrDash(service?.city)],
+        ['Location', valueOrDash(service?.location)],
         [areaLabel, valueOrDash(areas), 'Onsite Availability', valueOrDash(service?.offerOnsiteInspection ?? service?.offerOnsiteRepair)],
       ],
     },

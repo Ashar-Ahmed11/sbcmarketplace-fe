@@ -1,81 +1,182 @@
-const categoryItems = [
-  'Excavators',
-  'Wheel Loaders',
-  'Backhoe Loaders',
-  'Bulldozers',
-  'Motor Graders',
-  'Road Rollers / Compactors',
-  'Cranes',
-  'Dumpers / Tippers',
-  'Low Bed / Trailers',
-  'Forklifts',
-  'Concrete Mixer',
-  'Generators',
-  'Water Bowsers / Tankers',
-];
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-const machineTypes = [
-  'Compact Wheel Loader Upto 3T',
-  'Standard Wheel Loader 3T to 8T',
-  'Heavy Wheel Loader 8T+',
-  'Backhoe-Loader Combo',
-  'Special Attachment Loader',
-  'Zero Emission Loader',
-];
+function MachineryCatalogFilters({
+  categories = [],
+  cities = [],
+  filters = {},
+  onChange = () => {},
+}) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const collapseRef = useRef(null);
+  const [collapseHeight, setCollapseHeight] = useState(0);
+  const [modelYearDraft, setModelYearDraft] = useState({
+    from: filters.modelYearFrom || '',
+    to: filters.modelYearTo || '',
+  });
+  const [priceDraft, setPriceDraft] = useState({
+    from: filters.priceFrom || '',
+    to: filters.priceTo || '',
+  });
 
-function MachineryCatalogFilters() {
+  useLayoutEffect(() => {
+    if (!collapseRef.current) return;
+    setCollapseHeight(collapseRef.current.scrollHeight);
+  }, [mobileOpen, categories.length, cities.length, filters]);
+
+  useEffect(() => {
+    setModelYearDraft({
+      from: filters.modelYearFrom || '',
+      to: filters.modelYearTo || '',
+    });
+  }, [filters.modelYearFrom, filters.modelYearTo]);
+
+  useEffect(() => {
+    setPriceDraft({
+      from: filters.priceFrom || '',
+      to: filters.priceTo || '',
+    });
+  }, [filters.priceFrom, filters.priceTo]);
+
+  const applyChanges = (updates) => {
+    onChange(updates);
+    setMobileOpen(false);
+  };
+
+  const toggleSelection = (key, value) => {
+    const currentValues = Array.isArray(filters[key]) ? filters[key] : [];
+    const nextValues = currentValues.includes(value)
+      ? currentValues.filter((item) => item !== value)
+      : [...currentValues, value];
+    applyChanges({ [key]: nextValues });
+  };
+
   return (
-    <aside className="marketplace-sidebar">
-      <div className="marketplace-side-tools">
-        <button type="button" aria-label="Zoom out"><i className="fa fa-search-minus" /></button>
-        <button type="button" aria-label="Zoom in"><i className="fa fa-search-plus" /></button>
+    <div className="marketplace-sidebar-shell position-relative">
+      <div className="marketplace-sidebar-mobile-toggle d-xl-none">
+        <button
+          aria-controls="machineryCatalogFiltersBody"
+          aria-expanded={mobileOpen}
+          className="marketplace-filter-toggle-btn"
+          onClick={() => setMobileOpen((current) => !current)}
+          type="button"
+        >
+          <span><i className="fa fa-filter" aria-hidden="true" /> Filters</span>
+          <i className={`fa ${mobileOpen ? 'fa-angle-up' : 'fa-angle-down'}`} aria-hidden="true" />
+        </button>
       </div>
-      <div className="market-filter-group">
-        <div className="market-filter-title"><span /> Categories <i className="fa fa-angle-down" /></div>
-        <ul className="market-filter-list">
-          {categoryItems.map((item, index) => <li key={item}><input checked={index === 1} readOnly type="checkbox" /> {item}</li>)}
-        </ul>
+
+      <div className="marketplace-side-tools" style={{ zIndex: 1 }}>
+        <button aria-label="Zoom out" type="button"><i className="fa fa-search-minus" /></button>
+        <button aria-label="Zoom in" type="button"><i className="fa fa-search-plus" /></button>
       </div>
-      <div className="market-filter-group">
-        <div className="market-filter-title"><span /> Machine Type <i className="fa fa-angle-down" /></div>
-        <ul className="market-filter-list">
-          {machineTypes.map((item, index) => <li key={item}><input checked={index === 1} readOnly type="checkbox" /> {item}</li>)}
-        </ul>
-      </div>
-      <div className="market-filter-group compact">
-        <p className="market-range-label"><span /> Model <small>(Manufacturing Year)</small></p>
-        <input defaultValue="2000 to 2026" type="range" />
-        <a href="#featured">Range from 2000 To 2026</a>
-      </div>
-      <div className="market-filter-group compact">
-        <p className="market-range-label"><span /> Price <small>(Budget in PKR)</small></p>
-        <input defaultValue="50" type="range" />
-        <a href="#featured">Range from 5,000,000 To 50,000,000</a>
-      </div>
-      <div className="market-chip-list">
-        <label><span>Seller Delivery</span><input checked readOnly type="checkbox" /></label>
-        <label><span>Inspection by SBC</span><input checked readOnly type="checkbox" /></label>
-        <div className="market-condition-row">
-          <label><span>Condition Used</span><input checked readOnly type="checkbox" /></label>
-          <label><span>Condition New</span><input checked readOnly type="checkbox" /></label>
+
+      <aside className="marketplace-sidebar">
+        <div
+          aria-hidden={!mobileOpen}
+          className={`collapse d-xl-block marketplace-mobile-collapse ${mobileOpen ? 'show' : ''}`}
+          id="machineryCatalogFiltersBody"
+          style={{ '--marketplace-collapse-height': `${collapseHeight}px` }}
+        >
+          <div className="marketplace-sidebar-inner" ref={collapseRef}>
+            <div className="market-filter-group">
+              <div className="market-filter-title"><span /> Categories <i className="fa fa-angle-down" /></div>
+              <ul className="market-filter-list">
+                <li>
+                  <label className="d-flex align-items-center gap-2">
+                    <input checked={!filters.category?.length} onChange={() => applyChanges({ category: [] })} type="checkbox" />
+                    All Categories
+                  </label>
+                </li>
+                {categories.map((item) => (
+                  <li key={item._id}>
+                    <label className="d-flex align-items-center gap-2">
+                      <input checked={(filters.category || []).includes(item._id)} onChange={() => toggleSelection('category', item._id)} type="checkbox" />
+                      {item.name}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="market-filter-group compact">
+              <div className="market-filter-title"><span /> MODEL YEAR <i className="fa fa-angle-down" /></div>
+              <div className="d-flex mt-3">
+                <input
+                  className="form-control rounded-0"
+                  onChange={(event) => setModelYearDraft((current) => ({ ...current, from: event.target.value }))}
+                  placeholder="From"
+                  type="number"
+                  value={modelYearDraft.from}
+                />
+                <input
+                  className="form-control rounded-0 border-start-0"
+                  onChange={(event) => setModelYearDraft((current) => ({ ...current, to: event.target.value }))}
+                  placeholder="To"
+                  type="number"
+                  value={modelYearDraft.to}
+                />
+                <button
+                  className="btn text-white rounded-0 px-3"
+                  onClick={() => applyChanges({ modelYearFrom: modelYearDraft.from, modelYearTo: modelYearDraft.to })}
+                  style={{ background: '#1f3f82', minWidth: '68px' }}
+                  type="button"
+                >
+                  Go
+                </button>
+              </div>
+            </div>
+
+            <div className="market-filter-group compact">
+              <div className="market-filter-title"><span /> PRICE RANGE <i className="fa fa-angle-down" /></div>
+              <div className="d-flex mt-3">
+                <input
+                  className="form-control rounded-0"
+                  onChange={(event) => setPriceDraft((current) => ({ ...current, from: event.target.value }))}
+                  placeholder="From"
+                  type="number"
+                  value={priceDraft.from}
+                />
+                <input
+                  className="form-control rounded-0 border-start-0"
+                  onChange={(event) => setPriceDraft((current) => ({ ...current, to: event.target.value }))}
+                  placeholder="To"
+                  type="number"
+                  value={priceDraft.to}
+                />
+                <button
+                  className="btn text-white rounded-0 px-3"
+                  onClick={() => applyChanges({ priceFrom: priceDraft.from, priceTo: priceDraft.to })}
+                  style={{ background: '#1f3f82', minWidth: '68px' }}
+                  type="button"
+                >
+                  Go
+                </button>
+              </div>
+            </div>
+
+            <div className="market-filter-group">
+              <div className="market-filter-title"><span /> City <i className="fa fa-angle-down" /></div>
+              <ul className="market-filter-list">
+                <li>
+                  <label className="d-flex align-items-center gap-2">
+                    <input checked={!filters.city?.length} onChange={() => applyChanges({ city: [] })} type="checkbox" />
+                    All Cities
+                  </label>
+                </li>
+                {cities.map((city) => (
+                  <li key={city}>
+                    <label className="d-flex align-items-center gap-2">
+                      <input checked={(filters.city || []).includes(city)} onChange={() => toggleSelection('city', city)} type="checkbox" />
+                      {city}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="market-pill-inputs">
-        <div><small>Your Location</small><input placeholder="Input text" type="text" /></div>
-        <div><small>Delivery Location</small><input placeholder="Input text" type="text" /></div>
-      </div>
-      <div className="market-brands-box">
-        <strong>BRANDS</strong>
-        <div className="market-brand-cloud">
-          <span className="orange">Volvo</span>
-          <span>CAT</span>
-          <span className="small">samsung</span>
-          <span>SANY</span>
-          <span className="italic">DONGFENG</span>
-          <span className="tall">HITACHI</span>
-        </div>
-      </div>
-    </aside>
+      </aside>
+    </div>
   );
 }
 

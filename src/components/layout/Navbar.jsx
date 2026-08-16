@@ -3,19 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../SBC LOGO.png';
 import requirementIcon from '../../assets/figma/requirements-icon.png';
 import importIcon from '../../assets/figma/import-icon.png';
-
-const routeItems = [
-  { label: 'Home', to: '/', exact: true },
-  { label: 'Marketplace', to: '/marketplace' },
-  { label: 'Rentals', to: '/rentals' },
-  { label: 'Services', to: '/services' },
-  { label: 'Blogs', to: '/blogs' },
-  { label: 'Contact', to: '/contact' },
-];
-
-const anchorItems = [
-  { label: 'News', href: '/#testimonials' },
-];
+import { anchorItems, routeItems } from './navConfig';
 
 function Navbar() {
   const collapseRef = useRef(null);
@@ -62,7 +50,7 @@ function Navbar() {
               ))}
             </ul>
             <div className="nav-actions d-none d-xl-flex">
-              <a className="nav-service" href="/marketplace#requirement" onClick={closeNav}><img src={requirementIcon} alt="" /><span><small>RFQ</small><b>Post a Requirement</b></span></a>
+              <Link className="nav-service" to="/post-a-requirement" onClick={closeNav}><img src={requirementIcon} alt="" /><span><small>RFQ</small><b>Post a Requirement</b></span></Link>
               <a className="nav-service" href="/marketplace" onClick={closeNav}><img src={importIcon} alt="" /><b>SBC Import</b></a>
               <Link className="avatar-btn d-inline-flex align-items-center justify-content-center" to="/login" aria-label="Account" onClick={closeNav}><i className="fa fa-user-o" /></Link>
               <button className="cart-btn" aria-label="Shopping cart" onClick={closeNav}><i className="fa fa-shopping-cart" /><sup>2</sup></button>

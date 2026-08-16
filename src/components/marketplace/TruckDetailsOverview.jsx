@@ -18,7 +18,7 @@ function TruckDetailsOverview({ truck }) {
   }, [SliderThumbnailPlugin(instanceRef), SliderResizePlugin, SliderMutationPlugin]);
 
   return (
-    <section className="truck-details-section truck-details-figma-section">
+    <section className="truck-details-section truck-details-figma-section truck-details-compact">
       <div className="container-xl">
         <div className="truck-figma-main-grid">
           <div className="truck-figma-left-column">

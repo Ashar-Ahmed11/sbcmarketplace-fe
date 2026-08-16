@@ -8,7 +8,8 @@ function MaterialDetailsSpecsCard({ material }) {
   const specRows = [
     ['Brand Type', material?.brand ? `${material.brand.charAt(0).toUpperCase()}${material.brand.slice(1)}` : 'Local', 'Category', material?.category?.name || 'Construction Material'],
     ['Quantity', material?.quantity || '1', 'Unit', material?.unit || 'Ton'],
-    ['Delivery', material?.deliveryProvided ? 'Available' : 'Not Provided', 'Price', material?.price ? `Rs. ${Number(material.price).toLocaleString()}` : 'N/A'],
+    ['Delivery', material?.deliveryProvided ? 'Available' : 'Not Provided', 'City', material?.city || 'Pakistan'],
+    ['Price', material?.price ? `Rs. ${Number(material.price).toLocaleString()}` : 'N/A', 'Location', material?.location || 'Pakistan'],
   ];
 
   return (
@@ -36,12 +37,6 @@ function MaterialDetailsSpecsCard({ material }) {
             </div>
           </div>
         ))}
-        <div className="truck-figma-specs-row alt full">
-          <div className="truck-figma-specs-cell">
-            <span>Location</span>
-            <strong><i className="fa fa-map-marker" aria-hidden="true" /> {material?.location || 'Pakistan'}</strong>
-          </div>
-        </div>
       </div>
     </section>
   );

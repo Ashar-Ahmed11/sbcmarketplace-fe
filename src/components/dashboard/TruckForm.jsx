@@ -18,6 +18,7 @@ const generalSecondaryFields = [
   ['modelYear', 'Model Year', 'number'],
   ['importYear', 'Import Year', 'number'],
   ['location', 'Location', 'text'],
+  ['city', 'City', 'selectCity'],
 ];
 
 function TruckForm({
@@ -116,7 +117,14 @@ function TruckForm({
         }).map(([key, label, type]) => (
           <div className="form-field" key={key}>
             <label>{label}</label>
-            <input disabled={isAdminView} name={key} onChange={onTextChange} type={type} value={data[key]} />
+            {type === 'selectCity' ? (
+              <select disabled={isAdminView} name={key} onChange={onTextChange} value={data[key]}>
+                <option value="">Select City</option>
+                {cities.map((city) => <option key={city} value={city}>{city}</option>)}
+              </select>
+            ) : (
+              <input disabled={isAdminView} name={key} onChange={onTextChange} type={type} value={data[key]} />
+            )}
           </div>
         ))}
       </div>

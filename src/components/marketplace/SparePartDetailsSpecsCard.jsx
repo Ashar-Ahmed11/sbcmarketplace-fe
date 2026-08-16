@@ -8,7 +8,8 @@ function SparePartDetailsSpecsCard({ sparePart }) {
   const specRows = [
     ['Brand', sparePart?.brand || 'Caterpillar (CAT)', 'Part Number', sparePart?.partNumber || '—'],
     ['Manufacture Year', sparePart?.manufacturingYear || '—', 'Quantity', sparePart?.quantity || '1'],
-    ['Country', sparePart?.countryOfManufacture || '—', 'Delivery', sparePart?.deliveryProvided ? 'Seller Delivery' : 'Buyer Pickup Only'],
+    ['Country', sparePart?.countryOfManufacture || '—', 'City', sparePart?.city || 'Pakistan'],
+    ['Delivery', sparePart?.deliveryProvided ? 'Seller Delivery' : 'Buyer Pickup Only', 'Location', sparePart?.location || 'Pakistan'],
   ];
 
   return (
@@ -38,12 +39,6 @@ function SparePartDetailsSpecsCard({ sparePart }) {
             </div>
           </div>
         ))}
-        <div className="truck-figma-specs-row alt full">
-          <div className="truck-figma-specs-cell">
-            <span>Location</span>
-            <strong><i className="fa fa-map-marker" aria-hidden="true" /> {sparePart?.location || 'Pakistan'}</strong>
-          </div>
-        </div>
       </div>
     </section>
   );

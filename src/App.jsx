@@ -2,6 +2,7 @@ import './App.css';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import MobileBottomBar from './components/layout/MobileBottomBar';
 import HomePage from './components/home/HomePage';
 import ConstructionServiceDetailsPage from './components/marketplace/ConstructionServiceDetailsPage';
 import InspectionServiceDetailsPage from './components/marketplace/InspectionServiceDetailsPage';
@@ -25,6 +26,16 @@ import UserDashboard from './components/dashboard/UserDashboard';
 import SubmissionSuccess from './components/SubmissionSuccess';
 import ProtectedRoute from './components/dashboard/ProtectedRoute';
 import NotFoundPage from './components/NotFoundPage';
+import PostRequirementPage from './components/requirements/PostRequirementPage';
+import MachineryRequirementPage from './components/requirements/MachineryRequirementPage';
+import MachineryRequirementSuccessPage from './components/requirements/MachineryRequirementSuccessPage';
+import MaterialRequirementPage from './components/requirements/MaterialRequirementPage';
+import MaterialRequirementSuccessPage from './components/requirements/MaterialRequirementSuccessPage';
+import SparePartRequirementPage from './components/requirements/SparePartRequirementPage';
+import SparePartRequirementSuccessPage from './components/requirements/SparePartRequirementSuccessPage';
+import TruckRequirementPage from './components/requirements/TruckRequirementPage';
+import TruckRequirementSuccessPage from './components/requirements/TruckRequirementSuccessPage';
+import BigLoader from './components/mainLoader';
 
 function App() {
   const location = useLocation();
@@ -35,6 +46,7 @@ function App() {
   return (
     <div className="site-shell">
       {!hideSiteChrome ? <Navbar /> : null}
+      <BigLoader/>
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/marketplace" component={MarketplacePage} />
@@ -55,12 +67,22 @@ function App() {
         <Route path="/admin" exact component={AdminLoginPage} />
         <Route path="/login" exact component={LoginPage} />
         <Route path="/signup" exact component={SignupPage} />
+        <Route path="/post-a-requirement" exact component={PostRequirementPage} />
+        <Route path="/post-a-requirement/trucks" exact component={TruckRequirementPage} />
+        <Route path="/post-a-requirement/trucks/success" exact component={TruckRequirementSuccessPage} />
+        <Route path="/post-a-requirement/construction-machinery" exact component={MachineryRequirementPage} />
+        <Route path="/post-a-requirement/construction-machinery/success" exact component={MachineryRequirementSuccessPage} />
+        <Route path="/post-a-requirement/construction-material" exact component={MaterialRequirementPage} />
+        <Route path="/post-a-requirement/construction-material/success" exact component={MaterialRequirementSuccessPage} />
+        <Route path="/post-a-requirement/spare-parts" exact component={SparePartRequirementPage} />
+        <Route path="/post-a-requirement/spare-parts/success" exact component={SparePartRequirementSuccessPage} />
         <ProtectedRoute component={UserDashboard} path="/user-dashboard" redirectTo="/login" token={userToken} />
         <ProtectedRoute component={AdminDashboard} path="/admin-dashboard" redirectTo="/admin" token={adminToken} />
         <Route path="/success" exact component={SubmissionSuccess} />
         <Redirect to="/404" />
       </Switch>
       {!hideSiteChrome ? <Footer /> : null}
+      {!hideSiteChrome ? <MobileBottomBar /> : null}
     </div>
   );
 }

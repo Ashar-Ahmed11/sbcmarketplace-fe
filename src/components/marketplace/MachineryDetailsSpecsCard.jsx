@@ -8,7 +8,8 @@ function MachineryDetailsSpecsCard({ machinery }) {
   const specRows = [
     ['Brand', machinery?.brand || 'Komatsu', 'Model', machinery?.subcategory?.name || machinery?.title || 'Machinery'],
     ['Manufacture Year', machinery?.manufacturingYear || '—', 'Quantity', machinery?.quantity || '1'],
-    ['Country', machinery?.countryOfManufacture || '—', 'Delivery', machinery?.deliveryProvided ? 'Seller Delivery' : 'Buyer Pickup Only'],
+    ['Country', machinery?.countryOfManufacture || '—', 'City', machinery?.city || 'Pakistan'],
+    ['Delivery', machinery?.deliveryProvided ? 'Seller Delivery' : 'Buyer Pickup Only', 'Location', machinery?.location || 'Pakistan'],
   ];
 
   return (
@@ -38,12 +39,6 @@ function MachineryDetailsSpecsCard({ machinery }) {
             </div>
           </div>
         ))}
-        <div className="truck-figma-specs-row alt full">
-          <div className="truck-figma-specs-cell">
-            <span>Location</span>
-            <strong><i className="fa fa-map-marker" aria-hidden="true" /> {machinery?.location || 'Pakistan'}</strong>
-          </div>
-        </div>
       </div>
     </section>
   );

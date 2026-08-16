@@ -15,7 +15,8 @@ function RentalMachineryDetailsSpecsCard({ rentalMachinery }) {
   const specRows = [
     ['Brand', rentalMachinery?.brand || '—', 'Category', rentalMachinery?.category?.name || '—'],
     ['Manufacture Year', rentalMachinery?.manufacturingYear || '—', 'Quantity', rentalMachinery?.quantity || '—'],
-    ['Per Hour Rental', rentalMachinery?.perHourRentalCharges ? `Rs. ${Number(rentalMachinery.perHourRentalCharges).toLocaleString()}` : 'Call for Quote', 'Delivery', rentalMachinery?.deliveryProvided ? 'Seller Delivery' : 'Buyer Pickup Only'],
+    ['Per Hour Rental', rentalMachinery?.perHourRentalCharges ? `Rs. ${Number(rentalMachinery.perHourRentalCharges).toLocaleString()}` : 'Call for Quote', 'City', rentalMachinery?.city || 'Pakistan'],
+    ['Delivery', rentalMachinery?.deliveryProvided ? 'Seller Delivery' : 'Buyer Pickup Only', 'Location', rentalMachinery?.location || 'Pakistan'],
   ];
 
   return (
@@ -45,12 +46,6 @@ function RentalMachineryDetailsSpecsCard({ rentalMachinery }) {
             </div>
           </div>
         ))}
-        <div className="truck-figma-specs-row alt full">
-          <div className="truck-figma-specs-cell">
-            <span>Location</span>
-            <strong><i className="fa fa-map-marker" aria-hidden="true" /> {rentalMachinery?.location || 'Pakistan'}</strong>
-          </div>
-        </div>
       </div>
     </section>
   );

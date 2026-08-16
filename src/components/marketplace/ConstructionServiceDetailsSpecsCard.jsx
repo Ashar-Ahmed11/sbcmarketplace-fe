@@ -6,8 +6,9 @@ function ConstructionServiceDetailsSpecsCard({ constructionService }) {
   ];
 
   const specRows = [
-    ['Category', constructionService?.category?.name || 'Construction Services', 'Location', constructionService?.location || 'Pakistan'],
-    ['Onsite Service', constructionService?.offerOnsiteService ? 'Available' : 'Not Offered', 'Subcategories', constructionService?.subcategory?.length || 0],
+    ['Category', constructionService?.category?.name || 'Construction Services', 'City', constructionService?.city || 'Pakistan'],
+    ['Location', constructionService?.location || 'Pakistan', 'Subcategories', constructionService?.subcategory?.length || 0],
+    ['Onsite Service', constructionService?.offerOnsiteService ? 'Available' : 'Not Offered'],
   ];
 
   return (

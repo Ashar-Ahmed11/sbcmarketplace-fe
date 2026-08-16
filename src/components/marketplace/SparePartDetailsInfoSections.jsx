@@ -41,8 +41,9 @@ function SparePartDetailsInfoSections({ sparePart }) {
         ['Brand', valueOrDash(sparePart?.brand), 'Condition', valueOrDash(sparePart?.condition ? `${sparePart.condition.charAt(0).toUpperCase()}${sparePart.condition.slice(1)}` : '')],
         ['Manufacturing Year', valueOrDash(sparePart?.manufacturingYear), 'Import Year', valueOrDash(sparePart?.importYear)],
         ['Country of Manufacture', valueOrDash(sparePart?.countryOfManufacture), 'Part Number', valueOrDash(sparePart?.partNumber)],
-        ['Quantity', valueOrDash(sparePart?.quantity), 'Location', valueOrDash(sparePart?.location)],
-        ['Price', valueOrDash(sparePart?.price ? `Rs. ${Number(sparePart.price).toLocaleString()}` : ''), 'Warranty Provided', valueOrDash(sparePart?.warrantyProvided)],
+        ['Quantity', valueOrDash(sparePart?.quantity), 'City', valueOrDash(sparePart?.city)],
+        ['Location', valueOrDash(sparePart?.location), 'Warranty Provided', valueOrDash(sparePart?.warrantyProvided)],
+        ['Price', valueOrDash(sparePart?.price ? `Rs. ${Number(sparePart.price).toLocaleString()}` : '')],
       ],
     },
     {

@@ -40,7 +40,8 @@ function MachineryDetailsInfoSections({ machinery }) {
         ['Manufacturing Year', valueOrDash(machinery?.manufacturingYear), 'Import Year', valueOrDash(machinery?.importYear)],
         ['Country of Manufacture', valueOrDash(machinery?.countryOfManufacture), 'Machine Status', valueOrDash(machinery?.machineStatus)],
         ['Working Hours', valueOrDash(machinery?.workingHours), 'Quantity', valueOrDash(machinery?.quantity)],
-        ['Price', valueOrDash(machinery?.price ? `Rs. ${Number(machinery.price).toLocaleString()}` : ''), 'Location', valueOrDash(machinery?.location)],
+        ['City', valueOrDash(machinery?.city), 'Location', valueOrDash(machinery?.location)],
+        ['Price', valueOrDash(machinery?.price ? `Rs. ${Number(machinery.price).toLocaleString()}` : '')],
       ],
     },
     {

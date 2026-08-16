@@ -8,7 +8,8 @@ function TruckDetailsSpecsCard({ truck }) {
   const specRows = [
     ['Brand', truck?.brand || 'Komatsu', 'Model', truck?.subcategory?.name || truck?.title || 'WA100M-8'],
     ['Manufacture Year', truck?.manufacturingYear || '2019', 'Quantity', truck?.quantity || '1'],
-    ['Warranty', truck?.originalDocuments ? 'Available' : 'Not Available', 'Delivery', truck?.deliveryProvided ? 'Seller Delivery' : 'Buyer Pickup Only'],
+    ['Warranty', truck?.originalDocuments ? 'Available' : 'Not Available', 'City', truck?.city || 'Lahore'],
+    ['Delivery', truck?.deliveryProvided ? 'Seller Delivery' : 'Buyer Pickup Only', 'Location', truck?.location || 'Lahore, PK'],
   ];
 
   return (
@@ -38,12 +39,6 @@ function TruckDetailsSpecsCard({ truck }) {
             </div>
           </div>
         ))}
-        <div className="truck-figma-specs-row alt full">
-          <div className="truck-figma-specs-cell">
-            <span>Location</span>
-            <strong><i className="fa fa-map-marker" aria-hidden="true" /> {truck?.location || 'Lahore, PK'}</strong>
-          </div>
-        </div>
       </div>
     </section>
   );

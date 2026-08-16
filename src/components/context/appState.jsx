@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import AppContext from './appContext';
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-// const API_BASE = "https://sbc-marketplace-dot-arched-gear-433017-u9.de.r.appspot.com";
+// const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_BASE = "https://sbc-marketplace-dot-arched-gear-433017-u9.de.r.appspot.com";
 
 const pakistanCities = [
   'Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta',
@@ -93,6 +93,7 @@ const truckInitialForm = {
   modelYear: '',
   importYear: '',
   location: '',
+  city: '',
   deliveryProvided: false,
   deliveryLocations: [],
   approvalStatus: 'pending',
@@ -118,6 +119,7 @@ const materialInitialForm = {
   price: '',
   images: [],
   location: '',
+  city: '',
   deliveryProvided: false,
   deliveryLocations: [],
   approvalStatus: 'pending',
@@ -183,6 +185,7 @@ const machineryInitialForm = {
   documentImages: [],
   images: [],
   location: '',
+  city: '',
   deliveryProvided: false,
   deliveryLocations: [],
   approvalStatus: 'pending',
@@ -207,6 +210,7 @@ const sparePartInitialForm = {
   warrantyProvided: false,
   images: [],
   location: '',
+  city: '',
   deliveryProvided: false,
   deliveryLocations: [],
   approvalStatus: 'pending',
@@ -225,6 +229,7 @@ const constructionServiceInitialForm = {
   images: [],
   certificationsImages: [],
   location: '',
+  city: '',
   offerOnsiteService: false,
   serviceAreas: [],
   approvalStatus: 'pending',
@@ -240,6 +245,7 @@ const inspectionServiceInitialForm = {
   images: [],
   certificationsImages: [],
   location: '',
+  city: '',
   offerOnsiteInspection: false,
   inspectionAreas: [],
   approvalStatus: 'pending',
@@ -255,6 +261,7 @@ const repairServiceInitialForm = {
   images: [],
   certificationsImages: [],
   location: '',
+  city: '',
   offerOnsiteRepair: false,
   repairAreas: [],
   approvalStatus: 'pending',
@@ -291,6 +298,7 @@ const rentalTruckInitialForm = {
   modelYear: '',
   importYear: '',
   location: '',
+  city: '',
   deliveryProvided: false,
   deliveryLocations: [],
   approvalStatus: 'pending',
@@ -356,6 +364,7 @@ const rentalMachineryInitialForm = {
   documentImages: [],
   images: [],
   location: '',
+  city: '',
   deliveryProvided: false,
   deliveryLocations: [],
   approvalStatus: 'pending',
@@ -381,6 +390,7 @@ const AppState = ({ children }) => {
   const [currentAdmin, setCurrentAdmin] = useState(null);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+  const [marketplaceSubCategories, setMarketplaceSubCategories] = useState([]);
   const [userTrucks, setUserTrucks] = useState([]);
   const [allTrucks, setAllTrucks] = useState([]);
   const [userRentalTrucks, setUserRentalTrucks] = useState([]);
@@ -447,28 +457,40 @@ const AppState = ({ children }) => {
     { label: 'Messages', value: '21' },
   ]);
 
+  const [globalLoader, setGlobalLoader] = useState(false)
+
   const request = useCallback(async (path, options = {}) => {
-    const response = await fetch(`${API_BASE}${path}`, options);
-    const data = await parseJson(response);
-    if (!response.ok) {
-      throw new Error(data?.error || data?.message || 'Request failed');
+    setGlobalLoader(true);
+    try {
+      const response = await fetch(`${API_BASE}${path}`, options);
+      const data = await parseJson(response);
+      if (!response.ok) {
+        throw new Error(data?.error || data?.message || 'Request failed');
+      }
+      return data;
+    } finally {
+      setGlobalLoader(false);
     }
-    return data;
   }, []);
 
   const uploadImage = useCallback(async (file) => {
     const fd = new FormData();
     fd.append('file', file);
     fd.append('upload_preset', 'for_migration');
-    const response = await fetch('https://api.cloudinary.com/v1_1/fgsymafc/image/upload', {
-      method: 'POST',
-      body: fd,
-    });
-    const data = await parseJson(response);
-    if (!response.ok) {
-      throw new Error('Upload failed');
+    setGlobalLoader(true);
+    try {
+      const response = await fetch('https://api.cloudinary.com/v1_1/fgsymafc/image/upload', {
+        method: 'POST',
+        body: fd,
+      });
+      const data = await parseJson(response);
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+      return data.secure_url || data.url;
+    } finally {
+      setGlobalLoader(false);
     }
-    return data.secure_url || data.url;
   }, []);
 
   const loginUser = useCallback(async ({ email, password }) => {
@@ -587,6 +609,11 @@ const AppState = ({ children }) => {
     setSubCategories(Array.isArray(data) ? data : []);
     return data;
   }, [request]);
+  const getSubCategoriesByCategoryType = useCallback(async (categoryType) => {
+    const data = await request(`/api/subcategory/get-subcategories-by-category-type/${categoryType}`);
+    setMarketplaceSubCategories(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
   const getSubCategoryById = useCallback((id) => request(`/api/subcategory/get-subcategory/${id}`), [request]);
   const createSubCategory = useCallback(async (payload) => {
     const data = await request('/api/subcategory/create-subcategory', {
@@ -656,6 +683,46 @@ const AppState = ({ children }) => {
       body: JSON.stringify(payload),
     });
     toast.success('Negotiation submitted');
+    return data;
+  }, [request, userToken]);
+
+  const createTruckRequirement = useCallback(async (payload) => {
+    const data = await request('/api/truck-negotiation/truck-requirement', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Requirement submitted');
+    return data;
+  }, [request, userToken]);
+
+  const createMachineryRequirement = useCallback(async (payload) => {
+    const data = await request('/api/machinery-negotiation/machinery-requirement', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Requirement submitted');
+    return data;
+  }, [request, userToken]);
+
+  const createSparePartRequirement = useCallback(async (payload) => {
+    const data = await request('/api/spare-part-negotiation/spare-part-requirement', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Requirement submitted');
+    return data;
+  }, [request, userToken]);
+
+  const createConstructionMaterialRequirement = useCallback(async (payload) => {
+    const data = await request('/api/construction-material-negotiation/construction-material-requirement', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'auth-token': userToken },
+      body: JSON.stringify(payload),
+    });
+    toast.success('Requirement submitted');
     return data;
   }, [request, userToken]);
 
@@ -2045,6 +2112,56 @@ const AppState = ({ children }) => {
     setAllTrucks(Array.isArray(data) ? data : []);
     return data;
   }, [request]);
+  const getMarketplaceTrucks = useCallback(async (filters = {}) => {
+    const params = new URLSearchParams();
+    (filters.category || []).forEach((item) => params.append('category', item));
+    (filters.city || []).forEach((item) => params.append('city', item));
+    if (filters.modelYearFrom !== '' && filters.modelYearFrom !== undefined) params.set('modelYearFrom', filters.modelYearFrom);
+    if (filters.modelYearTo !== '' && filters.modelYearTo !== undefined) params.set('modelYearTo', filters.modelYearTo);
+    if (filters.priceFrom !== '' && filters.priceFrom !== undefined) params.set('priceFrom', filters.priceFrom);
+    if (filters.priceTo !== '' && filters.priceTo !== undefined) params.set('priceTo', filters.priceTo);
+    const suffix = params.toString() ? `?${params.toString()}` : '';
+    const data = await request(`/api/truck/get-marketplace-trucks${suffix}`);
+    setAllTrucks(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getMarketplaceMachineries = useCallback(async (filters = {}) => {
+    const params = new URLSearchParams();
+    (filters.category || []).forEach((item) => params.append('category', item));
+    (filters.city || []).forEach((item) => params.append('city', item));
+    if (filters.modelYearFrom !== '' && filters.modelYearFrom !== undefined) params.set('modelYearFrom', filters.modelYearFrom);
+    if (filters.modelYearTo !== '' && filters.modelYearTo !== undefined) params.set('modelYearTo', filters.modelYearTo);
+    if (filters.priceFrom !== '' && filters.priceFrom !== undefined) params.set('priceFrom', filters.priceFrom);
+    if (filters.priceTo !== '' && filters.priceTo !== undefined) params.set('priceTo', filters.priceTo);
+    const suffix = params.toString() ? `?${params.toString()}` : '';
+    const data = await request(`/api/machinery/get-marketplace-machineries${suffix}`);
+    setAllMachineries(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getMarketplaceSpareParts = useCallback(async (filters = {}) => {
+    const params = new URLSearchParams();
+    (filters.category || []).forEach((item) => params.append('category', item));
+    (filters.subcategory || []).forEach((item) => params.append('subcategory', item));
+    (filters.city || []).forEach((item) => params.append('city', item));
+    if (filters.priceFrom !== '' && filters.priceFrom !== undefined) params.set('priceFrom', filters.priceFrom);
+    if (filters.priceTo !== '' && filters.priceTo !== undefined) params.set('priceTo', filters.priceTo);
+    const suffix = params.toString() ? `?${params.toString()}` : '';
+    const data = await request(`/api/spare-part/get-marketplace-spare-parts${suffix}`);
+    setAllSpareParts(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
+  const getMarketplaceMaterials = useCallback(async (filters = {}) => {
+    const params = new URLSearchParams();
+    (filters.category || []).forEach((item) => params.append('category', item));
+    (filters.subcategory || []).forEach((item) => params.append('subcategory', item));
+    (filters.city || []).forEach((item) => params.append('city', item));
+    if (filters.priceFrom !== '' && filters.priceFrom !== undefined) params.set('priceFrom', filters.priceFrom);
+    if (filters.priceTo !== '' && filters.priceTo !== undefined) params.set('priceTo', filters.priceTo);
+    const suffix = params.toString() ? `?${params.toString()}` : '';
+    const data = await request(`/api/material/get-marketplace-materials${suffix}`);
+    setAllMaterials(Array.isArray(data) ? data : []);
+    return data;
+  }, [request]);
   const getAllTrucks = useCallback(async () => {
     const data = await request('/api/truck/get-trucks');
     setAllTrucks(Array.isArray(data) ? data : []);
@@ -2528,6 +2645,7 @@ const AppState = ({ children }) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const contextValue = useMemo(() => ({
+    globalLoader,
     API_BASE,
     adminToken,
     allConstructionServices,
@@ -2613,6 +2731,10 @@ const AppState = ({ children }) => {
     acceptTruckMeetingOffer,
     acceptTruckOffer,
     createTruckMeeting,
+    createMachineryRequirement,
+    createConstructionMaterialRequirement,
+    createSparePartRequirement,
+    createTruckRequirement,
     createTruckNegotiation,
     createFinanceTruck,
     createFinanceTruckRequest,
@@ -2664,6 +2786,10 @@ const AppState = ({ children }) => {
     getAllRepairServices,
     getAllSpareParts,
     getAllTrucks,
+    getMarketplaceTrucks,
+    getMarketplaceMachineries,
+    getMarketplaceSpareParts,
+    getMarketplaceMaterials,
     getApprovedConstructionServices,
     getApprovedInspectionServices,
     getApprovedMachineries,
@@ -2693,6 +2819,7 @@ const AppState = ({ children }) => {
     getCategories,
     getCategoryById,
     getSubCategories,
+    getSubCategoriesByCategoryType,
     getSubCategoryById,
     getTruckMeetingById,
     getTruckNegotiationById,
@@ -2767,6 +2894,7 @@ const AppState = ({ children }) => {
     serviceCategoryTypes,
     sparePartInitialForm,
     signupUser,
+    marketplaceSubCategories,
     subCategories,
     submitConstructionServiceAdvanceProof,
     submitConstructionServiceFinalProof,
@@ -2954,6 +3082,10 @@ const AppState = ({ children }) => {
     acceptTruckOffer,
     createTruckMeeting,
     createMachineryNegotiation,
+    createMachineryRequirement,
+    createConstructionMaterialRequirement,
+    createSparePartRequirement,
+    createTruckRequirement,
     createTruckNegotiation,
     createFinanceTruck,
     createFinanceTruckRequest,
@@ -3005,6 +3137,10 @@ const AppState = ({ children }) => {
     getAllRepairServices,
     getAllSpareParts,
     getAllTrucks,
+    getMarketplaceTrucks,
+    getMarketplaceMachineries,
+    getMarketplaceSpareParts,
+    getMarketplaceMaterials,
     getApprovedConstructionServices,
     getApprovedInspectionServices,
     getApprovedMachineries,
@@ -3033,6 +3169,7 @@ const AppState = ({ children }) => {
     getCategories,
     getCategoryById,
     getSubCategories,
+    getSubCategoriesByCategoryType,
     getSubCategoryById,
     getMachineryNegotiationById,
     getTruckMeetingById,
@@ -3093,6 +3230,7 @@ const AppState = ({ children }) => {
     searchNegotiationEligibleSpareParts,
     searchNegotiationEligibleTrucks,
     signupUser,
+    marketplaceSubCategories,
     subCategories,
     submitConstructionServiceAdvanceProof,
     submitConstructionServiceFinalProof,
@@ -3197,6 +3335,7 @@ const AppState = ({ children }) => {
     userRepairServices,
     userSpareParts,
     userTrucks,
+    globalLoader,
   ]);
 
   return (

@@ -6,13 +6,24 @@ import SparePartsListingsSection from './SparePartsListingsSection';
 import SparePartsOtherProducts from './SparePartsOtherProducts';
 import SparePartsRentalBanner from './SparePartsRentalBanner';
 
-function MarketplaceSparePartsCatalog({ listings = [] }) {
+function MarketplaceSparePartsCatalog({
+  categories = [],
+  cities = [],
+  filters = {},
+  listings = [],
+  onFiltersChange = () => {},
+}) {
   const renderedListings = listings.map(normalizeSparePartListing);
 
   return (
     <section className="marketplace-catalog">
       <div className="container-xl marketplace-layout">
-        <SparePartsCatalogFilters />
+        <SparePartsCatalogFilters
+          categories={categories}
+          cities={cities}
+          filters={filters}
+          onChange={onFiltersChange}
+        />
         <div className="marketplace-main">
           <SparePartsCatalogHeader />
           <SparePartsListingsSection listings={renderedListings} />

@@ -39,7 +39,8 @@ function ConstructionServiceDetailsInfoSections({ constructionService }) {
       rows: [
         ['Category', valueOrDash(constructionService?.category?.name), 'Subcategories', valueOrDash(subcategories)],
         ['Company Type', valueOrDash(constructionService?.companyType), 'Years of Experience', valueOrDash(constructionService?.yearsOfExperience)],
-        ['Team Size', valueOrDash(constructionService?.teamSize), 'Location', valueOrDash(constructionService?.location)],
+        ['Team Size', valueOrDash(constructionService?.teamSize), 'City', valueOrDash(constructionService?.city)],
+        ['Location', valueOrDash(constructionService?.location)],
         ['Onsite Service', valueOrDash(constructionService?.offerOnsiteService), 'Service Areas', valueOrDash(serviceAreas)],
       ],
     },

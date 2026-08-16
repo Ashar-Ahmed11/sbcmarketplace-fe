@@ -106,6 +106,13 @@ function MaterialForm({
           <label>Location</label>
           <input disabled={isAdminView} name="location" onChange={onTextChange} type="text" value={data.location} />
         </div>
+        <div className="form-field">
+          <label>City</label>
+          <select disabled={isAdminView} name="city" onChange={onTextChange} value={data.city || ''}>
+            <option value="">Select City</option>
+            {cities.map((city) => <option key={city} value={city}>{city}</option>)}
+          </select>
+        </div>
       </div>
 
       <div className="dashboard-nested-section">

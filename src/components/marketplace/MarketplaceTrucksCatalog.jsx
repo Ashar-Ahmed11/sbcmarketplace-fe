@@ -6,13 +6,19 @@ import TruckListingsSection from './TruckListingsSection';
 import TruckOtherProducts from './TruckOtherProducts';
 import TruckRentalBanner from './TruckRentalBanner';
 
-function MarketplaceTrucksCatalog({ listings = [] }) {
+function MarketplaceTrucksCatalog({
+  categories = [],
+  cities = [],
+  filters = {},
+  listings = [],
+  onFiltersChange = () => {},
+}) {
   const renderedListings = listings.map(normalizeTruckListing);
 
   return (
     <section className="marketplace-catalog">
       <div className="container-xl marketplace-layout">
-        <TruckCatalogFilters />
+        <TruckCatalogFilters categories={categories} cities={cities} filters={filters} onChange={onFiltersChange} />
         <div className="marketplace-main">
           <TruckCatalogHeader />
           <TruckListingsSection listings={renderedListings} />
